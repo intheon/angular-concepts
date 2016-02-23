@@ -1,0 +1,82 @@
+<!doctype html>
+
+<html ng-app="testAngular">
+<head>
+	<meta charset="utf-8">
+	<title>Blank App</title>
+	<meta name="description" content="A boilerplate blank app">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<!-- CSS -->
+	<link rel="stylesheet" href="css/style.css"/>
+
+</head>
+<body>
+
+
+	<div class="app-wrapper" ng-controller="appController">
+
+		<div class="square">
+			<h3>All items</h3>
+			<div class="list-of-items">
+				<div ng-repeat="item in allData | filter: searchParks" class="item">
+
+					<div class="item-name">{{ item.name }}</div>
+					<div class="item-rating">{{ item.rating }} ^</div>
+					<div class="item-adder">{{ item.addedBy }}</div>
+
+				</div>
+			</div>
+
+		</div>
+
+		<div class="highest-voted-items square">
+			<h3>Highest Voted</h3>
+
+			<div class="list-of-highest-rated-items">
+				<div ng-repeat="item in allData | orderBy: '-rating' | limitTo: 6  ">
+
+					<div class="item-name">{{ item.name }} ^</div>
+
+				</div>
+			</div>
+		</div>
+
+		<div class="most-recent-items square">
+			<h3>Most Recent Items</h3>
+			<div class="list-of-most-recent-items">
+				<div ng-repeat="item in allData | limitTo: 5 ">
+
+					<div class="item-name">{{ item.name }}</div>
+
+				</div>
+			</div>
+		</div>
+
+		<div class="search-for-items square">
+			<h3>Search for items</h3>
+			<form>
+				<input type="text" placeholder="search" ng-model="searchParks"></input>
+			</form>
+		</div>
+
+	</div>
+
+
+<!-- JAVASCRIPT -->
+
+<!-- 3rd party libraries -->
+	<script src="../libraries/jquery.js"></script>
+	<script src="../libraries/angular.js"></script>
+	<script src="../libraries/angular-route.js"></script>
+	<script src="../libraries/angularjs-geolocation.min.js"></script>
+	<script src="../libraries/socket.io.js"></script>
+
+
+<!-- Custom JS  -->
+
+	<script src="js/sockets.js"></script>
+	<script src="js/app.js"></script>
+
+</body>
+</html>
