@@ -22,7 +22,7 @@
 				<div ng-repeat="item in allData | filter: searchParks" class="item">
 
 					<div class="item-name">{{ item.name }}</div>
-					<div class="item-rating">{{ item.rating }} ^</div>
+					<div class="item-rating">{{ item.rating }} <span ng-click="incrementRating(item)">^</span></div>
 					<div class="item-adder">{{ item.addedBy }}</div>
 
 				</div>
@@ -36,7 +36,7 @@
 			<div class="list-of-highest-rated-items">
 				<div ng-repeat="item in allData | orderBy: '-rating' | limitTo: 6  ">
 
-					<div class="item-name">{{ item.name }} ^</div>
+					<div class="item-name">{{ item.name }} <span ng-click="incrementRating(item)">^</span></div>
 
 				</div>
 			</div>

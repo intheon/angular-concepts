@@ -162,6 +162,12 @@ app.controller("appController", ($scope, $http) => {
 	// our search function
 	$scope.searchParks = "";
 
+	$scope.incrementRating = (item) => {
+
+		item.rating += 1;
+
+	};
+
 
 
 
