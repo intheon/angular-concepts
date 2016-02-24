@@ -13,65 +13,77 @@
 </head>
 <body>
 
-
 	<div class="app-wrapper" ng-controller="ListCtrl">
 
-		<!-- the main list of items -->
-		<div class="square">
-			<h3>All items</h3>
-			<div class="list-of-items">
-				<div ng-repeat="item in allData | filter: searchParks" class="item">
+		<!-- the main list/map of items -->
+		<div class="left-column">
 
-					<div class="item-name">{{ item.name }}</div>
-					<div class="item-rating">{{ item.rating }} <span ng-controller="RatingCtrl"  ng-click="incrementRating(item)">^</span></div>
-					<div class="item-adder">{{ item.addedBy }}</div>
+			<div class="map" ng-controller="MapCtrl" id="map">
 
+
+
+					<!-- Existing text nodes 
+					<h3>All items</h3>
+
+
+					<div ng-repeat="item in allData | filter: searchParks" class="item">
+
+						<div class="item-name">{{ item.name }}</div>
+						<div class="item-rating">{{ item.rating }} <span ng-controller="RatingCtrl"  ng-click="incrementRating(item)">^</span></div>
+						<div class="item-adder">{{ item.addedBy }}</div>
+
+					</div>
+
+					-->
+			</div>
+
+		</div> <!-- end left hand side -->
+
+		<div class="right-column">
+
+			<!-- highest ranked items -->
+			<div class="highest-voted-items">
+				<h3>Highest Voted</h3>
+
+				<div class="list-of-highest-rated-items">
+					<div ng-repeat="item in allData | orderBy: '-rating' | limitTo: 6  ">
+
+						<div class="item-name">{{ item.name }} <span  ng-controller="RatingCtrl" ng-click="incrementRating(item)">^</span></div>
+
+					</div>
 				</div>
 			</div>
 
-		</div>
+			<!-- most recently added items -->
+			<div class="most-recent-items">
+				<h3>Most Recent Items</h3>
+				<div class="list-of-most-recent-items">
+					<div ng-repeat="item in allData | limitTo: 5 ">
 
-		<!-- highest ranked items -->
-		<div class="highest-voted-items square">
-			<h3>Highest Voted</h3>
+						<div class="item-name">{{ item.name }}</div>
 
-			<div class="list-of-highest-rated-items">
-				<div ng-repeat="item in allData | orderBy: '-rating' | limitTo: 6  ">
-
-					<div class="item-name">{{ item.name }} <span  ng-controller="RatingCtrl" ng-click="incrementRating(item)">^</span></div>
-
+					</div>
 				</div>
 			</div>
-		</div>
 
-		<!-- most recently added items -->
-		<div class="most-recent-items square">
-			<h3>Most Recent Items</h3>
-			<div class="list-of-most-recent-items">
-				<div ng-repeat="item in allData | limitTo: 5 ">
-
-					<div class="item-name">{{ item.name }}</div>
-
-				</div>
+			<!-- search functionality -->
+			<div class="search-for-items">
+				<h3>Search for items</h3>
+				<form>
+					<input type="text" placeholder="Search" ng-model="searchParks"></input>
+				</form>
 			</div>
-		</div>
 
-		<!-- search functionality -->
-		<div class="search-for-items square">
-			<h3>Search for items</h3>
-			<form>
-				<input type="text" placeholder="search" ng-model="searchParks"></input>
-			</form>
-		</div>
+			<!-- add new -->
+			<div class="add-new-item" ng-controller="AddCtrl">
+				<form ng-submit="submitItemForm()">
+					<input type="text" placeholder="Item Name" ng-model="itemInfo.name">
+					<input type="text" placeholder="Your Name" ng-model="itemInfo.adderName">
+					<input type="submit" value="Add it!">
+				</form>
+			</div>
 
-		<!-- add new -->
-		<div class="add-new-item" ng-controller="AddCtrl">
-			<form ng-submit="submitItemForm()">
-				<input type="text" placeholder="Item Name" ng-model="itemInfo.name">
-				<input type="text" placeholder="Your Name" ng-model="itemInfo.adderName">
-				<input type="submit" value="Add it!">
-			</form>
-		</div>
+		</div> <!-- end right hand side -->
 
 	</div>
 
@@ -85,12 +97,14 @@
 	<script src="../libraries/angularjs-geolocation.min.js"></script>
 	<script src="../libraries/socket.io.js"></script>
 
+<!-- API -->
+	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyALYjGkfn-RVIETHo-KCBz_1zbVW1OH-O0"></script>
 
 <!-- Custom JS  -->
 
 	<script src="js/sockets.js"></script>
-
 	<script src="js/app.js"></script>
+	<script src="js/mapFactory.js"></script>
 	<script src="js/jsonFactory.js"></script>
 </body>
 </html>

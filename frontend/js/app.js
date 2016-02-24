@@ -1,4 +1,6 @@
-const app = angular.module("testAngular", ["getJson"]);
+"use strict";
+
+const app = angular.module("testAngular", ["getJson", "createMap"]);
 
 // Controller for getting data from server and presenting to view
 app.controller("ListCtrl", ($scope, $http, getJson) => {
@@ -36,7 +38,7 @@ app.controller("SearchCtrl", ($scope) => {
 
 });
 
-app.controller("AddCtrl", ($scope, $rootScope) => {
+app.controller("AddCtrl", ($scope) => {
 
 	$scope.submitItemForm = () => {
 
@@ -47,7 +49,16 @@ app.controller("AddCtrl", ($scope, $rootScope) => {
 		// Super Primitive checks
 		if (!name || !adder) return;
 
+		console.log(name);
+		console.log(adder);
+
 	}
+
+});
+
+app.controller("MapCtrl", ($scope, $http, $rootScope, createMap) => {
+
+
 
 });
 

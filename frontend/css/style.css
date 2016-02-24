@@ -25,38 +25,28 @@ html, body
 	padding: 0;
 }
 
-.square
+.left-column
 {
 	float:left;
-	width:50%;
-	height:50vh;
-	text-align: center;
+	width:60%;
 }
 
-.square:nth-child(2)
+.right-column
 {
-	background: rgba(230,241,243,0.46);
+	float:left;
+	width:40%;
 }
 
-
-.square:nth-child(3n)
+.map
 {
-	background: rgba(230,241,243,0.46);
-}
-
-.list-of-items
-{
-	height:80%;
-	overflow-y: scroll;
 	padding:2%;
+	margin-right: 2%;
+	height: 100vh;
 }
 
 .item
 {
 	float:left;
-	padding:2%;
-
-
 }
 
 .item-name
@@ -66,22 +56,23 @@ html, body
 
 .add-new-item
 {
-	position: absolute;
 	bottom: 0;
-	width: 100%;
 }
 
-.add-new-item input[type="text"]
+input[type="text"]
 {
+	float:left;
+	width:auto;
 	padding: 1%;
-	width: 30%;
-	margin-left:1%;
+	margin:1%;
+	width:90%;
 }
-.add-new-item input[type="button"]
+input[type="submit"]
 {
+	float:left;
 	padding: 1%;
-	width: 30%;
-	margin-left:1%;
+	margin:1%;
+	width:93%;
 }
 
 
