@@ -36,3 +36,18 @@ app.controller("SearchCtrl", ($scope) => {
 
 });
 
+app.controller("AddCtrl", ($scope, $rootScope) => {
+
+	$scope.submitItemForm = () => {
+
+		// Shorthand
+		let name = $scope.itemInfo.name;
+		let adder = $scope.itemInfo.adderName;
+
+		// Super Primitive checks
+		if (!name || !adder) return;
+
+	}
+
+});
+

@@ -16,6 +16,7 @@ html, body
 	margin: 0;
 	padding: 0;
 	font-family: coming;
+	overflow: hidden;
 }
 
 .app-wrapper
@@ -63,5 +64,24 @@ html, body
 	font-size:1.2em;
 }
 
+.add-new-item
+{
+	position: absolute;
+	bottom: 0;
+	width: 100%;
+}
+
+.add-new-item input[type="text"]
+{
+	padding: 1%;
+	width: 30%;
+	margin-left:1%;
+}
+.add-new-item input[type="button"]
+{
+	padding: 1%;
+	width: 30%;
+	margin-left:1%;
+}
 
 

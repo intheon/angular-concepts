@@ -16,6 +16,7 @@
 
 	<div class="app-wrapper" ng-controller="ListCtrl">
 
+		<!-- the main list of items -->
 		<div class="square">
 			<h3>All items</h3>
 			<div class="list-of-items">
@@ -30,6 +31,7 @@
 
 		</div>
 
+		<!-- highest ranked items -->
 		<div class="highest-voted-items square">
 			<h3>Highest Voted</h3>
 
@@ -42,6 +44,7 @@
 			</div>
 		</div>
 
+		<!-- most recently added items -->
 		<div class="most-recent-items square">
 			<h3>Most Recent Items</h3>
 			<div class="list-of-most-recent-items">
@@ -53,10 +56,20 @@
 			</div>
 		</div>
 
+		<!-- search functionality -->
 		<div class="search-for-items square">
 			<h3>Search for items</h3>
 			<form>
 				<input type="text" placeholder="search" ng-model="searchParks"></input>
+			</form>
+		</div>
+
+		<!-- add new -->
+		<div class="add-new-item" ng-controller="AddCtrl">
+			<form ng-submit="submitItemForm()">
+				<input type="text" placeholder="Item Name" ng-model="itemInfo.name">
+				<input type="text" placeholder="Your Name" ng-model="itemInfo.adderName">
+				<input type="submit" value="Add it!">
 			</form>
 		</div>
 
