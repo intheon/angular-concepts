@@ -3,7 +3,7 @@
 // A factory to load A Google Map
 
 angular.module("createMap", [])
-	.factory("createMap", ($http) => {
+	.service("createMap", ($http) => {
 
 		/*
 
@@ -50,19 +50,42 @@ angular.module("createMap", [])
 
 					// Create an InfoWindow
 					let InfoWindow = new google.maps.InfoWindow({
-						content: "<div class='add-skate-location tentative'>\
-							<div class='add-skate-location-heading'><input type='text' placeholder='Add title...' id='skateparkName'></div>\
-							<div class='add-skate-location-description'><textarea placeholder='Describe it...' id='skateparkDesc'></textarea></div>\
-							<div class='row flexy'>\
-								<div class='add-skate-location-adder column-6'><input type='text' placeholder='Your name' id='skateparkAdder'></div>\
-								<div class='add-skate-location-submit column-2'><input type='button' value='Submit!' id='skateparkSubmit'></div>\
-							</div>\
-							<div class='information-panel'></div>\
-						</div>"
+						content: "<form class='add-skate-location' id='skateparkForm'>\
+							<div class='add-skate-location-heading'><input type='text' placeholder='Add title...' id='skateparkName' /></div>\
+							<div class='add-skate-location-adder'><input type='text' placeholder='Your name' id='skateparkAdder' /></div>\
+							<div class='add-skate-location-description'><input type='text' placeholder='Describe it... (Optional)' id='skateparkDesc' /></div>\
+							<div class='add-skate-location-submit'><input type='button' value='Submit!' id='skateparkSubmit'></div>\
+						</form>"
 					});
 
-					// Execute the code
+					// Execute the code / add to DOM
 					InfoWindow.open(mapObj, MapMarker);
+
+					// Listen for form submit
+					$("#skateparkSubmit").click(() => {
+
+						const name = $("#skateparkName").val();
+						const adder = $("#skateparkAdder").val();
+						const desc = $("#skateparkDesc").val();
+
+						// Laziest validation ever. Fix this.
+						if (!name || !adder) return;
+
+						// Create a payload ready for DB
+						const payload = {
+							skateparkName: name,
+							skateparkDesc: desc,
+							skateparkLocation: [
+								event.latLng.lng(),
+								event.latLng.lat(),
+							],
+							addedBy: adder,
+							rating: 1
+						}
+
+
+						
+					});
 
 					// Housekeeping to dismiss both current InfoWindow and to discard unused marker
 					google.maps.event.addListener(mapObj, "click", (event) => {
@@ -74,6 +97,8 @@ angular.module("createMap", [])
 					google.maps.event.addListener(InfoWindow, "closeclick", (event) => {
 						MapMarker.setMap(null);
 					});
+
+
 
 				});
 
