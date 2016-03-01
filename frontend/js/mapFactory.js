@@ -77,7 +77,26 @@ angular.module("createMap", [])
 
 				});
 
-			}
+			},
+
+			createNewPin: (pinMeta) => {
+				// Create one single pin. Will be called many times!
+
+				console.log(pinMeta.skateparkLocation);
+
+				let pin = new google.maps.Marker({
+
+					position: {
+						lat: pinMeta.skateparkLocation[0],
+						lng: pinMeta.skateparkLocation[1]
+					},
+					map: mapObj
+				});
+
+
+			},
+
+
 
 
 		};

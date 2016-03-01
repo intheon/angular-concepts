@@ -11,6 +11,9 @@ const bodyParser      = require('body-parser');
 const methodOverride  = require('method-override');
 
 
+// MongoDB config
+mongoose.connect("mongodb://127.0.0.1/angular-concepts");
+
 // Expose the 'frontend' and 'libraries' folder for all
 app.use(express.static(__dirname + '/frontend'));
 app.use('/libraries',  express.static(__dirname + '/libraries'));
@@ -24,7 +27,7 @@ app.use(methodOverride());
 
 // Routes
 // ------------------------------------------------------
-//require('./backend/routes.js')(app);
+require('./backend/routes.js')(app);
 
 // Socket.io config
 //require('./backend/socket.js')(http);

@@ -6,11 +6,10 @@ const Schema      = mongoose.Schema;
 const SkateParkSchema = new Schema({
 	skateparkName: {type: String, required: true},
 	skateparkDesc: {type: String, required: false},
-	skateparkRating: {type: [Number], required: false},
+	skateparkRating: {type: Number, required: false},
 	skateparkLocation: {type: [Number], required: false}, // [Long, Lat]
-	//imagesLocation: {type: String, required: false},
 	addedBy: String,
-	created: {type: Date, default: Date.now}
+	createdAt: {type: Date, default: Date.now}
 });
 
 // Sets the created entry equal to the current time

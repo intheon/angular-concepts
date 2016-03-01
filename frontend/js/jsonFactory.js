@@ -3,7 +3,7 @@
 angular.module("getJson", [])
 	.factory("getJson", ($http) => {
 
-		return $http.get("/js/data.json");
+		return $http.get("/skateparks");
 
 	});
 
