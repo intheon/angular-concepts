@@ -46,9 +46,9 @@
 				<h3>Highest Voted</h3>
 
 				<div class="list-of-highest-rated-items">
-					<div ng-repeat="item in allData | orderBy: '-rating' | limitTo: 6  ">
+					<div ng-repeat="item in allData | orderBy: '-skateparkRating' | limitTo: 6  ">
 
-						<div class="item-name">{{ item.name }} <span  ng-controller="RatingCtrl" ng-click="incrementRating(item)">^</span></div>
+						<div class="item-name">{{ item.skateparkName }} <span  ng-controller="RatingCtrl" ng-click="incrementRating(item)">^</span></div>
 
 					</div>
 				</div>
@@ -60,7 +60,7 @@
 				<div class="list-of-most-recent-items">
 					<div ng-repeat="item in allData | limitTo: 5 ">
 
-						<div class="item-name">{{ item.name }}</div>
+						<div class="item-name">{{ item.skateparkName }}</div>
 
 					</div>
 				</div>

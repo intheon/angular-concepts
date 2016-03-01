@@ -15,6 +15,7 @@ app.controller("ListCtrl", ($scope, $http, getJson, createMap) => {
 		// The data is now present for the view (index.html) to play with
 		$scope.allData = response;
 
+
 	}).then((response) => {
 
 		// I know angular has its own foreach method, but jQuery is familiar
@@ -22,8 +23,8 @@ app.controller("ListCtrl", ($scope, $http, getJson, createMap) => {
 		$.each(response.data, (num, val) => {
 
 			// 'createMap' is from the createMap factory (See mapFactory.js)
-			
-			createMap.createNewPin(val);
+
+			createMap.addNewPoint(val);
 
 		});
 
@@ -39,7 +40,7 @@ app.controller("RatingCtrl", ($scope, $http) => {
 	// It's bound to the scope, so automagically updates
 	$scope.incrementRating = (item) => {
 
-		item.rating += 1;
+		item.skateparkRating += 1;
 
 	};
 

@@ -79,24 +79,49 @@ angular.module("createMap", [])
 
 			},
 
-			createNewPin: (pinMeta) => {
-				// Create one single pin. Will be called many times!
+			addNewPoint: (pinMeta) => {
 
-				console.log(pinMeta.skateparkLocation);
-
-				let pin = new google.maps.Marker({
-
-					position: {
-						lat: pinMeta.skateparkLocation[0],
-						lng: pinMeta.skateparkLocation[1]
-					},
-					map: mapObj
-				});
+				const marker = map.createNewPinWithInfo(pinMeta);
 
 
 			},
 
+			createNewPinWithInfo: (pinMeta) => {
 
+				// Create one single pin. Will be called many times!
+				let pin = new google.maps.Marker({
+
+					// latlng
+					position: {
+						lat: pinMeta.skateparkLocation[0],
+						lng: pinMeta.skateparkLocation[1]
+					},
+
+					// bind to global map
+					map: mapObj
+				});
+
+				// Create one single infoWindow
+				let info = new google.maps.InfoWindow({
+
+					content: "<div class='info-window-popup'>\
+						<div class='info-window-skatepark-name'>" + pinMeta.skateparkName + "</div>\
+						<div class='info-window-skatepark-desc'>" + pinMeta.skateparkDesc + "</div>\
+						<div class='info-window-skatepark-rating'>" + pinMeta.skateparkRating + "</div>\
+						<div class='info-window-skatepark-adder'>" + pinMeta.addedBy + "</div>\
+						<div class='info-window-skatepark-created'>" + pinMeta.createdAt + "</div>\
+					</div>"
+
+				});
+
+				// When marker is clicked, show infoWindow
+				pin.addListener("click", () => {
+
+					info.open(mapObj, pin);
+
+				});
+
+			},
 
 
 		};
