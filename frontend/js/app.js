@@ -31,6 +31,8 @@ app.controller("ListCtrl", ($scope, $http, getJson, createMap) => {
 
 	});
 
+	
+
 });
 
 // Controller to handle ratings / upvotes
@@ -56,7 +58,6 @@ app.controller("SearchCtrl", ($scope) => {
 });
 
 app.controller("MapCtrl", ($scope, $http, $rootScope, createMap) => {
-
 
 
 });

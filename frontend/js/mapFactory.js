@@ -51,10 +51,10 @@ angular.module("createMap", [])
 					// Create an InfoWindow
 					let InfoWindow = new google.maps.InfoWindow({
 						content: "<form class='add-skate-location' id='skateparkForm'>\
-							<div class='add-skate-location-heading'><input type='text' placeholder='Add title...' id='skateparkName' /></div>\
-							<div class='add-skate-location-adder'><input type='text' placeholder='Your name' id='skateparkAdder' /></div>\
-							<div class='add-skate-location-description'><input type='text' placeholder='Describe it... (Optional)' id='skateparkDesc' /></div>\
-							<div class='add-skate-location-submit'><input type='button' value='Submit!' id='skateparkSubmit'></div>\
+							<div class='add-skate-location-heading'><input type='text' placeholder='Add title...' id='skateparkName' ng-model='name'></div>\
+							<div class='add-skate-location-adder'><input type='text' placeholder='Your name' id='skateparkAdder' ng-model='adder'></div>\
+							<div class='add-skate-location-description'><input type='text' placeholder='Describe it... (Optional)' id='skateparkDesc' ng-model='desc'></div>\
+							<div class='add-skate-location-submit'><input type='button' value='Submit!' id='skateparkSubmit' ng-click='getFormData()'></div>\
 						</form>"
 					});
 
@@ -62,6 +62,7 @@ angular.module("createMap", [])
 					InfoWindow.open(mapObj, MapMarker);
 
 					// Listen for form submit
+
 					$("#skateparkSubmit").click(() => {
 
 						const name = $("#skateparkName").val();
@@ -76,15 +77,15 @@ angular.module("createMap", [])
 							skateparkName: name,
 							skateparkDesc: desc,
 							skateparkLocation: [
-								event.latLng.lng(),
 								event.latLng.lat(),
+								event.latLng.lng(),
 							],
 							addedBy: adder,
 							rating: 1
 						}
 
+						map.submitNewPark(payload);
 
-						
 					});
 
 					// Housekeeping to dismiss both current InfoWindow and to discard unused marker
@@ -98,8 +99,6 @@ angular.module("createMap", [])
 						MapMarker.setMap(null);
 					});
 
-
-
 				});
 
 			},
@@ -108,6 +107,23 @@ angular.module("createMap", [])
 
 				const marker = map.createNewPinWithInfo(pinMeta);
 
+			},
+
+			submitNewPark: (payload) => {
+
+				// Saves the skatepark data to the db
+				$http.post("/skateparks", payload)
+					.success((data) => {
+
+						console.log("success");
+
+						console.log("here is teh current scope");
+						console.log(blah);
+						
+					})
+					.error((data) => {
+						console.log('Error: ' + data);
+					});
 
 			},
 
