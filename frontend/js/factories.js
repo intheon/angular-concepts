@@ -57,7 +57,7 @@ angular.module("createMap", [])
 							<div class='add-skate-location-heading'><input type='text' placeholder='Add title...' id='skateparkName' ng-model='name'></div>\
 							<div class='add-skate-location-adder'><input type='text' placeholder='Your name' id='skateparkAdder' ng-model='adder'></div>\
 							<div class='add-skate-location-description'><input type='text' placeholder='Describe it... (Optional)' id='skateparkDesc' ng-model='desc'></div>\
-							<div class='add-skate-location-submit'><input type='button' value='Submit!' id='skateparkSubmit' ng-click='getFormData()'></div>\
+							<div class='add-skate-location-submit'><input type='button' value='Submit!' id='skateparkSubmit' ></div>\
 						</form>"
 					});
 
@@ -79,12 +79,13 @@ angular.module("createMap", [])
 						const payload = {
 							skateparkName: name,
 							skateparkDesc: desc,
+							skateparkRating: 1, 
 							skateparkLocation: [
 								event.latLng.lat(),
 								event.latLng.lng(),
 							],
 							addedBy: adder,
-							rating: 1
+							createdAt: new Date()
 						}
 
 						// Submit that to db

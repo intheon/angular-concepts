@@ -14,6 +14,7 @@ app.controller("ListCtrl", ($scope, $http, $rootScope, getJson, createMap) => {
 	getJson.success((response) => {
 
 		// The data is now present for the view (index.html) to play with
+
 		$scope.allData = response;
 
 	}).then((response) => {
@@ -23,7 +24,6 @@ app.controller("ListCtrl", ($scope, $http, $rootScope, getJson, createMap) => {
 			$.each(response.data, (num, val) => {
 
 				// 'createMap' is from the createMap factory (See mapFactory.js)
-
 				createMap.addNewPoint(val);
 
 			});
@@ -60,7 +60,7 @@ app.controller("MapCtrl", ($scope, $http, $rootScope, createMap) => {
 	$rootScope.$on("postSuccess", (event, args) => {
 
 		createMap.addNewPoint(args);
-		$scope.allData.push(args)
+		$scope.allData.push(args);
 
 	});
 
