@@ -1,15 +1,18 @@
 "use strict";
 
+
+// To get the Json
+angular.module("getJson", [])
+	.factory("getJson", ($http) => {
+
+		return $http.get("/skateparks");
+
+	});
+
+
 // A factory to load A Google Map
-
 angular.module("createMap", [])
-	.service("createMap", ($http) => {
-
-		/*
-
-			This initialises a Google Map
-
-		*/
+	.factory("createMap", ($http, $rootScope) => {
 
 		// Set it somewhere in England
 		const initialLat = 53.559124;
@@ -21,14 +24,14 @@ angular.module("createMap", [])
 		// Object to be returned to Controller
 		let map = {
 
-			init: (lat, long) => {
+			init: () => {
 
 				mapObj = new google.maps.Map(document.getElementById("map"), {
 
 					zoom: 3,
 					center: {
-						lat: lat,
-						lng: long
+						lat: initialLat,
+						lng: initialLong
 					}
 
 				});
@@ -84,7 +87,11 @@ angular.module("createMap", [])
 							rating: 1
 						}
 
+						// Submit that to db
 						map.submitNewPark(payload);
+
+						// Close the open 
+						InfoWindow.close();
 
 					});
 
@@ -112,14 +119,13 @@ angular.module("createMap", [])
 			submitNewPark: (payload) => {
 
 				// Saves the skatepark data to the db
+
 				$http.post("/skateparks", payload)
 					.success((data) => {
 
-						console.log("success");
+						// Emit the success to the controller
+						$rootScope.$emit("postSuccess", data);
 
-						console.log("here is teh current scope");
-						console.log(blah);
-						
 					})
 					.error((data) => {
 						console.log('Error: ' + data);
@@ -162,18 +168,15 @@ angular.module("createMap", [])
 
 				});
 
-			},
-
+			}
 
 		};
 
 
-
-		// Upon page load . Use our starting latLong.
-		google.maps.event.addDomListener(window, "load", map.init(initialLat, initialLong));
-
 		return map;
 
 	});
+
+
 
 

@@ -36,7 +36,7 @@ module.exports = function(app) {
 			// Test for errors
 			if(err) res.send(err);
 
-			// If no errors are found, it responds with a JSON of the new user
+			// If no errors are found, it responds with a JSON of the new skatepark
 			res.json(req.body);
 		});
 	});

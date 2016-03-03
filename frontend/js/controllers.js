@@ -3,37 +3,35 @@
 const app = angular.module("testAngular", ["getJson", "createMap"]);
 
 // Controller for getting data from server and presenting to view
-app.controller("ListCtrl", ($scope, $http, getJson, createMap) => {
+app.controller("ListCtrl", ($scope, $http, $rootScope, getJson, createMap) => {
 
 	// Initialise as empty array
 	$scope.allData = [];
 
-	// Call getJson, which is a Factory method which returns a crapton of useful object data
-	// This took a lot of effort, but the implementation is simples!
+	// Draw a blank map upon page load
+	createMap.init();
+
 	getJson.success((response) => {
 
 		// The data is now present for the view (index.html) to play with
 		$scope.allData = response;
 
-
 	}).then((response) => {
 
-		// I know angular has its own foreach method, but jQuery is familiar
+			// I know angular has its own foreach method, but jQuery is familiar
 
-		$.each(response.data, (num, val) => {
+			$.each(response.data, (num, val) => {
 
-			// 'createMap' is from the createMap factory (See mapFactory.js)
+				// 'createMap' is from the createMap factory (See mapFactory.js)
 
-			createMap.addNewPoint(val);
+				createMap.addNewPoint(val);
+
+			});
 
 		});
 
-
 	});
 
-	
-
-});
 
 // Controller to handle ratings / upvotes
 app.controller("RatingCtrl", ($scope, $http) => {
@@ -59,6 +57,12 @@ app.controller("SearchCtrl", ($scope) => {
 
 app.controller("MapCtrl", ($scope, $http, $rootScope, createMap) => {
 
+	$rootScope.$on("postSuccess", (event, args) => {
+
+		createMap.addNewPoint(args);
+		$scope.allData.push(args)
+
+	});
 
 });
 
