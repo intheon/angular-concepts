@@ -18,11 +18,50 @@
 		<!-- the main list/map of items -->
 		<div class="left-column">
 
+			<!-- A directive to handle the map -->
+			<ng-map class="map" ng-controller="MapCtrl" zoom="3" center="59.339025, 18.065818">
+
+				<info-window id="detailsWindow" >
+					<div ng-non-bindable>
+						<h4>{{ currentSkatepark.skateparkName }}</h4>
+						<h4>{{ currentSkatepark.skateparkDesc }}</h4>
+						<h4 ng-controller="RatingCtrl" ng-click="incrementRating(currentSkatepark)">{{ currentSkatepark.skateparkRating }} ^</h4>
+					</div> 
+				</info-window>
+
+				<marker ng-repeat="marker in allData" 
+						position="{{marker.skateparkLocation}}"
+						title="{{marker.skateparkName}}"
+						id="{{marker._id}}"
+						on-click="showSkatepark(event, marker)">
+				</marker>
+
+			</ng-map>
+
+<!--
+
+			<ng-map class="map" center="[53.559124, -2.079675]" zoom="3" ng-controller="MapCtrl">
+
+				<marker ng-repeat="marker in allData"
+						position="{{ marker.skateparkLocation }}"
+						on-click="showDetails(event, marker)">
+				</marker>
+
+				<info-window id="info-win">
+					<div ng-non-bindable="">
+						{{ selectedCity.skateparkName }}
+					</div>
+				</info-window>
+
+			</ng-map>
+-->
+
+			<!--
 			<div class="map" ng-controller="MapCtrl" id="map">
 
 
 
-					<!-- Existing text nodes 
+					 Existing text nodes 
 					<h3>All items</h3>
 
 
@@ -34,8 +73,9 @@
 
 					</div>
 
-					-->
+					
 			</div>
+			-->
 
 		</div> <!-- end left hand side -->
 
@@ -88,13 +128,13 @@
 	<script src="../libraries/jquery.js"></script>
 	<script src="../libraries/angular.js"></script>
 	<script src="../libraries/angular-route.js"></script>
-	<script src="../libraries/angularjs-geolocation.min.js"></script>
 	<script src="../libraries/socket.io.js"></script>
 
 <!-- API -->
 	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyALYjGkfn-RVIETHo-KCBz_1zbVW1OH-O0"></script>
 
 <!-- Custom JS  -->
+	<script src="../libraries/ng-map.js"></script>
 
 	<script src="js/sockets.js"></script>
 	<script src="js/controllers.js"></script>

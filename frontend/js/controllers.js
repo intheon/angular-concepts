@@ -1,32 +1,27 @@
 "use strict";
 
-const app = angular.module("testAngular", ["getJson", "createMap"]);
+const app = angular.module("testAngular", ["getJson", "createMap", "ngMap"]);
 
 // Controller for getting data from server and presenting to view
-app.controller("ListCtrl", ($scope, $http, $rootScope, getJson, createMap) => {
+app.controller("ListCtrl", ($scope, $http, $rootScope, getJson) => {
 
-	// Initialise as empty array
+
+	$scope.positions =[ [40.71, -74.21], [40.72, -74.20], [40.73, -74.19],
+      [40.74, -74.18], [40.75, -74.17], [40.76, -74.16], [40.77, -74.15]];
+
+
+	// Initialise array to store databases response
 	$scope.allData = [];
-
-	// Draw a blank map upon page load
-	createMap.init();
 
 	getJson.success((response) => {
 
-		// The data is now present for the view (index.html) to play with
-
+		// Store the response in the array
 		$scope.allData = response;
 
 	}).then((response) => {
 
-			// I know angular has its own foreach method, but jQuery is familiar
-
-			$.each(response.data, (num, val) => {
-
-				// 'createMap' is from the createMap factory (See mapFactory.js)
-				createMap.addNewPoint(val, $scope);
-
-			});
+			// Tell the map controller to do its thing
+			$rootScope.$broadcast("runMapCtrl");
 
 		});
 
@@ -63,14 +58,27 @@ app.controller("SearchCtrl", ($scope) => {
 
 });
 
-app.controller("MapCtrl", ($scope, $http, $rootScope, createMap) => {
+app.controller("MapCtrl", ($scope, $http, $rootScope, NgMap) => {
 
-	$rootScope.$on("postSuccess", (event, args) => {
 
-		createMap.addNewPoint(args);
-		$scope.allData.push(args);
+	// This is fired after the server has done it's thing
+	$rootScope.$on("runMapCtrl", () => {
+
+		NgMap.getMap().then((map) => {
+			$scope.map = map;
+		});
+
+		$scope.showSkatepark = function(event, skatepark) {
+			$scope.currentSkatepark = skatepark;
+		    $scope.map.showInfoWindow('detailsWindow', this);
+		  };
+
 
 	});
 
-});
 
+
+
+
+
+});

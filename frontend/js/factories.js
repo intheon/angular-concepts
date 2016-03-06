@@ -113,7 +113,7 @@ angular.module("createMap", [])
 
 			addNewPoint: (pinMeta, $scope) => {
 
-				const marker = map.createNewPinWithInfo(pinMeta, $scope);
+				return map.createNewPinWithInfo(pinMeta, $scope);
 
 			},
 
@@ -134,9 +134,7 @@ angular.module("createMap", [])
 
 			},
 
-			createNewPinWithInfo: (pinMeta, $scope) => {
-
-				console.log($scope.allData);
+			createNewPinWithInfo: (pinMeta) => {
 
 				// Create one single pin. Will be called many times!
 				let pin = new google.maps.Marker({
@@ -148,7 +146,7 @@ angular.module("createMap", [])
 					},
 
 					// bind to global map
-					map: mapObj
+					//map: mapObj
 				});
 
 				// Create one single infoWindow
@@ -157,7 +155,7 @@ angular.module("createMap", [])
 					content: "<div class='info-window-popup'>\
 						<div class='info-window-skatepark-name'>" + pinMeta.skateparkName + "</div>\
 						<div class='info-window-skatepark-desc'>" + pinMeta.skateparkDesc + "</div>\
-						<div class='info-window-skatepark-rating'>" + $scope.skateparkRating + "</div>\
+						<div class='info-window-skatepark-rating'>" + pinMeta.skateparkRating + "</div>\
 						<div class='info-window-skatepark-adder'>" + pinMeta.addedBy + "</div>\
 						<div class='info-window-skatepark-created'>" + pinMeta.createdAt + "</div>\
 					</div>"
@@ -170,6 +168,9 @@ angular.module("createMap", [])
 					info.open(mapObj, pin);
 
 				});
+
+				// Finally, add this to the scope for future filtering
+				return pin;
 
 			}
 
