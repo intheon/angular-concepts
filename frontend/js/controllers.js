@@ -42,6 +42,14 @@ app.controller("RatingCtrl", ($scope, $http) => {
 
 		item.skateparkRating += 1;
 
+		// Send put request to server
+		$http.put("/skateparks/" + item._id, item).success((response) => {
+
+			// Update the scope
+			console.log(response);
+
+		});
+
 	};
 
 });

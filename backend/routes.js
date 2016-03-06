@@ -40,4 +40,21 @@ module.exports = function(app) {
 			res.json(req.body);
 		});
 	});
+
+	// PUT Routes
+	// --------------------------------------------------------
+	// Method for updating a particular skatepark
+	app.put("/skateparks/:id", (req, res) => {
+
+		const q = { "_id": req.params.id};
+		const b = req.body;
+
+		Skateparks.findOneAndUpdate(q, b, (err, doc) => {
+
+			if (err) return res.send(500, { error: err });
+
+		});
+
+
+	});
 };  
