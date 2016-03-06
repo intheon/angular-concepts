@@ -51,7 +51,37 @@ html, body
 
 .item-name
 {
-	font-size:1.2em;
+	width:100%;
+	float:left;
+	opacity:1;
+	transition:1s all;
+}
+
+.name 
+{
+	font-size: 1.3em;
+	width:30%;
+	float:left;
+	cursor:pointer;
+}
+
+.rating 
+{
+	width:8%;
+	float:left;
+	font-size:2.1em;
+}
+
+.upvote
+{
+	opacity:0.4;
+	font-size:0.63em;
+}
+
+.item-name:hover
+{
+	opacity:0.2;
+	cursor:pointer;
 }
 
 .add-new-item

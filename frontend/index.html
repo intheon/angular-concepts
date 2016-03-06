@@ -18,7 +18,7 @@
 		<!-- the main list/map of items -->
 		<div class="left-column">
 
-			<div class="map" ng-controller="MapCtrl | filter: searchParks" id="map">
+			<div class="map" ng-controller="MapCtrl" id="map">
 
 
 
@@ -48,7 +48,10 @@
 				<div class="list-of-highest-rated-items">
 					<div ng-repeat="item in allData | orderBy: '-skateparkRating' | limitTo: 6  ">
 
-						<div class="item-name">{{ item.skateparkName }} <span  ng-controller="RatingCtrl" ng-click="incrementRating(item)">^</span></div>
+						<div class="item-name"  ng-controller="RatingCtrl" ng-click="incrementRating(item)">
+							<div class="rating">{{ item.skateparkRating }}</div>
+							<div class="name">{{ item.skateparkName }} <div class="upvote">^</div></div>
+						</div>
 
 					</div>
 				</div>
