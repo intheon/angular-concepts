@@ -24,7 +24,7 @@ app.controller("ListCtrl", ($scope, $http, $rootScope, getJson, createMap) => {
 			$.each(response.data, (num, val) => {
 
 				// 'createMap' is from the createMap factory (See mapFactory.js)
-				createMap.addNewPoint(val);
+				createMap.addNewPoint(val, $scope);
 
 			});
 
