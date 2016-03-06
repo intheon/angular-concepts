@@ -38,44 +38,6 @@
 
 			</ng-map>
 
-<!--
-
-			<ng-map class="map" center="[53.559124, -2.079675]" zoom="3" ng-controller="MapCtrl">
-
-				<marker ng-repeat="marker in allData"
-						position="{{ marker.skateparkLocation }}"
-						on-click="showDetails(event, marker)">
-				</marker>
-
-				<info-window id="info-win">
-					<div ng-non-bindable="">
-						{{ selectedCity.skateparkName }}
-					</div>
-				</info-window>
-
-			</ng-map>
--->
-
-			<!--
-			<div class="map" ng-controller="MapCtrl" id="map">
-
-
-
-					 Existing text nodes 
-					<h3>All items</h3>
-
-
-					<div ng-repeat="item in allData | filter: searchParks" class="item">
-
-						<div class="item-name">{{ item.name }}</div>
-						<div class="item-rating">{{ item.rating }} <span ng-controller="RatingCtrl"  ng-click="incrementRating(item)">^</span></div>
-						<div class="item-adder">{{ item.addedBy }}</div>
-
-					</div>
-
-					
-			</div>
-			-->
 
 		</div> <!-- end left hand side -->
 
@@ -88,9 +50,10 @@
 				<div class="list-of-highest-rated-items">
 					<div ng-repeat="item in allData | orderBy: '-skateparkRating' | limitTo: 6  ">
 
-						<div class="item-name"  ng-controller="RatingCtrl" ng-click="incrementRating(item)">
+						<div class="item-name" ng-controller="RatingCtrl">
 							<div class="rating">{{ item.skateparkRating }}</div>
-							<div class="name">{{ item.skateparkName }} <div class="upvote">^</div></div>
+							<div class="name">{{ item.skateparkName }}</div>
+							<upvote-button ng-click="incrementRating(item)"></upvote-button>
 						</div>
 
 					</div>
@@ -101,7 +64,7 @@
 			<div class="most-recent-items">
 				<h3>Most Recent Items</h3>
 				<div class="list-of-most-recent-items">
-					<div ng-repeat="item in allData | limitTo: 5 ">
+					<div ng-repeat="item in allData | limitTo: 5" >
 
 						<div class="item-name">{{ item.skateparkName }}</div>
 
@@ -138,6 +101,8 @@
 
 	<script src="js/sockets.js"></script>
 	<script src="js/controllers.js"></script>
+	<script src="js/directives.js"></script>
 	<script src="js/factories.js"></script>
+
 </body>
 </html>

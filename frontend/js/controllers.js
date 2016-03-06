@@ -6,10 +6,6 @@ const app = angular.module("testAngular", ["getJson", "createMap", "ngMap"]);
 app.controller("ListCtrl", ($scope, $http, $rootScope, getJson) => {
 
 
-	$scope.positions =[ [40.71, -74.21], [40.72, -74.20], [40.73, -74.19],
-      [40.74, -74.18], [40.75, -74.17], [40.76, -74.16], [40.77, -74.15]];
-
-
 	// Initialise array to store databases response
 	$scope.allData = [];
 
@@ -25,7 +21,7 @@ app.controller("ListCtrl", ($scope, $http, $rootScope, getJson) => {
 
 		});
 
-	});
+});
 
 
 // Controller to handle ratings / upvotes
@@ -58,8 +54,20 @@ app.controller("SearchCtrl", ($scope) => {
 
 });
 
-app.controller("MapCtrl", ($scope, $http, $rootScope, NgMap) => {
+// Controller to handle searching
+app.controller("DetailsController", ($scope, $http, $rootScope, NgMap) => {
 
+	$scope.triggerDetails = (item) => {
+
+		$scope.map.showInfoWindow('detailsWindow', item);
+
+	}
+
+});
+
+
+
+app.controller("MapCtrl", ($scope, $http, $rootScope, NgMap) => {
 
 	// This is fired after the server has done it's thing
 	$rootScope.$on("runMapCtrl", () => {
@@ -73,12 +81,6 @@ app.controller("MapCtrl", ($scope, $http, $rootScope, NgMap) => {
 		    $scope.map.showInfoWindow('detailsWindow', this);
 		  };
 
-
 	});
-
-
-
-
-
 
 });
