@@ -46,15 +46,22 @@ app.controller("RatingCtrl", ($scope, $http) => {
 });
 
 // Controller to handle searching
-app.controller("SearchCtrl", ($scope) => {
+app.controller("SearchCtrl", ($scope, $http, $rootScope, NgMap) => {
 
-	console.log($scope.searchParks);
 
+    $scope.$watch('searchString', function(newValue, oldValue) {
+
+    	let payload = null;
+
+    	if (newValue) payload = newValue;
+
+    	$rootScope.$broadcast("filterMarkers", newValue);
+    });
 
 });
 
 // Controller to handle searching
-app.controller("DetailsController", ($scope, $http, $rootScope, NgMap) => {
+app.controller("DetailsController", ($scope, $http, $rootScope, NgMap, searchPark) => {
 
 	$scope.triggerDetails = (item) => {
 
@@ -75,10 +82,16 @@ app.controller("MapCtrl", ($scope, $http, $rootScope, NgMap) => {
 			$scope.map = map;
 		});
 
-		$scope.showSkatepark = function(event, skatepark) {
+		$scope.showSkateparkDetails = function(event, skatepark) {
 			$scope.currentSkatepark = skatepark;
 		    $scope.map.showInfoWindow('detailsWindow', this);
 		  };
+
+	});
+
+	$rootScope.$on("filterMarkers", function(event, data){
+
+		$scope.parks = data;
 
 	});
 

@@ -9,7 +9,6 @@ angular.module("getJson", [])
 
 	});
 
-
 // A factory to load A Google Map
 angular.module("createMap", [])
 	.factory("createMap", ($http, $rootScope) => {
