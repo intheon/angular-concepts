@@ -62,13 +62,13 @@ html, body
 .left-column
 {
 	float:left;
-	width:60%;
+	width:70%;
 }
 
 .right-column
 {
 	float:left;
-	width:40%;
+	width:30%;
 }
 
 .map
@@ -150,6 +150,22 @@ input[type="submit"]
 	font-size: 1.4em;
 }
 
+.site-title
+{
+	font-size: 3em;
+}
+
+.skate-icon
+{
+	float:right;
+}
+
+.row
+{
+	padding-top:1%;
+	padding-right:1%;
+}
+
 .upvote
 {
 	font-size:2em;
@@ -165,14 +181,18 @@ input[type="submit"]
 
 .rating
 {
-	padding-left:1.8%;
-	margin-top:1%;
-	margin-left:4.20%;
+
+}
+
+.upvote
+{
+	float:right;
 }
 
 .name
 {
-	margin-left: 7%;
+	padding-left:3%;
+	padding-top:2%;
 	font-size:1.3em;
 }
 

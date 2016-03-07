@@ -42,6 +42,16 @@
 
 		<div class="right-column">
 
+			<!-- First row: Header -->
+			<div class="row">
+				<header class="site-title">
+					SkateLocate
+					<img src="./img/skate-icon.png" class="skate-icon" alt="skateboard icon" width="64px">
+				</header>
+				<summary>Take a look around for a park near you...</summary>
+				<summary>Tap on the map to add your own, or comment/vote on an existing!</summary>
+			</div>
+
 			<!-- highest ranked items -->
 			<div class="highest-voted-items">
 				<h3>Highest Voted</h3>
@@ -52,7 +62,7 @@
 						<div class="item-name" ng-controller="RatingCtrl">
 							<div class="rating">{{ item.skateparkRating }}</div>
 							<div class="name">{{ item.skateparkName }}</div>
-							<upvote-button ng-click="incrementRating(item)"></upvote-button>
+							<upvote-button ng-click="incrementRating(item)" class="upvote"></upvote-button>
 						</div>
 
 					</div>
