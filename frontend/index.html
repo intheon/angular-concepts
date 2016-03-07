@@ -25,7 +25,7 @@
 					<div ng-non-bindable>
 						<header class="skatepark-name">{{ currentSkatepark.skateparkName }}</header>
 						<summary class="skatepark-desc">{{ currentSkatepark.skateparkDesc }}</summary>
-						<footer ng-controller="RatingCtrl" ng-click="incrementRating(currentSkatepark)">{{ currentSkatepark.skateparkRating }} ^</footer>
+						<upvote-button ng-controller="RatingCtrl" ng-click="incrementRating(currentSkatepark)">{{ currentSkatepark.skateparkRating }}</upvote-button>
 					</div> 
 				</info-window>
 
@@ -73,17 +73,16 @@
 
 			<!-- search functionality -->
 			<div class="search-for-items" ng-controller="SearchCtrl" >
-				<h3>Search for items</h3>
 				<form>
-					<input type="text" placeholder="Search" ng-model="searchString"></input>
+					<input type="text" placeholder="Search" ng-model="searchString" class="fancyInput"></input>
 				</form>
-
-				{{ searchString }}
 			</div>
 
-			<div class="connection-info-triangle">
-				<div class="icon icon-users"></div>
+			<div class="connection-info-triangle"></div>
+
+			<div class="bottom-right">
 				<div class="number-connected-users"></div>
+				<div class="icon icon-users"></div>
 			</div>
 
 		</div> <!-- end right hand side -->
@@ -110,6 +109,7 @@
 	<script src="js/directives.js"></script>
 	<script src="js/factories.js"></script>
 	<script src="js/filters.js"></script>
+
 
 
 </body>

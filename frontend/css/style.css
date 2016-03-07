@@ -74,7 +74,7 @@ html, body
 .map
 {
 	margin-right: 2%;
-	height: 90vh;
+	height: 100vh;
 }
 
 .item
@@ -95,7 +95,6 @@ html, body
 	font-size: 1.3em;
 	width:30%;
 	float:left;
-	cursor:pointer;
 }
 
 .rating 
@@ -113,8 +112,7 @@ html, body
 
 .item-name:hover
 {
-	opacity:0.9;
-	cursor:pointer;
+
 }
 
 .add-new-item
@@ -127,9 +125,13 @@ input[type="text"]
 	float:left;
 	width:auto;
 	padding: 1%;
-	margin:1%;
 	width:90%;
 }
+
+::-webkit-input-placeholder { /* WebKit, Blink, Edge */
+    color:    #D4DEEB;
+}
+
 input[type="submit"]
 {
 	float:left;
@@ -150,26 +152,14 @@ input[type="submit"]
 
 .upvote
 {
-	background: #8DC5CB;
-	width:32px;
-	height:48px;
-	transition:.4s all;
-	border:5px solid #B2D2D5;
-	border-radius:10px;
-	margin-top:2%;
-	margin-bottom:2%;
-	padding-left:33.22%;
+	font-size:2em;
+	transition: all 1s;
+	opacity:1;
 }
 
 .upvote:hover
 {
-	transform:rotate(36deg);
-	background:#57AAAF;
-	border: 5px solid #A8DBDD;
-	border-radius:0px;
-	padding-left:3%;
-	margin-left:0%;
-	margin-top:0%;
+	opacity: 0.2;
 
 }
 
@@ -191,10 +181,119 @@ input[type="submit"]
 	position: absolute;
 	bottom: 0;
 	right: 0;
-	margin-right:2%;
+	width: 0;
+	height: 0;
+	border-bottom: 100px solid #C6DFB9;
+	border-left: 100px solid transparent;
 }
 
-.connection-info-triangle div
+.bottom-right
 {
+	right:0;
+	bottom:0;
+	position:absolute;
+	z-index:4;
 	display:inline;
+	width:80px;
 }
+
+.bottom-right div
+{
+	float:left;
+	display:inline;
+	position:relative;
+	margin:1%;
+}
+
+.icon-users
+{
+	font-size:1.7em;
+	color: #85A374;
+}
+
+.number-connected-users
+{
+	font-size:1.4em;
+	width:15px;
+	padding-left:25px;
+	color: #85A374;
+}
+
+
+
+.svg-div
+{
+	width: 32px;
+	height: 32px;
+	position: relative;
+	overflow: hidden;
+	transform:scale(0.45, 0.45);
+}
+
+.svg-div:hover
+{
+	cursor:pointer;
+}
+
+svg {
+	position: absolute;
+	top: 0;
+	left: 0;
+	transition: 1s all;
+
+}
+
+svg line {
+	stroke-width: 2;
+	stroke: #000;
+	fill: none;
+	stroke-dasharray: 200;
+	transition: 1s all;
+}
+
+.svg-div:hover svg line {
+	-webkit-transform: translateY(-6px);
+	transform: translateY(-6px);
+	stroke: #9BC8D1;
+	opacity: 0.4;
+}
+
+.animated
+{
+	transform: translateY(-32px);
+	stroke: #9BC8D1;
+	opacity: 0.4;
+}
+
+.search-for-items
+{
+	position:absolute;
+	bottom:0;
+}
+
+.fancyInput
+{
+	margin:0 !important;
+	padding:0 !important;
+	border: 0;
+	outline: 0;
+	font-size:3em;
+	transition: all 0.6s;
+	color: transparent;
+	text-shadow: 0 0 0 #C5D3E7;
+	width:100%;
+}
+
+
+.fancyInput:focus
+{
+	color: transparent;
+	text-shadow: 0 0 0 #B2C3D9;
+	font-size:2em;
+}
+
+.fancyInput:focus::-webkit-input-placeholder
+{
+	color:transparent;
+}
+
