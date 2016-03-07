@@ -1,6 +1,6 @@
 "use strict";
 
-const app = angular.module("testAngular", ["getJson", "createMap", "ngMap"]);
+const app = angular.module("testAngular", ["getJson", "ngMap", "mapService"]);
 
 // Controller for getting data from server and presenting to view
 app.controller("ListCtrl", ($scope, $http, $rootScope, getJson) => {
@@ -73,25 +73,42 @@ app.controller("DetailsController", ($scope, $http, $rootScope, NgMap, searchPar
 
 
 
-app.controller("MapCtrl", ($scope, $http, $rootScope, NgMap) => {
+app.controller("MapCtrl", ($scope, $http, $rootScope, NgMap, mapService) => {
 
 	// This is fired after the server has done it's thing
 	$rootScope.$on("runMapCtrl", () => {
 
+		$scope.map = null;
+
+		// Get the map instance
 		NgMap.getMap().then((map) => {
 			$scope.map = map;
+
+			// Map map clickable
+			mapService.listenForMarkers($scope.map);
+
 		});
 
+		// Not using an arrow function as it messes up the reference to 'this'
 		$scope.showSkateparkDetails = function(event, skatepark) {
 			$scope.currentSkatepark = skatepark;
 		    $scope.map.showInfoWindow('detailsWindow', this);
-		  };
+		};
 
 	});
 
 	$rootScope.$on("filterMarkers", function(event, data){
 
 		$scope.parks = data;
+
+	});
+
+	$rootScope.$on("pushLastToScope", function(event, data){
+
+
+		console.log($scope.allData);
+		console.log(data);
+		$scope.allData.push(data);
 
 	});
 

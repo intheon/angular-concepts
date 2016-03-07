@@ -22,6 +22,22 @@ module.exports = function(app) {
 		});
 	});
 
+	// Retrieve a particular skatepark
+	app.get('/skateparks/:id', (req, res) => {
+
+		const q = { "_id": req.params.id};
+
+		Skateparks.findOne(q, (err, doc) => {
+
+			if (err) return res.send(500, { error: err });
+			
+			// If no errors are found, return matching record
+			res.json(doc);
+
+   		 });
+
+	});
+
 	// POST Routes
 	// --------------------------------------------------------
 	// Provides method for saving new skateparks to the db
@@ -36,8 +52,8 @@ module.exports = function(app) {
 			// Test for errors
 			if(err) res.send(err);
 
-			// If no errors are found, it responds with a JSON of the new skatepark
-			res.json(req.body);
+			// If no errors are found, it responds with the _id of the newly saved obj
+			res.json(newSkatepark._id);
 		});
 	});
 

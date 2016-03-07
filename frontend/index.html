@@ -21,11 +21,18 @@
 			<!-- A directive to handle the map -->
 			<ng-map class="map"  zoom="3" center="59.339025, 18.065818">
 
-				<info-window id="detailsWindow" >
+				<info-window id="detailsWindow" class="detailsWindow" max-width="1400" >
 					<div ng-non-bindable>
+
 						<header class="skatepark-name">{{ currentSkatepark.skateparkName }}</header>
+						<div class="upvote">
+							<upvote-button ng-controller="RatingCtrl" ng-click="incrementRating(currentSkatepark)"></upvote-button>
+							{{ currentSkatepark.skateparkRating }}
+						</div>
 						<summary class="skatepark-desc">{{ currentSkatepark.skateparkDesc }}</summary>
-						<upvote-button ng-controller="RatingCtrl" ng-click="incrementRating(currentSkatepark)">{{ currentSkatepark.skateparkRating }}</upvote-button>
+						<div class="skatepark-adder">Added by: {{ currentSkatepark.addedBy }}</div>
+						<div class="skatepark-created">Added on: {{ currentSkatepark.createdAt | date: 'h:mm a, MMM d' }}</div>
+
 					</div> 
 				</info-window>
 

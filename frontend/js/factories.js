@@ -10,58 +10,35 @@ angular.module("getJson", [])
 	});
 
 // A factory to load A Google Map
-angular.module("createMap", [])
-	.factory("createMap", ($http, $rootScope) => {
-
-		// Set it somewhere in England
-		const initialLat = 53.559124;
-		const initialLong = -2.079675;
-
-		// Global map obj to be refered back to
-		let mapObj = null;
+angular.module("mapService", [])
+	.factory("mapService", ($http, $rootScope) => {
 
 		// Object to be returned to Controller
 		let map = {
 
-			init: () => {
+			listenForMarkers: (mapInstance) => {
 
-				mapObj = new google.maps.Map(document.getElementById("map"), {
-
-					zoom: 3,
-					center: {
-						lat: initialLat,
-						lng: initialLong
-					}
-
-				});
-
-				//map.createNewPanel();
-
-			},
-
-			createNewMarker: () => {
-
-				google.maps.event.addListener(mapObj, "click", (event) => {
+				google.maps.event.addListener(mapInstance, "click", (event) => {
 
 					// Create a Map marker
 					let MapMarker = new google.maps.Marker({
 						position: event.latLng,
-						map: mapObj,
+						map: mapInstance,
 						title: "Add a new Skatepark."
 					});
 
 					// Create an InfoWindow
 					let InfoWindow = new google.maps.InfoWindow({
 						content: "<form class='add-skate-location' id='skateparkForm'>\
-							<div class='add-skate-location-heading'><input type='text' placeholder='Add title...' id='skateparkName' ng-model='name'></div>\
-							<div class='add-skate-location-adder'><input type='text' placeholder='Your name' id='skateparkAdder' ng-model='adder'></div>\
+							<div class='add-skate-location-heading'><input type='text' placeholder='Add the name' id='skateparkName' ng-model='name'></div>\
 							<div class='add-skate-location-description'><input type='text' placeholder='Describe it... (Optional)' id='skateparkDesc' ng-model='desc'></div>\
+							<div class='add-skate-location-adder'><input type='text' placeholder='Your name' id='skateparkAdder' ng-model='adder'></div>\
 							<div class='add-skate-location-submit'><input type='button' value='Submit!' id='skateparkSubmit' ></div>\
 						</form>"
 					});
 
 					// Execute the code / add to DOM
-					InfoWindow.open(mapObj, MapMarker);
+					InfoWindow.open(mapInstance, MapMarker);
 
 					// Listen for form submit
 
@@ -93,10 +70,13 @@ angular.module("createMap", [])
 						// Close the open 
 						InfoWindow.close();
 
+						// Remove the marker
+						MapMarker.setMap(null);
+
 					});
 
 					// Housekeeping to dismiss both current InfoWindow and to discard unused marker
-					google.maps.event.addListener(mapObj, "click", (event) => {
+					google.maps.event.addListener(mapInstance, "click", (event) => {
 						InfoWindow.close();
 						MapMarker.setMap(null);
 					});
@@ -107,6 +87,7 @@ angular.module("createMap", [])
 					});
 
 				});
+
 
 			},
 
@@ -123,8 +104,14 @@ angular.module("createMap", [])
 				$http.post("/skateparks", payload)
 					.success((data) => {
 
-						// Emit the success to the controller
-						$rootScope.$emit("postSuccess", data);
+						// the _id will be returned
+						$http.get("/skateparks/" + data)
+							.success((response) => {
+
+								// Emit the success to the controller
+								$rootScope.$emit("pushLastToScope", response);
+
+							})
 
 					})
 					.error((data) => {
