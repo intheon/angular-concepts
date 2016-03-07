@@ -9,6 +9,12 @@ app.controller("ListCtrl", ($scope, $http, $rootScope, getJson) => {
 	// Initialise array to store databases response
 	$scope.allData = [];
 
+	$scope.rev = (array) => {
+		let copy = [].concat(array);
+			return copy.reverse();
+	};
+
+
 	getJson.success((response) => {
 
 		// Store the response in the array
