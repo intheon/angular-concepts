@@ -23,9 +23,9 @@
 
 				<info-window id="detailsWindow" >
 					<div ng-non-bindable>
-						<h4>{{ currentSkatepark.skateparkName }}</h4>
-						<h4>{{ currentSkatepark.skateparkDesc }}</h4>
-						<h4 ng-controller="RatingCtrl" ng-click="incrementRating(currentSkatepark)">{{ currentSkatepark.skateparkRating }} ^</h4>
+						<header class="skatepark-name">{{ currentSkatepark.skateparkName }}</header>
+						<summary class="skatepark-desc">{{ currentSkatepark.skateparkDesc }}</summary>
+						<footer ng-controller="RatingCtrl" ng-click="incrementRating(currentSkatepark)">{{ currentSkatepark.skateparkRating }} ^</footer>
 					</div> 
 				</info-window>
 
@@ -79,6 +79,11 @@
 					<input type="text" placeholder="Search" ng-model="searchParks"></input>
 				</form>
 				{{ searchParks }}
+			</div>
+
+			<div class="connection-info-triangle">
+				<div class="icon icon-users"></div>
+				<div class="number-connected-users"></div>
 			</div>
 
 		</div> <!-- end right hand side -->

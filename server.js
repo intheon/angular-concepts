@@ -36,6 +36,20 @@ require('./backend/routes.js')(app);
 io.on("connection", (socket) => {
 
 	console.log("user connected");
+	const connected = io.engine.clientsCount;
+
+	socket.on("disconnect", (socket) => {
+
+		console.log("user disconnected");
+		io.emit("user disconnected", connected);
+
+	});
+
+	socket.on("user joined", (conCount) => {
+
+		io.emit("user joined", connected);
+
+	});
 
 });
 

@@ -1,7 +1,7 @@
 app.directive("upvoteButton", function () {
         return {
             restrict: 'E',
-            template: '<div>^^^</div>',
+            template: '<div class="upvote"></div>',
             replace: true
         };
     });

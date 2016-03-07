@@ -1,3 +1,5 @@
+@charset "UTF-8";
+
 @font-face {
 	font-family: 'coming';
 	font-style: normal;
@@ -9,6 +11,38 @@
 		url('./fonts/coming.woff') format('woff'),
 		url('./fonts/coming.ttf') format('truetype'),
 		url('./fonts/coming.svg#coming') format('svg');
+}
+
+@font-face {
+	font-family: "skatemap";
+	src:url("fonts/skatemap.eot");
+	src:url("fonts/skatemap.eot?#iefix") format("embedded-opentype"),
+		url("fonts/skatemap.woff") format("woff"),
+		url("fonts/skatemap.ttf") format("truetype"),
+		url("fonts/skatemap.svg#skatemap") format("svg");
+	font-weight: normal;
+	font-style: normal;
+}
+
+
+[class^="icon-"]:before,
+[class*=" icon-"]:before {
+	font-family: "skatemap" !important;
+	font-style: normal !important;
+	font-weight: normal !important;
+	font-variant: normal !important;
+	text-transform: none !important;
+	speak: none;
+	line-height: 1;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+.icon-users:before {
+  content: "\61";
+}
+.icon-connectdevelop:before {
+  content: "\62";
 }
 
 html, body
@@ -79,7 +113,7 @@ html, body
 
 .item-name:hover
 {
-	opacity:0.2;
+	opacity:0.9;
 	cursor:pointer;
 }
 
@@ -104,4 +138,63 @@ input[type="submit"]
 	width:93%;
 }
 
+.skatepark-name
+{
+	font-size: 1.6em;
+}
 
+.skatepark-desc
+{
+	font-size: 1.4em;
+}
+
+.upvote
+{
+	background: #8DC5CB;
+	width:32px;
+	height:48px;
+	transition:.4s all;
+	border:5px solid #B2D2D5;
+	border-radius:10px;
+	margin-top:2%;
+	margin-bottom:2%;
+	padding-left:33.22%;
+}
+
+.upvote:hover
+{
+	transform:rotate(36deg);
+	background:#57AAAF;
+	border: 5px solid #A8DBDD;
+	border-radius:0px;
+	padding-left:3%;
+	margin-left:0%;
+	margin-top:0%;
+
+}
+
+.rating
+{
+	padding-left:1.8%;
+	margin-top:1%;
+	margin-left:4.20%;
+}
+
+.name
+{
+	margin-left: 7%;
+	font-size:1.3em;
+}
+
+.connection-info-triangle
+{
+	position: absolute;
+	bottom: 0;
+	right: 0;
+	margin-right:2%;
+}
+
+.connection-info-triangle div
+{
+	display:inline;
+}
