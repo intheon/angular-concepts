@@ -105,9 +105,6 @@ app.controller("MapCtrl", ($scope, $http, $rootScope, NgMap, mapService) => {
 
 	$rootScope.$on("pushLastToScope", function(event, data){
 
-
-		console.log($scope.allData);
-		console.log(data);
 		$scope.allData.push(data);
 
 	});
