@@ -29,7 +29,7 @@
 					</div> 
 				</info-window>
 
-				<marker ng-repeat="marker in allData" 
+				<marker ng-repeat="marker in allData | filter: searchParks" 
 						position="{{marker.skateparkLocation}}"
 						title="{{marker.skateparkName}}"
 						id="{{marker._id}}"
@@ -73,11 +73,12 @@
 			</div>
 
 			<!-- search functionality -->
-			<div class="search-for-items">
+			<div class="search-for-items" ng-controller="SearchCtrl">
 				<h3>Search for items</h3>
-				<form>
+				<form >
 					<input type="text" placeholder="Search" ng-model="searchParks"></input>
 				</form>
+				{{ searchParks }}
 			</div>
 
 		</div> <!-- end right hand side -->
@@ -103,6 +104,8 @@
 	<script src="js/controllers.js"></script>
 	<script src="js/directives.js"></script>
 	<script src="js/factories.js"></script>
+	<script src="js/filters.js"></script>
+
 
 </body>
 </html>

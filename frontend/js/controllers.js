@@ -48,9 +48,8 @@ app.controller("RatingCtrl", ($scope, $http) => {
 // Controller to handle searching
 app.controller("SearchCtrl", ($scope) => {
 
-	// Another bit of magic, this string is auto populated by an input field thats bound to it
-	// If any part of the string is matched, it's show up!
-	$scope.searchParks = "";
+	console.log($scope.searchParks);
+
 
 });
 
