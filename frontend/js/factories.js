@@ -27,13 +27,25 @@ angular.module("mapService", [])
 						title: "Add a new Skatepark."
 					});
 
-					// Create an InfoWindow
+					// Create an InfoWindow which will contain a form
 					let InfoWindow = new google.maps.InfoWindow({
 						content: "<form class='add-skate-location' id='skateparkForm'>\
-							<div class='add-skate-location-heading'><input type='text' placeholder='Add the name' id='skateparkName' ng-model='name'></div>\
-							<div class='add-skate-location-description'><input type='text' placeholder='Describe it... (Optional)' id='skateparkDesc' ng-model='desc'></div>\
-							<div class='add-skate-location-adder'><input type='text' placeholder='Your name' id='skateparkAdder' ng-model='adder'></div>\
-							<div class='add-skate-location-submit'><input type='button' value='Submit!' id='skateparkSubmit' ></div>\
+							<div class='question'>\
+								<header>What's the skatepark name?</header>\
+								<input type='text' placeholder='' />\
+							</div>\
+							<div class='question'>\
+								<header>What's your name?</header>\
+								<input type='text' placeholder='' />\
+							</div>\
+							<div class='question'>\
+								<header>A summary of the place? (Optional) </header>\
+								<input type='text' placeholder='' />\
+							</div>\
+							<div class='question'>\
+								<header>Any images? (Drag/drop or add a link!)</header>\
+								<input type='text' placeholder='' />\
+							</div>\
 						</form>"
 					});
 
@@ -91,12 +103,6 @@ angular.module("mapService", [])
 
 			},
 
-			addNewPoint: (pinMeta, $scope) => {
-
-				return map.createNewPinWithInfo(pinMeta, $scope);
-
-			},
-
 			submitNewPark: (payload) => {
 
 				// Saves the skatepark data to the db
@@ -118,50 +124,9 @@ angular.module("mapService", [])
 						console.log('Error: ' + data);
 					});
 
-			},
-
-			createNewPinWithInfo: (pinMeta) => {
-
-				// Create one single pin. Will be called many times!
-				let pin = new google.maps.Marker({
-
-					// latlng
-					position: {
-						lat: pinMeta.skateparkLocation[0],
-						lng: pinMeta.skateparkLocation[1]
-					},
-
-					// bind to global map
-					//map: mapObj
-				});
-
-				// Create one single infoWindow
-				let info = new google.maps.InfoWindow({
-
-					content: "<div class='info-window-popup'>\
-						<div class='info-window-skatepark-name'>" + pinMeta.skateparkName + "</div>\
-						<div class='info-window-skatepark-desc'>" + pinMeta.skateparkDesc + "</div>\
-						<div class='info-window-skatepark-rating'>" + pinMeta.skateparkRating + "</div>\
-						<div class='info-window-skatepark-adder'>" + pinMeta.addedBy + "</div>\
-						<div class='info-window-skatepark-created'>" + pinMeta.createdAt + "</div>\
-					</div>"
-
-				});
-
-				// When marker is clicked, show infoWindow
-				pin.addListener("click", () => {
-
-					info.open(mapObj, pin);
-
-				});
-
-				// Finally, add this to the scope for future filtering
-				return pin;
-
 			}
 
 		};
-
 
 		return map;
 

@@ -63,6 +63,7 @@ html, body
 {
 	float:left;
 	width:70%;
+	transition: 1s all;
 }
 
 .right-column
@@ -184,6 +185,8 @@ input[type="submit"]
 {
 	float:right;
 }
+
+
 
 .row
 {
@@ -351,3 +354,77 @@ svg line {
 	color:transparent;
 }
 
+.skate-icon
+{
+	transform: rotate(0deg);
+	transition: all 0.8s;
+}
+
+.skate-icon:hover
+{
+	transform: rotate(45deg);
+	cursor: pointer;
+}
+
+.show
+{
+	opacity: 1;
+}
+
+.fade
+{
+	opacity: 0.2;
+}
+
+.big-left
+{
+	width: 90% !important;
+}
+
+.little-right
+{
+	width: 10% !important;
+}
+
+.hide-on-click
+{
+	transition: 0.7s all;
+	opacity: 1;
+}
+
+.hidden
+{
+	opacity: 0.0;
+}
+
+@media ( max-width: 1000px )
+{
+	.left-column
+	{
+		float:left;
+		width:60%;
+	}
+
+	.right-column
+	{
+		float:left;
+		width:40%;
+	}
+
+}
+
+@media ( max-width: 740px )
+{
+	.left-column
+	{
+		float:left;
+		width:50%;
+	}
+
+	.right-column
+	{
+		float:left;
+		width:50%;
+	}
+
+}
