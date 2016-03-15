@@ -84,8 +84,10 @@
 					<div ng-repeat="item in allData | orderBy: '-skateparkRating' | limitTo: 6">
 
 						<div class="item-name" ng-controller="RatingCtrl">
-							<div class="rating">{{ item.skateparkRating }}</div>
-							<div class="name">{{ item.skateparkName }}</div>
+							<div class="meta" ng-click="showSkateparkDetails(item._id, item)">
+								<div class="rating">{{ item.skateparkRating }}</div>
+								<div class="name">{{ item.skateparkName }}</div>
+							</div>
 							<upvote-button ng-click="incrementRating(item)" class="upvote"></upvote-button>
 						</div>
 
