@@ -11,30 +11,45 @@
 	<link rel="stylesheet" href="css/style.css"/>
 
 </head>
-<body>
+<body ng-controller="ListCtrl">
 
-	<div class="app-wrapper" ng-controller="ListCtrl">
-
-		<div ng-controller="ResponsiveCtrl"> <!-- Because only one controller to each element -->
+	<div class="app-wrapper" ng-controller="MapCtrl">
 
 		<!-- the main list/map of items -->
-		<div class="left-column" ng-controller="MapCtrl">
+		<div class="left-column">
 
 			<!-- A directive to handle the map -->
 			<ng-map class="map"  zoom="3" center="59.339025, 18.065818">
 
-				<info-window id="detailsWindow" class="detailsWindow" max-width="1800" >
-					<div ng-non-bindable>
+				<info-window id="detailsWindow" class="detailsWindow" max-width="1400" >
+					<div>
 
-						<header class="skatepark-name">{{ currentSkatepark.skateparkName }}</header>
-						<div class="upvote">
-							<upvote-button ng-controller="RatingCtrl" ng-click="incrementRating(currentSkatepark)"></upvote-button>
-							{{ currentSkatepark.skateparkRating }}
+						<div class='info-row'>
+							<header class="skatepark-name left">{{ currentSkatepark.skateparkName }}</header>
+							<div class='right'>
+								Pictures Here
+							</div>
 						</div>
-						<summary class="skatepark-desc">{{ currentSkatepark.skateparkDesc }}</summary>
-						<div class="skatepark-adder">Added by: {{ currentSkatepark.addedBy }}</div>
-						<div class="skatepark-created">Added on: {{ currentSkatepark.createdAt | date: 'h:mm a, MMM d' }}</div>
 
+						<div class="info-row">
+							<summary class="skatepark-desc">{{ currentSkatepark.skateparkDesc }}</summary>
+						</div>
+
+						<div class='info-row'>
+
+							<div class="left">
+								<upvote-button ng-controller="RatingCtrl" ng-click="incrementRating(currentSkatepark)"></upvote-button>
+								<div class="votes">{{ currentSkatepark.skateparkRating }}</div>
+							</div>
+
+							<div class="right">
+								<div class="skatepark-adder">Added by: {{ currentSkatepark.addedBy }}</div>
+								<div class="skatepark-created">Added on: {{ currentSkatepark.createdAt | date: 'h:mm a, MMM d' }}</div>
+							</div>
+						</div>
+
+
+					
 					</div> 
 				</info-window>
 
@@ -42,7 +57,7 @@
 						position="{{marker.skateparkLocation}}"
 						title="{{marker.skateparkName}}"
 						id="{{marker._id}}"
-						on-click="showSkateparkDetails(event, marker)">
+						on-click="showSkateparkDetails(marker)">
 				</marker>
 
 			</ng-map>
@@ -57,12 +72,12 @@
 					SkateLocate
 					<img src="./img/skate-icon.png" class="skate-icon" alt="skateboard icon" width="64px">
 				</header>
-				<summary class="hide-on-click">Take a look around for a park near you...</summary>
-				<summary class="hide-on-click">Tap on the map to add your own, or comment/vote on an existing!</summary>
+				<summary>Take a look around for a park near you...</summary>
+				<summary>Tap on the map to add your own, or comment/vote on an existing!</summary>
 			</div>
 
 			<!-- highest ranked items -->
-			<div class="highest-voted-items hide-on-click">
+			<div class="highest-voted-items">
 				<h3>Highest Voted</h3>
 
 				<div class="list-of-highest-rated-items">
@@ -79,19 +94,19 @@
 			</div>
 
 			<!-- most recently added items -->
-			<div class="most-recent-items hide-on-click">
+			<div class="most-recent-items">
 				<h3>Most Recent Items</h3>
 				<div class="list-of-most-recent-items">
 					<div ng-repeat="item in rev(allData) | limitTo: 5">
 
-						<div class="item-name">{{ item.skateparkName }}</div>
+						<div class="item-name" ng-click="showSkateparkDetails(item._id, item)">{{ item.skateparkName }}</div>
 
 					</div>
 				</div>
 			</div>
 
 			<!-- search functionality -->
-			<div class="search-for-items hide-on-click" ng-controller="SearchCtrl" >
+			<div class="search-for-items" ng-controller="SearchCtrl" >
 				<form>
 					<input type="text" placeholder="Search" ng-model="searchString" class="fancyInput"></input>
 				</form>
@@ -106,8 +121,6 @@
 
 		</div> <!-- end right hand side -->
 
-		</div>
-
 	</div>
 
 
@@ -118,12 +131,12 @@
 	<script src="../libraries/angular.js"></script>
 	<script src="../libraries/angular-route.js"></script>
 	<script src="../libraries/socket.io.js"></script>
-	<script src="../libraries/ng-map.js"></script>
 
 <!-- API -->
 	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyALYjGkfn-RVIETHo-KCBz_1zbVW1OH-O0"></script>
 
 <!-- Custom JS  -->
+	<script src="../libraries/ng-map.js"></script>
 
 	<script src="js/sockets.js"></script>
 	<script src="js/controllers.js"></script>

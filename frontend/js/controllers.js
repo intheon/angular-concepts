@@ -67,6 +67,8 @@ app.controller("SearchCtrl", ($scope, $http, $rootScope, NgMap) => {
 });
 
 // Controller to handle searching
+
+/*
 app.controller("DetailsController", ($scope, $http, $rootScope, NgMap, searchPark) => {
 
 	$scope.triggerDetails = (item) => {
@@ -76,28 +78,29 @@ app.controller("DetailsController", ($scope, $http, $rootScope, NgMap, searchPar
 	}
 
 });
+*/
 
-// To handle I/O within the google map
+
 app.controller("MapCtrl", ($scope, $http, $rootScope, NgMap, mapService) => {
+
+	var inst = this;
 
 	// This is fired after the server has done it's thing
 	$rootScope.$on("runMapCtrl", () => {
 
-		$scope.map = null;
-
 		// Get the map instance
 		NgMap.getMap().then((map) => {
-			$scope.map = map;
+			inst.map = map;
 
 			// Map map clickable
-			mapService.listenForMarkers($scope.map);
+			mapService.listenForMarkers(inst.map);
 
 		});
 
 		// Not using an arrow function as it messes up the reference to 'this'
 		$scope.showSkateparkDetails = function(event, skatepark) {
 			$scope.currentSkatepark = skatepark;
-		    $scope.map.showInfoWindow('detailsWindow', this);
+		    inst.map.showInfoWindow('detailsWindow', skatepark._id);
 		};
 
 	});
@@ -113,36 +116,5 @@ app.controller("MapCtrl", ($scope, $http, $rootScope, NgMap, mapService) => {
 		$scope.allData.push(data);
 
 	});
-
-});
-
-// To make the application responsive to different platforms 
-app.controller("ResponsiveCtrl", ($scope, $rootScope, NgMap) => {
-
-	$(".skate-icon").click(() => {
-
-		// Fade out the non-needed contents of the right hand panel
-		$(".hide-on-click").addClass("hidden");
-
-		// Change the widths
-		$(".left-column").addClass("big-left");
-		$(".right-column").addClass("little-right");
-
-
-
-		// Force the google map to resize (stops grey from appearing)
-		// (Defered with setTimeout because theres an animation being applied)
-		setTimeout(() => {
-			// Get the google map instance from the NgMap directive
-			NgMap.getMap().then((map) => {
-				// Use this api call to force resize
-				google.maps.event.trigger(map, "resize");
-			});
-
-			$(".hide-on-click").hide();
-		}, 1000);
-
-	});
-
 
 });
