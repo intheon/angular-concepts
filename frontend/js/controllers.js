@@ -1,6 +1,6 @@
 "use strict";
 
-const app = angular.module("testAngular", ["getJson", "ngMap", "mapService"]);
+const app = angular.module("ngSkateApp", ["getJson", "ngMap", "mapService"]);
 
 // Controller for getting data from server and presenting to view
 app.controller("ListCtrl", ($scope, $http, $rootScope, getJson) => {
@@ -40,11 +40,8 @@ app.controller("RatingCtrl", ($scope, $http) => {
 		item.skateparkRating += 1;
 
 		// Send put request to server
-		$http.put("/skateparks/" + item._id, item).success((response) => {
-
-			// Update the scope
-			console.log(response);
-
+		$http.put("/skateparks/" + item._id, item).success((response) => { 
+			// the server doesnt give a response upon success 
 		});
 
 	};
@@ -66,21 +63,7 @@ app.controller("SearchCtrl", ($scope, $http, $rootScope, NgMap) => {
 
 });
 
-// Controller to handle searching
-
-/*
-app.controller("DetailsController", ($scope, $http, $rootScope, NgMap, searchPark) => {
-
-	$scope.triggerDetails = (item) => {
-
-		$scope.map.showInfoWindow('detailsWindow', item);
-
-	}
-
-});
-*/
-
-
+// Controller for Google maps presentation, marker and infoWindow logic
 app.controller("MapCtrl", ($scope, $http, $rootScope, NgMap, mapService) => {
 
 	var inst = this;
@@ -93,7 +76,7 @@ app.controller("MapCtrl", ($scope, $http, $rootScope, NgMap, mapService) => {
 			inst.map = map;
 
 			// Map map clickable
-			mapService.listenForMarkers(inst.map);
+			mapService.createMarker(inst.map);
 
 		});
 

@@ -16,18 +16,21 @@ angular.module("mapService", [])
 		// Object to be returned to Controller
 		let map = {
 
-			listenForMarkers: (mapInstance) => {
+			createMarker: (mapInstance) => {
 
 				google.maps.event.addListener(mapInstance, "click", (event) => {
 
-					// Create a Map marker
+					// Bind the event to a closure constant
+					let meta = event;
+
+					// Create a Map marker placed exactly where the user clicked
 					let MapMarker = new google.maps.Marker({
-						position: event.latLng,
+						position: meta.latLng,
 						map: mapInstance,
 						title: "Add a new Skatepark."
 					});
 
-					// Create an InfoWindow
+					// Create an InfoWindow to be bound to the marker. This will contain the forms to define a new skatepark
 					let InfoWindow = new google.maps.InfoWindow({
 						content: "<form class='add-skate-location' id='skateparkForm'>\
 							<div class='add-skate-location-heading'><input type='text' placeholder='Add the name' id='skateparkName' ng-model='name'></div>\
@@ -40,32 +43,11 @@ angular.module("mapService", [])
 					// Execute the code / add to DOM
 					InfoWindow.open(mapInstance, MapMarker);
 
-					// Listen for form submit
+					// Listen for eventual form submit
+					$("#skateparkSubmit").on("click", meta, () => {
 
-					$("#skateparkSubmit").click(() => {
-
-						const name = $("#skateparkName").val();
-						const adder = $("#skateparkAdder").val();
-						const desc = $("#skateparkDesc").val();
-
-						// Laziest validation ever. Fix this.
-						if (!name || !adder) return;
-
-						// Create a payload ready for DB
-						const payload = {
-							skateparkName: name,
-							skateparkDesc: desc,
-							skateparkRating: 1, 
-							skateparkLocation: [
-								event.latLng.lat(),
-								event.latLng.lng(),
-							],
-							addedBy: adder,
-							createdAt: new Date()
-						}
-
-						// Submit that to db
-						map.submitNewPark(payload);
+						// Grab the data
+						map.retrieveData(meta);
 
 						// Close the open 
 						InfoWindow.close();
@@ -88,19 +70,41 @@ angular.module("mapService", [])
 
 				});
 
-
 			},
 
-			addNewPoint: (pinMeta, $scope) => {
+			retrieveData: (meta) => {
 
-				return map.createNewPinWithInfo(pinMeta, $scope);
+				console.log(meta);
+
+				// Grab the populated values from the dom
+				const name = $("#skateparkName").val();
+				const adder = $("#skateparkAdder").val();
+				const desc = $("#skateparkDesc").val();
+
+				// Laziest validation ever. Fix this.
+				if (!name || !adder) return;
+
+				// Create a payload ready for DB
+				const payload = {
+					skateparkName: name,
+					skateparkDesc: desc,
+					skateparkRating: 1, 
+					skateparkLocation: [
+						meta.latLng.lat(),
+						meta.latLng.lng(),
+					],
+					addedBy: adder,
+					createdAt: new Date()
+				}
+
+				// Submit that to db
+				map.submitNewPark(payload);
 
 			},
 
 			submitNewPark: (payload) => {
 
 				// Saves the skatepark data to the db
-
 				$http.post("/skateparks", payload)
 					.success((data) => {
 
@@ -118,50 +122,9 @@ angular.module("mapService", [])
 						console.log('Error: ' + data);
 					});
 
-			},
-
-			createNewPinWithInfo: (pinMeta) => {
-
-				// Create one single pin. Will be called many times!
-				let pin = new google.maps.Marker({
-
-					// latlng
-					position: {
-						lat: pinMeta.skateparkLocation[0],
-						lng: pinMeta.skateparkLocation[1]
-					},
-
-					// bind to global map
-					//map: mapObj
-				});
-
-				// Create one single infoWindow
-				let info = new google.maps.InfoWindow({
-
-					content: "<div class='info-window-popup'>\
-						<div class='info-window-skatepark-name'>" + pinMeta.skateparkName + "</div>\
-						<div class='info-window-skatepark-desc'>" + pinMeta.skateparkDesc + "</div>\
-						<div class='info-window-skatepark-rating'>" + pinMeta.skateparkRating + "</div>\
-						<div class='info-window-skatepark-adder'>" + pinMeta.addedBy + "</div>\
-						<div class='info-window-skatepark-created'>" + pinMeta.createdAt + "</div>\
-					</div>"
-
-				});
-
-				// When marker is clicked, show infoWindow
-				pin.addListener("click", () => {
-
-					info.open(mapObj, pin);
-
-				});
-
-				// Finally, add this to the scope for future filtering
-				return pin;
-
 			}
 
 		};
-
 
 		return map;
 
