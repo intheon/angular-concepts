@@ -33,10 +33,10 @@ angular.module("mapService", [])
 					// Create an InfoWindow to be bound to the marker. This will contain the forms to define a new skatepark
 					let InfoWindow = new google.maps.InfoWindow({
 						content: "<form class='add-skate-location' id='skateparkForm'>\
-							<div class='add-skate-location-heading'><input type='text' placeholder='Add the name' id='skateparkName' ng-model='name'></div>\
-							<div class='add-skate-location-description'><input type='text' placeholder='Describe it... (Optional)' id='skateparkDesc' ng-model='desc'></div>\
-							<div class='add-skate-location-adder'><input type='text' placeholder='Your name' id='skateparkAdder' ng-model='adder'></div>\
-							<div class='add-skate-location-submit'><input type='button' value='Submit!' id='skateparkSubmit' ></div>\
+							<input type='text' placeholder='Add the name' id='skateparkName' ng-model='name'>\
+							<input type='text' placeholder='Describe it... (Optional)' id='skateparkDesc' ng-model='desc'>\
+							<input type='text' placeholder='Your name' id='skateparkAdder' ng-model='adder'>\
+							<input type='button' value='Submit!' id='skateparkSubmit' >\
 						</form>"
 					});
 
@@ -73,8 +73,6 @@ angular.module("mapService", [])
 			},
 
 			retrieveData: (meta) => {
-
-				console.log(meta);
 
 				// Grab the populated values from the dom
 				const name = $("#skateparkName").val();
