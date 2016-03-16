@@ -9,6 +9,12 @@ app.controller("ListCtrl", ($scope, $http, $rootScope, getJson) => {
 	// Initialise array to store databases response
 	$scope.allData = [];
 
+	$scope.fake = [
+		{
+			skateparkLocation: [0, 0]
+		}
+	]
+
 	$scope.rev = (array) => {
 		let copy = [].concat(array);
 			return copy.reverse();
@@ -19,6 +25,9 @@ app.controller("ListCtrl", ($scope, $http, $rootScope, getJson) => {
 
 		// Store the response in the array
 		$scope.allData = response;
+
+		console.log($scope.allData);
+
 
 	}).then((response) => {
 
@@ -77,6 +86,33 @@ app.controller("MapCtrl", ($scope, $http, $rootScope, NgMap, mapService) => {
 
 			// Map map clickable
 			mapService.createMarker(inst.map);
+
+			// Show at least one so it gets added to the DOM
+		    inst.map.showInfoWindow('detailsWindow', "showMePlease");
+
+			$scope.fake = [];
+
+
+
+
+			// Remove the horrible default infowindow style
+			// This is a hack and I hate using setTimeout, but Google don't let you modify the infoWindow easily!
+			setTimeout(() => {
+
+				inst.map.hideInfoWindow('detailsWindow', "showMePlease");
+
+
+			
+				const iwOuter = $('.gm-style-iw');
+				const iwBackground = iwOuter.prev();
+
+				iwBackground.children(':nth-child(2)').css({'display' : 'none'});
+
+				// Remove the white background DIV
+				iwBackground.children(':nth-child(4)').css({'display' : 'none'});
+
+			}, 1)
+
 
 		});
 

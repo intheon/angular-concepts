@@ -52,11 +52,18 @@
 							</div>
 				</info-window>
 
+
+
 				<marker ng-repeat="marker in allData | filter: parks" 
 						position="{{marker.skateparkLocation}}"
 						title="{{marker.skateparkName}}"
 						id="{{marker._id}}"
 						on-click="showSkateparkDetails(marker)">
+				</marker>
+
+				<marker ng-repeat="marker in fake" 
+						position="{{marker.skateparkLocation}}"
+						id="showMePlease"
 				</marker>
 
 			</ng-map>
@@ -149,6 +156,21 @@
 	<script src="js/factories.js"></script>
 	<script src="js/filters.js"></script>
 
+<script>
+	
+
+/*
+
+setTimeout(function(){
+
+	$(".ng-map-info-window div:first-child").css("color", "red");
+
+},5000)
+
+
+*/
+
+</script>
 
 
 </body>
