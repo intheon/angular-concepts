@@ -93,8 +93,6 @@ app.controller("MapCtrl", ($scope, $http, $rootScope, NgMap, mapService) => {
 			$scope.fake = [];
 
 
-
-
 			// Remove the horrible default infowindow style
 			// This is a hack and I hate using setTimeout, but Google don't let you modify the infoWindow easily!
 			setTimeout(() => {
@@ -102,14 +100,15 @@ app.controller("MapCtrl", ($scope, $http, $rootScope, NgMap, mapService) => {
 				inst.map.hideInfoWindow('detailsWindow', "showMePlease");
 
 
-			
 				const iwOuter = $('.gm-style-iw');
 				const iwBackground = iwOuter.prev();
 
+				// Remove the InfoWindow Frame
+				iwBackground.children(':nth-child(1)').css({'display' : 'none'});
 				iwBackground.children(':nth-child(2)').css({'display' : 'none'});
-
-				// Remove the white background DIV
+				iwBackground.children(':nth-child(3)').css({'display' : 'none'});
 				iwBackground.children(':nth-child(4)').css({'display' : 'none'});
+
 
 			}, 1)
 

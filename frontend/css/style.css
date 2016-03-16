@@ -167,6 +167,20 @@ html, body
 	overflow: hidden;
 }
 
+.ng-map-info-window
+{
+	margin-top: 30px;
+}
+
+
+.customInfoWindowPosition
+{
+	display:none;
+}
+
+
+
+
 
 .add-skate-location
 {
