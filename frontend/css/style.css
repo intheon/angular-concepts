@@ -3,25 +3,37 @@
 @font-face {
 	font-family: 'coming';
 	font-style: normal;
-	src: url('./fonts/coming.eot');
-	src: url('./fonts/coming.eot?#iefix') format('embedded-opentype'),
+	src: url('../font/coming/coming.eot');
+	src: url('../font/coming/coming.eot?#iefix') format('embedded-opentype'),
 		local('coming'),
 		local('coming'),
-		url('./fonts/coming.woff2') format('woff2'),
-		url('./fonts/coming.woff') format('woff'),
-		url('./fonts/coming.ttf') format('truetype'),
-		url('./fonts/coming.svg#coming') format('svg');
+		url('../font/coming/coming.woff2') format('woff2'),
+		url('../font/coming/coming.woff') format('woff'),
+		url('../font/coming/coming.ttf') format('truetype'),
+		url('../font/coming/coming.svg#coming') format('svg');
 }
 
 @font-face {
 	font-family: "skatemap";
-	src:url("fonts/skatemap.eot");
-	src:url("fonts/skatemap.eot?#iefix") format("embedded-opentype"),
-		url("fonts/skatemap.woff") format("woff"),
-		url("fonts/skatemap.ttf") format("truetype"),
-		url("fonts/skatemap.svg#skatemap") format("svg");
+	src:url("../font/skatemap/skatemap.eot");
+	src:url("../font/skatemap/skatemap.eot?#iefix") format("embedded-opentype"),
+		url("../font/skatemap/skatemap.woff") format("woff"),
+		url("../font/skatemap/skatemap.ttf") format("truetype"),
+		url("../font/skatemap/skatemap.svg#skatemap") format("svg");
 	font-weight: normal;
 	font-style: normal;
+}
+
+@font-face {
+  font-family: 'material';
+  font-style: normal;
+  font-weight: 400;
+  src: url("../font/material/material.eot"); /* For IE6-8 */
+  src: local('material'),
+       local('material'),
+       url("../font/material/material.woff2") format('woff2'),
+       url("../font/material/material.woff") format('woff'),
+       url("../font/material/material.ttf") format('truetype');
 }
 
 
@@ -43,6 +55,31 @@
 }
 .icon-connectdevelop:before {
   content: "\62";
+}
+
+.material-icons {
+  font-family: 'material';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;  /* Preferred icon size */
+  display: inline-block;
+  line-height: 1;
+  text-transform: none;
+  letter-spacing: normal;
+  word-wrap: normal;
+  white-space: nowrap;
+  direction: ltr;
+
+  /* Support for all WebKit browsers. */
+  -webkit-font-smoothing: antialiased;
+  /* Support for Safari and Chrome. */
+  text-rendering: optimizeLegibility;
+
+  /* Support for Firefox. */
+  -moz-osx-font-smoothing: grayscale;
+
+  /* Support for IE. */
+  font-feature-settings: 'liga';
 }
 
 html, body
@@ -122,38 +159,6 @@ html, body
 }
 
 
-input[type="text"]
-{
-	float:left;
-	width:auto;
-	padding: 1%;
-	width:90%;
-}
-
-::-webkit-input-placeholder { /* WebKit, Blink, Edge */
-    color:    #D4DEEB;
-}
-
-input[type="submit"]
-{
-	float:left;
-	padding: 1%;
-	margin:1%;
-	width:93%;
-}
-
-.add-skate-location input[type="text"]
-{
-	outline: none;
-	border: 0;
-	padding: 2%;
-	margin:1%;
-	color: #000000 !important;
-	font-family: coming;
-	font-size:1.2em;
-
-}
-
 .gm-style-iw {
   width: 400px !important; 
 }
@@ -186,14 +191,6 @@ input[type="submit"]
 	float:right;
 }
 
-
-
-.row
-{
-	padding-top:1%;
-	padding-right:1%;
-}
-
 .upvote
 {
 	font-size:2em;
@@ -204,11 +201,6 @@ input[type="submit"]
 .upvote:hover
 {
 	opacity: 0.2;
-
-}
-
-.rating
-{
 
 }
 
@@ -326,32 +318,6 @@ svg line {
 {
 	position:absolute;
 	bottom:0;
-}
-
-.fancyInput
-{
-	margin:0 !important;
-	padding:0 !important;
-	border: 0;
-	outline: 0;
-	font-size:3em;
-	transition: all 0.6s;
-	color: transparent;
-	text-shadow: 0 0 0 #C5D3E7;
-	width:100%;
-}
-
-
-.fancyInput:focus
-{
-	color: transparent;
-	text-shadow: 0 0 0 #B2C3D9;
-	font-size:2em;
-}
-
-.fancyInput:focus::-webkit-input-placeholder
-{
-	color:transparent;
 }
 
 .skate-icon

@@ -8,7 +8,12 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 
 	<!-- CSS -->
+	<link rel="stylesheet" href="css/material.css"/>
 	<link rel="stylesheet" href="css/style.css"/>
+
+	<!-- Icons -->
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
 
 </head>
 <body ng-controller="ListCtrl">
@@ -21,35 +26,30 @@
 			<!-- A directive to handle the map -->
 			<ng-map class="map"  zoom="3" center="59.339025, 18.065818">
 
-				<info-window id="detailsWindow" class="detailsWindow" max-width="1400" >
-					<div>
+				<info-window id="detailsWindow" class="detailsWindow" max-width="1400">
+							<div class="card medium">
 
-						<div class='info-row'>
-							<header class="skatepark-name left">{{ currentSkatepark.skateparkName }}</header>
-							<div class='right'>
-								Pictures Here
+								<div class="card-image">
+									<img src="img/viccy.jpg">
+									<span class="card-title">{{ currentSkatepark.skateparkName }}</span>
+								</div>
+
+								<div class="card-content">
+									
+									{{ currentSkatepark.skateparkDesc }}
+
+								</div>
+
+								<div class="card-action">
+									
+									<upvote-button ng-controller="RatingCtrl" ng-click="incrementRating(currentSkatepark)"></upvote-button>
+									<div class="votes">{{ currentSkatepark.skateparkRating }}</div>
+
+									<div class="skatepark-adder">Added by: {{ currentSkatepark.addedBy }}</div>
+									<div class="skatepark-created">Added on: {{ currentSkatepark.createdAt | date: 'h:mm a, MMM d' }}</div>
+
+								</div>
 							</div>
-						</div>
-
-						<div class="info-row">
-							<summary class="skatepark-desc">{{ currentSkatepark.skateparkDesc }}</summary>
-						</div>
-
-						<div class='info-row'>
-
-							<div class="left">
-								<upvote-button ng-controller="RatingCtrl" ng-click="incrementRating(currentSkatepark)"></upvote-button>
-								<div class="votes">{{ currentSkatepark.skateparkRating }}</div>
-							</div>
-
-							<div class="right">
-								<div class="skatepark-adder">Added by: {{ currentSkatepark.addedBy }}</div>
-								<div class="skatepark-created">Added on: {{ currentSkatepark.createdAt | date: 'h:mm a, MMM d' }}</div>
-							</div>
-						</div>
-
-
-					</div> 
 				</info-window>
 
 				<marker ng-repeat="marker in allData | filter: parks" 
@@ -109,10 +109,11 @@
 
 			<!-- search functionality -->
 			<div class="search-for-items" ng-controller="SearchCtrl" >
-
-				<form>
-					<input type="text" placeholder="Search" ng-model="searchString" class="fancyInput"></input>
-				</form>
+				<div class="input-field">
+					<i class="material-icons prefix">search</i>
+					<input type="text" ng-model="searchString" id="search-parks" class="col s12"></input>
+					<label for="search-parks">Search</label>
+				</div>
 			</div>
 
 			<div class="connection-info-triangle"></div>
@@ -134,6 +135,7 @@
 	<script src="../libraries/angular.js"></script>
 	<script src="../libraries/angular-route.js"></script>
 	<script src="../libraries/socket.io.js"></script>
+	<script src="../libraries/material.js"></script>
 
 <!-- API -->
 	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyALYjGkfn-RVIETHo-KCBz_1zbVW1OH-O0"></script>
