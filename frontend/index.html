@@ -20,6 +20,20 @@
 
 	<div class="app-wrapper" ng-controller="MapCtrl">
 
+		<div class="preload">
+		  <div class="preloader-wrapper big active">
+		    <div class="spinner-layer spinner-blue-only">
+		      <div class="circle-clipper left">
+		        <div class="circle"></div>
+		      </div><div class="gap-patch">
+		        <div class="circle"></div>
+		      </div><div class="circle-clipper right">
+		        <div class="circle"></div>
+		      </div>
+		    </div>
+		  </div>
+		</div>
+
 		<!-- the main list/map of items -->
 		<div class="left-column">
 
@@ -36,17 +50,25 @@
 
 								<div class="card-content">
 									
-									{{ currentSkatepark.skateparkDesc }}
+									<div class="row">
+										<div class="desc col 12">{{ currentSkatepark.skateparkDesc }}</div>
+									</div>
 
 								</div>
 
 								<div class="card-action">
 									
-									<upvote-button ng-controller="RatingCtrl" ng-click="incrementRating(currentSkatepark)"></upvote-button>
-									<div class="votes">{{ currentSkatepark.skateparkRating }}</div>
+									<div class="row">
 
-									<div class="skatepark-adder">Added by: {{ currentSkatepark.addedBy }}</div>
-									<div class="skatepark-created">Added on: {{ currentSkatepark.createdAt | date: 'h:mm a, MMM d' }}</div>
+										<div class="added col s9">
+											<div class="added-by">Added by: {{ currentSkatepark.addedBy }} <span class="small">({{ currentSkatepark.createdAt | date: 'h:mm a, MMM d' }})</span></div>
+										</div>
+
+										<div class="votes col s3">
+											<div ng-controller="RatingCtrl" ng-click="incrementRating(currentSkatepark)" class="votes">{{ currentSkatepark.skateparkRating }} votes ^</div>
+										</div>
+
+									</div>
 
 								</div>
 							</div>
@@ -75,8 +97,8 @@
 			<!-- First row: Header -->
 			<div class="row">
 				<header class="site-title">
-					SkateLocate
-					<img src="./img/skate-icon.png" class="skate-icon" alt="skateboard icon" width="64px">
+					<h2>SkateLocate
+					<img src="./img/skate-icon.png" class="skate-icon" alt="skateboard icon" width="64px"><h2>
 				</header>
 				<summary>Take a look around for a park near you...</summary>
 				<summary>Tap on the map to add your own, or comment/vote on an existing!</summary>
@@ -85,26 +107,22 @@
 
 			<!-- highest ranked items -->
 			<div class="highest-voted-items">
-				<h3>Highest Voted</h3>
+				<h5>Highest Voted</h5>
 
-				<div class="list-of-highest-rated-items">
-					<div ng-repeat="item in allData | orderBy: '-skateparkRating' | limitTo: 6">
+				<div ng-repeat="item in allData | orderBy: '-skateparkRating' | limitTo: 6" class="list-of-highest-rated-items row"  ng-controller="RatingCtrl">
 
-						<div class="item-name" ng-controller="RatingCtrl">
-							<div class="meta" ng-click="showSkateparkDetails(item._id, item)">
-								<div class="rating">{{ item.skateparkRating }}</div>
-								<div class="name">{{ item.skateparkName }}</div>
-							</div>
-							<upvote-button ng-click="incrementRating(item)" class="upvote"></upvote-button>
-						</div>
-
+					<div class="meta" ng-click="showSkateparkDetails(item._id, item)">
+						<div class="roundBadge col s2">{{ item.skateparkRating }}</div>
+						<div class="inlineTitle col s9">{{ item.skateparkName }}</div>
+						<upvote-button ng-click="incrementRating(item)" class="col s1"></upvote-button>
 					</div>
+
 				</div>
 			</div>
 
 			<!-- most recently added items -->
 			<div class="most-recent-items">
-				<h3>Most Recent Items</h3>
+				<h5>Most Recent Items</h5>
 				<div class="list-of-most-recent-items">
 					<div ng-repeat="item in rev(allData) | limitTo: 5">
 

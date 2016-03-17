@@ -109,6 +109,18 @@ html, body
 	width:30%;
 }
 
+.preload
+{
+	width: 100%;
+	height: 100%;
+	padding-top: 25%;
+	padding-left: 50%;
+	background: white;
+	position: absolute;
+	z-index: 7000;
+	overflow:hidden;
+}
+
 .map
 {
 	margin-right: 2%;
@@ -226,7 +238,7 @@ html, body
 	right: 0;
 	width: 0;
 	height: 0;
-	border-bottom: 100px solid #C6DFB9;
+	border-bottom: 100px solid #dcedc8;
 	border-left: 100px solid transparent;
 }
 
@@ -312,6 +324,35 @@ html, body
 	opacity: 0.0;
 }
 
+.small
+{
+	font-size: 0.8em;
+	opacity: 0.9;
+}
+
+.list-of-higest-rated-items
+{
+
+}
+
+.roundBadge
+{
+	background:#dcedc8;
+	border-radius:21px;
+	width:42px;
+	height:42px;
+	font-size:1.7em;
+	padding-left:8px !important;
+	padding-top:5px !important;
+	max-width:42px;
+	font-weight:500;
+
+}
+
+.inlineTitle
+{
+	font-size: 1.7em;
+}
 @media ( max-width: 1000px )
 {
 	.left-column

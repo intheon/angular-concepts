@@ -80,6 +80,7 @@ app.controller("MapCtrl", ($scope, $http, $rootScope, NgMap, mapService) => {
 	// This is fired after the server has done it's thing
 	$rootScope.$on("runMapCtrl", () => {
 
+
 		// Get the map instance
 		NgMap.getMap().then((map) => {
 			inst.map = map;
@@ -109,6 +110,15 @@ app.controller("MapCtrl", ($scope, $http, $rootScope, NgMap, mapService) => {
 				iwBackground.children(':nth-child(3)').css({'display' : 'none'});
 				iwBackground.children(':nth-child(4)').css({'display' : 'none'});
 
+
+				setTimeout(() => {
+
+					// Remove preloader
+						$(".preload").fadeOut(() => {
+							$(this).hide();
+						})
+
+				}, 300)
 
 			}, 1)
 
