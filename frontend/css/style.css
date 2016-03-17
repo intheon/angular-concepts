@@ -230,7 +230,6 @@ html, body
 	font-size:1.3em;
 }
 
-
 .connection-info-triangle
 {
 	position: absolute;
@@ -277,8 +276,6 @@ html, body
 
 .search-for-items
 {
-	position:absolute;
-	bottom:0;
 }
 
 .skate-icon
@@ -335,19 +332,33 @@ html, body
 
 }
 
-.roundBadge
+.collection .collection-item.avatar
 {
-	background:#dcedc8;
-	border-radius:21px;
-	width:42px;
-	height:42px;
-	font-size:1.7em;
-	padding-left:8px !important;
-	padding-top:5px !important;
-	max-width:42px;
-	font-weight:500;
+	min-height: 2px !important;
+}
+
+
+.badge
+{
+	display: relative !important;
+	content: "";
+}
+
+.absolute-label
+{
+	display:inline;
+	font-size: 1.6em;
+		position: absolute;
+		z-index:5;
+		margin-left:-50px;
+		margin-top:10px;
+		color: white;
+		text-align:center;
+		font-family:arial;
+	text-align: center;
 
 }
+
 
 .inlineTitle
 {

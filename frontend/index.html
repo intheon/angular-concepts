@@ -94,50 +94,57 @@
 
 		<div class="right-column">
 
-			<!-- First row: Header -->
+			<!-- First row -->
 			<div class="row">
-				<header class="site-title">
-					<h2>SkateLocate
-					<img src="./img/skate-icon.png" class="skate-icon" alt="skateboard icon" width="64px"><h2>
-				</header>
-				<summary>Take a look around for a park near you...</summary>
-				<summary>Tap on the map to add your own, or comment/vote on an existing!</summary>
+
+				<div class="col s10">
+					<header class="site-title">
+						<h2>SkateLocate
+						<img src="./img/skate-icon.png" class="skate-icon" alt="skateboard icon" width="64px"><h2>
+					</header>
+
+					<div class="search-for-items" ng-controller="SearchCtrl">
+						<div class="input-field">
+							<i class="material-icons prefix">search</i>
+							<input type="text" ng-model="searchString" id="search-parks"></input>
+							<label for="search-parks">Search</label>
+						</div>
+					</div>
+
+				</div>
 
 			</div>
 
-			<!-- highest ranked items -->
-			<div class="highest-voted-items">
-				<h5>Highest Voted</h5>
 
-				<div ng-repeat="item in allData | orderBy: '-skateparkRating' | limitTo: 6" class="list-of-highest-rated-items row"  ng-controller="RatingCtrl">
+			<!-- Third Row: Highest ranked items -->
+			<div class="row">
+				<div class="highest-voted-items col s10">
+					<h5>Highest Voted</h5>
 
-					<div class="meta" ng-click="showSkateparkDetails(item._id, item)">
-						<div class="roundBadge col s2">{{ item.skateparkRating }}</div>
-						<div class="inlineTitle col s9">{{ item.skateparkName }}</div>
-						<upvote-button ng-click="incrementRating(item)" class="col s1"></upvote-button>
-					</div>
+					<ul ng-repeat="item in allData | orderBy: '-skateparkRating' | limitTo: 6" class="list-of-highest-rated-items collection"  ng-controller="RatingCtrl">
 
+						<li class="collection-item avatar" ng-click="showSkateparkDetails(item._id, item)">
+							<span class="absolute-label">{{ item.skateparkRating }}</span><i class="material-icons circle"></i>
+							<span class="title">{{ item.skateparkName }}</span>
+							<p>{{ item.skateparkRating }} </p>
+							<upvote-button ng-click="incrementRating(item)" class="secondary-content"></upvote-button>
+						</li>
+
+					</ul>
 				</div>
 			</div>
 
 			<!-- most recently added items -->
-			<div class="most-recent-items">
-				<h5>Most Recent Items</h5>
-				<div class="list-of-most-recent-items">
-					<div ng-repeat="item in rev(allData) | limitTo: 5">
+			<div class="row">
+				<div class="most-recent-items">
+					<h5>Most Recent Items</h5>
+					<div class="list-of-most-recent-items">
+						<div ng-repeat="item in rev(allData) | limitTo: 5">
 
-						<div class="item-name" ng-click="showSkateparkDetails(item._id, item)">{{ item.skateparkName }}</div>
+							<div class="item-name" ng-click="showSkateparkDetails(item._id, item)">{{ item.skateparkName }} <span class="small"> {{ item.createdAt | date: 'h:mm a, MMM d' }} by {{ item.addedBy }} </span></div>
 
+						</div>
 					</div>
-				</div>
-			</div>
-
-			<!-- search functionality -->
-			<div class="search-for-items" ng-controller="SearchCtrl" >
-				<div class="input-field">
-					<i class="material-icons prefix">search</i>
-					<input type="text" ng-model="searchString" id="search-parks" class="col s12"></input>
-					<label for="search-parks">Search</label>
 				</div>
 			</div>
 
