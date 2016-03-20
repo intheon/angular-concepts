@@ -5,7 +5,7 @@
 
 $(".skate-icon").click(() => {
 
-	Responsive.shrinkRightPanel();
+	//Responsive.shrinkRightPanel();
 
 });
 

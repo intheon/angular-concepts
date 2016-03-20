@@ -26,6 +26,7 @@ app.controller("ListCtrl", ($scope, $http, $rootScope, getJson) => {
 		// Store the response in the array
 		$scope.allData = response;
 
+		//console.log($scope.allData);
 
 	}).then((response) => {
 
@@ -41,7 +42,7 @@ app.controller("ListCtrl", ($scope, $http, $rootScope, getJson) => {
 
 
 // Controller to handle ratings / upvotes
-app.controller("RatingCtrl", ($scope, $http, localStorageService) => {
+app.controller("RatingCtrl", ($scope, $rootScope, $http, localStorageService) => {
 
 	// A button in the view fires this method
 	// It's bound to the scope, so automagically updates
@@ -64,6 +65,9 @@ app.controller("RatingCtrl", ($scope, $http, localStorageService) => {
 					currents.push(response);
 
 					localStorageService.set("spUsrHasAdded", currents);
+
+				// Tell the vote controller to do its thing
+				$rootScope.$broadcast("runVoteCtrl");
 
 			}
 
@@ -92,6 +96,8 @@ app.controller("SearchCtrl", ($scope, $http, $rootScope, NgMap) => {
 app.controller("MapCtrl", ($scope, $http, $rootScope, NgMap, mapService) => {
 
 	var inst = this;
+
+	$scope.styles = [{"featureType":"water","elementType":"all","stylers":[{"hue":"#76aee3"},{"saturation":38},{"lightness":-11},{"visibility":"on"}]},{"featureType":"road.highway","elementType":"all","stylers":[{"hue":"#8dc749"},{"saturation":-47},{"lightness":-17},{"visibility":"on"}]},{"featureType":"poi.park","elementType":"all","stylers":[{"hue":"#c6e3a4"},{"saturation":17},{"lightness":-2},{"visibility":"on"}]},{"featureType":"road.arterial","elementType":"all","stylers":[{"hue":"#cccccc"},{"saturation":-100},{"lightness":13},{"visibility":"on"}]},{"featureType":"administrative.land_parcel","elementType":"all","stylers":[{"hue":"#5f5855"},{"saturation":6},{"lightness":-31},{"visibility":"on"}]},{"featureType":"road.local","elementType":"all","stylers":[{"hue":"#ffffff"},{"saturation":-100},{"lightness":100},{"visibility":"simplified"}]},{"featureType":"water","elementType":"all","stylers":[]}]
 
 	// This is fired after the server has done it's thing
 	$rootScope.$on("runMapCtrl", () => {
