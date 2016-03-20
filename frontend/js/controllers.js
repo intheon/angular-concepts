@@ -1,6 +1,6 @@
 "use strict";
 
-const app = angular.module("ngSkateApp", ["getJson", "ngMap", "mapService"]);
+const app = angular.module("ngSkateApp", ["getJson", "ngMap", "mapService", "localStorageService"]);
 
 // Controller for getting data from server and presenting to view
 app.controller("ListCtrl", ($scope, $http, $rootScope, getJson) => {
@@ -26,13 +26,14 @@ app.controller("ListCtrl", ($scope, $http, $rootScope, getJson) => {
 		// Store the response in the array
 		$scope.allData = response;
 
-		console.log($scope.allData);
-
 
 	}).then((response) => {
 
 			// Tell the map controller to do its thing
 			$rootScope.$broadcast("runMapCtrl");
+
+			// Tell the vote controller to do its thing
+			$rootScope.$broadcast("runVoteCtrl");
 
 		});
 
@@ -40,17 +41,32 @@ app.controller("ListCtrl", ($scope, $http, $rootScope, getJson) => {
 
 
 // Controller to handle ratings / upvotes
-app.controller("RatingCtrl", ($scope, $http) => {
+app.controller("RatingCtrl", ($scope, $http, localStorageService) => {
 
 	// A button in the view fires this method
 	// It's bound to the scope, so automagically updates
 	$scope.incrementRating = (item) => {
 
+		// Update the local scope
 		item.skateparkRating += 1;
 
 		// Send put request to server
 		$http.put("/skateparks/" + item._id, item).success((response) => { 
-			// the server doesnt give a response upon success 
+
+			// Once success has been reached, add a reference to localStorage to this particular item can't get upvoted by this device (can work around this by clearing browser cache / different browser but sufficient for this example)
+
+			// init new localstorage
+			if (!localStorageService.get("spUsrHasAdded")) localStorageService.set("spUsrHasAdded", [response]);
+			else
+			{
+				// append to existing
+				let currents = localStorageService.get("spUsrHasAdded");
+					currents.push(response);
+
+					localStorageService.set("spUsrHasAdded", currents);
+
+			}
+
 		});
 
 	};
@@ -144,5 +160,37 @@ app.controller("MapCtrl", ($scope, $http, $rootScope, NgMap, mapService) => {
 		$scope.allData.push(data);
 
 	});
+
+});
+
+// Vote Controller - to allow the user only be able to vote on an item once
+
+app.controller("VoteCtrl", ($scope, $rootScope, localStorageService) => {
+
+	$rootScope.$on("runVoteCtrl", () => {
+
+		// add a prop to each element in the allData array to mention if it matches the id of that in LocalStorage
+
+		let votedFor = localStorageService.get("spUsrHasAdded");
+
+		// NOTE, this can definitely be optimised, but i need to read up on the big O to find out the best way
+		// Cycle through all data 
+
+
+		$.each($scope.allData, (allDataPointer, allDataVal) => {
+
+			// sub-list: cycle through localstorage data
+			$.each(votedFor, (lsPointer, lsVal) => {
+
+				if (allDataVal._id === lsVal._id)
+				{
+					$scope.allData[allDataPointer].hasVote = true;
+				}
+
+			});
+
+
+		});
+	})
 
 });

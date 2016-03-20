@@ -69,6 +69,8 @@ module.exports = function(app) {
 
 			if (err) return res.send(500, { error: err });
 
+			res.json(b);
+
 		});
 
 

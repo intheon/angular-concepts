@@ -107,6 +107,7 @@ html, body
 {
 	float:left;
 	width:30%;
+	padding-right:2%;
 }
 
 .preload
@@ -138,6 +139,11 @@ html, body
 	float:left;
 	opacity:1;
 	transition:1s all;
+}
+
+.mouse-clickable:hover
+{
+	cursor: pointer;
 }
 
 .name 
@@ -334,9 +340,14 @@ html, body
 
 .collection .collection-item.avatar
 {
-	min-height: 2px !important;
+	min-height: 65px !important;
 }
 
+.collection .collection-item.avatar .title 
+{
+	padding-top: 10px;
+	display:block;
+}
 
 .badge
 {
@@ -348,15 +359,20 @@ html, body
 {
 	display:inline;
 	font-size: 1.6em;
-		position: absolute;
-		z-index:5;
-		margin-left:-50px;
-		margin-top:10px;
-		color: white;
-		text-align:center;
-		font-family:arial;
+	line-height:23px;
+	position: absolute;
+	z-index:5;
+	margin-left:-49px;
+	margin-top:11px;
+	color: #85A374;
+	text-align:center;
 	text-align: center;
 
+}
+
+.collection .collection-item.avatar i.circle
+{
+	background: #dcedc8;	
 }
 
 
