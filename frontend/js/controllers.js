@@ -26,7 +26,7 @@ app.controller("ListCtrl", ($scope, $http, $rootScope, getJson) => {
 		// Store the response in the array
 		$scope.allData = response;
 
-		//console.log($scope.allData);
+		console.log($scope.allData);
 
 	}).then((response) => {
 
@@ -101,7 +101,6 @@ app.controller("MapCtrl", ($scope, $http, $rootScope, NgMap, mapService) => {
 
 	// This is fired after the server has done it's thing
 	$rootScope.$on("runMapCtrl", () => {
-
 
 		// Get the map instance
 		NgMap.getMap().then((map) => {
@@ -181,7 +180,6 @@ app.controller("VoteCtrl", ($scope, $rootScope, localStorageService) => {
 
 		// NOTE, this can definitely be optimised, but i need to read up on the big O to find out the best way
 		// Cycle through all data 
-
 
 		$.each($scope.allData, (allDataPointer, allDataVal) => {
 
