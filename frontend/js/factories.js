@@ -11,31 +11,16 @@ angular.module("getJson", [])
 
 // A factory to load A Google Map
 angular.module("mapService", [])
-	.factory("mapService", ($http, $rootScope) => {
-
-		var ospry = new Ospry("pk-test-22jft3ap9hbixutk497qs3ec");
-
+	.factory("mapService", ($http, $rootScope, Upload) => {
 
 		// Object to be returned to Controller
 		let map = {
 
-			createMarker: (mapInstance) => {
+			returnInfoWindow: () => {
 
-				google.maps.event.addListener(mapInstance, "click", (event) => {
-
-					// Bind the event to a closure constant
-					let meta = event;
-
-					// Create a Map marker placed exactly where the user clicked
-					let MapMarker = new google.maps.Marker({
-						position: meta.latLng,
-						map: mapInstance,
-						title: "Add a new Skatepark."
-					});
-
-					// Create an InfoWindow to be bound to the marker. This will contain the forms to define a new skatepark
-					let InfoWindow = new google.maps.InfoWindow({
-						content: "<form class='add-skate-location' id='skateparkForm' action='#'>\
+				// Create an InfoWindow to be bound to the marker. This will contain the forms to define a new skatepark
+					const InfoWindow = new google.maps.InfoWindow({
+						content: "<form class='add-skate-location' id='skateparkForm' action='#' ng-controller='newSkateparkCtrl'>\
 							<div class='input-field row'>\
 								<i class='material-icons prefix'>room</i>\
 								<input type='text' id='skateparkName' ng-model='name'>\
@@ -54,14 +39,80 @@ angular.module("mapService", [])
 							<div class='file-field input-field row'>\
 								<div class='btn'>\
 									<span>File</div>\
-									<input type='file' multiple accept='image/*' id='screenshotUpload' name='files' data-url='files'>\
+									<input type='file' ngf-select ng-model='screenshot' ngf-multiple='true' accept='image/*' ngf-max-size='4MB' id='screenshotUpload'>\
 									<div class='file-path-wrapper'>\
 										<input class='file-path validate' type='text' placeholder='upload some screenshots'>\
 									</div>\
 								</div>\
 							</div>\
 							<div class='row'>\
-								<input type='button' value='Submit!' id='skateparkSubmit' class='waves-effect waves-light btn col s12'>\
+								<input type='button' value='Submit!' id='skateparkSubmit' class='waves-effect waves-light btn col s12' ng-click='submitNewSkateparkForm()'>\
+							</div>\
+						</form>"
+					});
+
+				return InfoWindow;
+
+			},
+
+			returnMarker: (mapInstance, event) => {
+
+				const meta = event;
+
+				// Create a Map marker placed exactly where the user clicked
+				const MapMarker = new google.maps.Marker({
+						position: meta.latLng,
+						map: mapInstance,
+						title: "Add a new Skatepark."
+					});
+
+				return MapMarker;
+
+			},
+
+			createMarker: (mapInstance) => {
+
+				google.maps.event.addListener(mapInstance, "click", (event) => {
+
+					// Bind the event to a closure constant
+					let meta = event;
+
+					// Create a Map marker placed exactly where the user clicked
+					let MapMarker = new google.maps.Marker({
+						position: meta.latLng,
+						map: mapInstance,
+						title: "Add a new Skatepark."
+					});
+
+					// Create an InfoWindow to be bound to the marker. This will contain the forms to define a new skatepark
+					let InfoWindow = new google.maps.InfoWindow({
+						content: "<form class='add-skate-location' id='skateparkForm' action='#' ng-controller='newSkateparkCtrl'>\
+							<div class='input-field row'>\
+								<i class='material-icons prefix'>room</i>\
+								<input type='text' id='skateparkName' ng-model='name'>\
+								<label for='skateparkName'>Skatepark Name</label>\
+							</div>\
+							<div class='input-field row'>\
+								<i class='material-icons prefix'>perm_identity</i>\
+								<input type='text' id='skateparkAdder' ng-model='name'>\
+								<label for='skateparkAdder'>Your name</label>\
+							</div>\
+							<div class='input-field row'>\
+								<i class='material-icons prefix'>mode_edit</i>\
+								<textarea class='materialize-textarea' id='skateparkDesc'></textarea>\
+								<label for='skateparkDesc'>A description - Optional.</label>\
+							</div>\
+							<div class='file-field input-field row'>\
+								<div class='btn'>\
+									<span>File</div>\
+									<input type='file' ngf-select ng-model='screenshot' ngf-multiple='true' accept='image/*' ngf-max-size='4MB' id='screenshotUpload'>\
+									<div class='file-path-wrapper'>\
+										<input class='file-path validate' type='text' placeholder='upload some screenshots'>\
+									</div>\
+								</div>\
+							</div>\
+							<div class='row'>\
+								<input type='button' value='Submit!' id='skateparkSubmit' class='waves-effect waves-light btn col s12' ng-click='submitNewSkateparkForm()'>\
 							</div>\
 						</form>"
 					});
@@ -70,6 +121,8 @@ angular.module("mapService", [])
 					InfoWindow.open(mapInstance, MapMarker);
 
 					// Listen for eventual form submit
+
+					/*
 					$("#skateparkSubmit").on("click", meta, () => {
 
 						console.log("about to attempt");
@@ -94,10 +147,11 @@ angular.module("mapService", [])
 
 						});
 
-						*/
 
 						// Grab the data
 						map.retrieveData(meta);
+
+
 
 						// Close the open 
 						InfoWindow.close();
@@ -106,6 +160,8 @@ angular.module("mapService", [])
 						MapMarker.setMap(null);
 
 					});
+
+					*/
 
 					// Housekeeping to dismiss both current InfoWindow and to discard unused marker
 					google.maps.event.addListener(mapInstance, "click", (event) => {

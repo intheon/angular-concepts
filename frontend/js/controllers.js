@@ -1,6 +1,6 @@
 "use strict";
 
-const app = angular.module("ngSkateApp", ["getJson", "ngMap", "mapService", "localStorageService"]);
+const app = angular.module("ngSkateApp", ["getJson", "ngMap", "mapService", "localStorageService", "cloudinary", "ngFileUpload"]);
 
 // Controller for getting data from server and presenting to view
 app.controller("ListCtrl", ($scope, $http, $rootScope, getJson) => {
@@ -93,7 +93,7 @@ app.controller("SearchCtrl", ($scope, $http, $rootScope, NgMap) => {
 });
 
 // Controller for Google maps presentation, marker and infoWindow logic
-app.controller("MapCtrl", ($scope, $http, $rootScope, NgMap, mapService) => {
+app.controller("MapCtrl", ($scope, $http, $rootScope, NgMap, mapService, Upload) => {
 
 	var inst = this;
 
@@ -109,20 +109,46 @@ app.controller("MapCtrl", ($scope, $http, $rootScope, NgMap, mapService) => {
 			$scope.scopeMap = map;
 
 			// Map map clickable
-			mapService.createMarker(inst.map);
+			//mapService.createMarker(inst.map);
+
+
+			// Make the map clickable
+			google.maps.event.addListener(inst.map, "click", (event) => {
+
+				// Create a Marker
+				const MapMarker = mapService.returnMarker(inst.map, event);
+
+				// Create an InfoWindow
+				const InfoWindow = mapService.returnInfoWindow();
+
+				// Execute the code / add to DOM
+				InfoWindow.open(inst.map, MapMarker);
+
+			});
+
+
+
+
+
+
+
+
+
+			// Wait until the form is submitted
+
 
 			// Show at least one so it gets added to the DOM
 		    inst.map.showInfoWindow('detailsWindow', "showMePlease");
 
+		    // Delete the 'fake' scope so they all disappear
 			$scope.fake = [];
-
 
 			// Remove the horrible default infowindow style
 			// This is a hack and I hate using setTimeout, but Google don't let you modify the infoWindow easily!
+			// TODO - Move this to its own helper service
 			setTimeout(() => {
 
 				inst.map.hideInfoWindow('detailsWindow', "showMePlease");
-
 
 				const iwOuter = $('.gm-style-iw');
 				const iwBackground = iwOuter.prev();
@@ -132,7 +158,6 @@ app.controller("MapCtrl", ($scope, $http, $rootScope, NgMap, mapService) => {
 				iwBackground.children(':nth-child(2)').css({'display' : 'none'});
 				iwBackground.children(':nth-child(3)').css({'display' : 'none'});
 				iwBackground.children(':nth-child(4)').css({'display' : 'none'});
-
 
 				setTimeout(() => {
 
@@ -171,7 +196,6 @@ app.controller("MapCtrl", ($scope, $http, $rootScope, NgMap, mapService) => {
 });
 
 // Vote Controller - to allow the user only be able to vote on an item once
-
 app.controller("VoteCtrl", ($scope, $rootScope, localStorageService) => {
 
 	$rootScope.$on("runVoteCtrl", () => {
@@ -201,6 +225,7 @@ app.controller("VoteCtrl", ($scope, $rootScope, localStorageService) => {
 
 });
 
+// Responsive Controller - Allow the toggle button to switch between hidden/shown panels
 app.controller("responsiveCtrl", ($scope, $rootScope, NgMap, mapService) => {
 
 	$scope.togglePanel = () => {
@@ -223,6 +248,19 @@ app.controller("responsiveCtrl", ($scope, $rootScope, NgMap, mapService) => {
 		 	},700)
 
 		 });
+
+	}
+
+});
+
+// File Controller - Handles uploads of skatepark screenshots to the server
+app.controller("newSkateparkCtrl", ($scope, $http, $rootScope, NgMap, mapService, Upload) => {
+
+	$scope.me = "hai";
+
+	$scope.submitNewSkateparkForm = () => {
+
+		console.log("you are here");
 
 	}
 
