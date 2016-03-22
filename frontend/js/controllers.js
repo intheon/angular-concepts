@@ -5,28 +5,25 @@ const app = angular.module("ngSkateApp", ["getJson", "ngMap", "mapService", "loc
 // Controller for getting data from server and presenting to view
 app.controller("ListCtrl", ($scope, $http, $rootScope, getJson) => {
 
-
 	// Initialise array to store databases response
 	$scope.allData = [];
 
-	$scope.fake = [
-		{
-			skateparkLocation: [0, 0]
-		}
-	]
+	// A fake skatepark
+	$scope.fake = [{skateparkLocation: [0, 0]}];
 
+	// Helper function to reverse contents of array
 	$scope.rev = (array) => {
 		let copy = [].concat(array);
-			return copy.reverse();
+		return copy.reverse();
 	};
 
-
+	// This is fired on page init to get ALL the skateparks
 	getJson.success((response) => {
 
 		// Store the response in the array
 		$scope.allData = response;
 
-		console.log($scope.allData);
+		//console.log($scope.allData);
 
 	}).then((response) => {
 
@@ -80,7 +77,6 @@ app.controller("RatingCtrl", ($scope, $rootScope, $http, localStorageService) =>
 // Controller to handle searching
 app.controller("SearchCtrl", ($scope, $http, $rootScope, NgMap) => {
 
-
     $scope.$watch('searchString', function(newValue, oldValue) {
 
     	let payload = null;
@@ -88,6 +84,7 @@ app.controller("SearchCtrl", ($scope, $http, $rootScope, NgMap) => {
     	if (newValue) payload = newValue;
 
     	$rootScope.$broadcast("filterMarkers", newValue);
+
     });
 
 });
@@ -128,18 +125,18 @@ app.controller("MapCtrl", ($scope, $http, $rootScope, NgMap, mapService, Upload)
 				// Housekeeping to close IW if not needed
 				mapService.closeAndDismiss(inst.map, event, MapMarker, InfoWindow);
 
+				// TODO - Have the InfoWindow DOM call the uploadSkateparkCtrl
+
 			});
 
+			// Show a skateparks info when clicked
+			// Not using an arrow function as it messes up the reference to 'this'
+			$scope.showSkateparkDetails = function(event, skatepark) {
+				$scope.currentSkatepark = skatepark;
+		    	inst.map.showInfoWindow('detailsWindow', skatepark._id);
+			};
 
-
-
-
-
-
-
-
-			// Wait until the form is submitted
-
+			// H4X - The following code is because I really, really wanted to restyle the defaults
 
 			// Show at least one so it gets added to the DOM
 		    inst.map.showInfoWindow('detailsWindow', "showMePlease");
@@ -176,12 +173,6 @@ app.controller("MapCtrl", ($scope, $http, $rootScope, NgMap, mapService, Upload)
 
 
 		});
-
-		// Not using an arrow function as it messes up the reference to 'this'
-		$scope.showSkateparkDetails = function(event, skatepark) {
-			$scope.currentSkatepark = skatepark;
-		    inst.map.showInfoWindow('detailsWindow', skatepark._id);
-		};
 
 	});
 
