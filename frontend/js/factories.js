@@ -70,6 +70,21 @@ angular.module("mapService", [])
 
 			},
 
+			closeAndDismiss: (mapInstance, event, MapMarker, InfoWindow) => {
+
+				// Housekeeping to dismiss both current InfoWindow and to discard unused marker
+					google.maps.event.addListener(mapInstance, "click", (event) => {
+						InfoWindow.close();
+						MapMarker.setMap(null);
+					});
+
+				// Remove Marker if 'x' is clicked
+					google.maps.event.addListener(InfoWindow, "closeclick", (event) => {
+						MapMarker.setMap(null);
+					});
+
+			},
+
 			createMarker: (mapInstance) => {
 
 				google.maps.event.addListener(mapInstance, "click", (event) => {

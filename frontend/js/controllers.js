@@ -95,8 +95,10 @@ app.controller("SearchCtrl", ($scope, $http, $rootScope, NgMap) => {
 // Controller for Google maps presentation, marker and infoWindow logic
 app.controller("MapCtrl", ($scope, $http, $rootScope, NgMap, mapService, Upload) => {
 
-	var inst = this;
+	// Namespace
+	const inst = this;
 
+	// Apply some custom css
 	$scope.styles = [{"featureType":"water","elementType":"all","stylers":[{"hue":"#76aee3"},{"saturation":38},{"lightness":-11},{"visibility":"on"}]},{"featureType":"road.highway","elementType":"all","stylers":[{"hue":"#8dc749"},{"saturation":-47},{"lightness":-17},{"visibility":"on"}]},{"featureType":"poi.park","elementType":"all","stylers":[{"hue":"#c6e3a4"},{"saturation":17},{"lightness":-2},{"visibility":"on"}]},{"featureType":"road.arterial","elementType":"all","stylers":[{"hue":"#cccccc"},{"saturation":-100},{"lightness":13},{"visibility":"on"}]},{"featureType":"administrative.land_parcel","elementType":"all","stylers":[{"hue":"#5f5855"},{"saturation":6},{"lightness":-31},{"visibility":"on"}]},{"featureType":"road.local","elementType":"all","stylers":[{"hue":"#ffffff"},{"saturation":-100},{"lightness":100},{"visibility":"simplified"}]},{"featureType":"water","elementType":"all","stylers":[]}]
 
 	// This is fired after the server has done it's thing
@@ -104,13 +106,12 @@ app.controller("MapCtrl", ($scope, $http, $rootScope, NgMap, mapService, Upload)
 
 		// Get the map instance
 		NgMap.getMap().then((map) => {
-			inst.map = map;
 
+			// Set these to be local and scope vars
+			inst.map = map;
 			$scope.scopeMap = map;
 
-			// Map map clickable
-			//mapService.createMarker(inst.map);
-
+			// NOW THE FUN STUFF
 
 			// Make the map clickable
 			google.maps.event.addListener(inst.map, "click", (event) => {
@@ -121,8 +122,11 @@ app.controller("MapCtrl", ($scope, $http, $rootScope, NgMap, mapService, Upload)
 				// Create an InfoWindow
 				const InfoWindow = mapService.returnInfoWindow();
 
-				// Execute the code / add to DOM
+				// Open the InfoWindow on its Marker
 				InfoWindow.open(inst.map, MapMarker);
+
+				// Housekeeping to close IW if not needed
+				mapService.closeAndDismiss(inst.map, event, MapMarker, InfoWindow);
 
 			});
 
