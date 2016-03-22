@@ -13,6 +13,9 @@ angular.module("getJson", [])
 angular.module("mapService", [])
 	.factory("mapService", ($http, $rootScope) => {
 
+		var ospry = new Ospry("pk-test-22jft3ap9hbixutk497qs3ec");
+
+
 		// Object to be returned to Controller
 		let map = {
 
@@ -51,7 +54,7 @@ angular.module("mapService", [])
 							<div class='file-field input-field row'>\
 								<div class='btn'>\
 									<span>File</div>\
-									<input type='file' multiple accept='image/*' id='screenshotUpload'>\
+									<input type='file' multiple accept='image/*' id='screenshotUpload' name='files' data-url='files'>\
 									<div class='file-path-wrapper'>\
 										<input class='file-path validate' type='text' placeholder='upload some screenshots'>\
 									</div>\
@@ -68,6 +71,30 @@ angular.module("mapService", [])
 
 					// Listen for eventual form submit
 					$("#skateparkSubmit").on("click", meta, () => {
+
+						console.log("about to attempt");
+						$("#screenshotUpload").fileupload({
+							url: "files/",
+							dataType: "json",
+							done: function(e, data){
+								console.log(e);
+								console.log(data);
+							}
+
+						});
+
+						console.log("never got here");
+
+						/*
+						ospry.up({
+							form: $("#skateparkForm"),
+							files: $("#screenshotUpload"),
+							filename: "testing.jpg",
+							imageReady: map.testCallback
+
+						});
+
+						*/
 
 						// Grab the data
 						map.retrieveData(meta);
@@ -103,8 +130,6 @@ angular.module("mapService", [])
 				const desc = $("#skateparkDesc").val();
 				const img = $("#screenshotUpload").val();
 
-				console.log(img);
-
 				// Laziest validation ever. Fix this.
 				if (!name || !adder || !img) return;
 
@@ -124,6 +149,15 @@ angular.module("mapService", [])
 
 				// Submit that to db
 				//map.submitNewPark(payload);
+
+			},
+
+			testCallback: (err, metadata, index) => {
+
+				if (err != null) console.log(err);
+
+
+				console.log(metadata);
 
 			},
 
