@@ -106,6 +106,8 @@ app.controller("MapCtrl", ($scope, $http, $rootScope, NgMap, mapService) => {
 		NgMap.getMap().then((map) => {
 			inst.map = map;
 
+			$scope.scopeMap = map;
+
 			// Map map clickable
 			mapService.createMarker(inst.map);
 
@@ -196,5 +198,32 @@ app.controller("VoteCtrl", ($scope, $rootScope, localStorageService) => {
 
 		});
 	})
+
+});
+
+app.controller("responsiveCtrl", ($scope, $rootScope, NgMap, mapService) => {
+
+	$scope.togglePanel = () => {
+
+		if($(".left-column").hasClass("big-left") || $(".left-column").hasClass("little-right"))
+		{
+			$(".left-column").removeClass("big-left");
+			$(".right-column").removeClass("little-right");
+		}
+		else
+		{
+			$(".left-column").addClass("big-left");
+			$(".right-column").addClass("little-right");
+		}
+
+		NgMap.getMap().then((map) => {
+
+		 	setTimeout(function(){
+				google.maps.event.trigger(map, 'resize')
+		 	},700)
+
+		 });
+
+	}
 
 });

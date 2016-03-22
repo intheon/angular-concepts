@@ -5,7 +5,7 @@
 
 $("#responsive-panel").click(() => {
 
-	Responsive.shrinkRightPanel();
+	//Responsive.shrinkRightPanel();
 
 });
 

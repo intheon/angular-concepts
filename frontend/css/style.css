@@ -248,15 +248,15 @@ height:100vh;
 	font-size:1.3em;
 }
 
-.connection-info-triangle
+.info-triangle
 {
 	position: absolute;
 	bottom: 0;
 	right: 0;
 	width: 0;
 	height: 0;
-	border-bottom: 100px solid #dcedc8;
-	border-left: 100px solid transparent;
+	border-bottom: 200px solid #dcedc8;
+	border-left: 200px solid transparent;
 }
 
 .responsive-switch
@@ -273,15 +273,13 @@ height:100vh;
 	position:absolute;
 	z-index:4;
 	display:inline;
-	width:80px;
+	width:150px;
+	padding-bottom:10px;
 }
 
-.bottom-right div
+.users-connected
 {
-	float:left;
-	display:inline;
-	position:relative;
-	margin:1%;
+	padding-left:100px;
 }
 
 .icon-users
@@ -292,9 +290,13 @@ height:100vh;
 
 .number-connected-users
 {
-	font-size:1.4em;
-	width:15px;
-	padding-left:25px;
+	font-size:2.4em;
+	padding-left:6px;
+	color: #85A374;
+}
+
+.bottom-right label
+{
 	color: #85A374;
 }
 
