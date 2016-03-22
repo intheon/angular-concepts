@@ -3,9 +3,9 @@
 
 "use strict";
 
-$(".skate-icon").click(() => {
+$("#responsive-panel").click(() => {
 
-	//Responsive.shrinkRightPanel();
+	Responsive.shrinkRightPanel();
 
 });
 
@@ -33,6 +33,8 @@ let Responsive = {
 
 		$(".left-column").addClass("big-left");
 		$(".right-column").addClass("little-right");
+
+		$(".responsive-switch").addClass("mini-switch");
 
 
 	}

@@ -259,6 +259,13 @@ height:100vh;
 	border-left: 100px solid transparent;
 }
 
+.responsive-switch
+{
+	position: absolute;
+	bottom: 0;
+	margin-bottom:1%;
+}
+
 .bottom-right
 {
 	right:0;
@@ -320,12 +327,27 @@ height:100vh;
 
 .big-left
 {
-	width: 90% !important;
+	width: 100% !important;
 }
 
 .little-right
 {
-	width: 10% !important;
+	width: 0% !important;
+}
+
+.mini-switch
+{
+	width:auto !important;
+	position: fixed;
+	bottom: 0 !important;
+	right:0 !important;
+	transform: rotate(-45deg);
+	margin-bottom:3%;
+	padding:1% !important;
+	padding-left:2% !important;
+	padding-right:6% !important;
+	background: #CCD9BD;
+
 }
 
 .hide-on-click

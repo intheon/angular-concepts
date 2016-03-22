@@ -98,16 +98,12 @@
 
 		</div> <!-- end left hand side -->
 
-		<div class="right-column">
+		<ul class="right-column collapsible"  data-collapsible="accordion">
 
 			<!-- First row -->
-			<div class="row">
+			<div>
 
-				<div class="col s12">
-					<header class="site-title">
-						<h2>SkateLocate
-						<img src="./img/skate-icon.png" class="skate-icon" alt="skateboard icon" width="64px"><h2>
-					</header>
+					<h2>SkateLocate<img src="./img/skate-icon.png" class="skate-icon" alt="skateboard icon" width="64px"></h2>
 
 					<div class="search-for-items" ng-controller="SearchCtrl">
 						<div class="input-field">
@@ -117,43 +113,58 @@
 						</div>
 					</div>
 
-				</div>
 
 			</div>
 
 
 			<!-- Third Row: Highest ranked items -->
-			<div class="row">
-				<div class="highest-voted-items col s12">
-					<h5>Highest Voted</h5>
+			<li>
+					<h5 class="collapsible-header active">Highest Voted</h5>
 
-					<ul ng-repeat="item in allData | orderBy: '-skateparkRating' | limitTo: 6" class="list-of-highest-rated-items collection mouse-clickable"  ng-controller="RatingCtrl">
+					<div class="collapsible-body">
 
-						<li class="collection-item avatar" ng-click="showSkateparkDetails(item._id, item)">
-							<span class="absolute-label">{{ item.skateparkRating }}</span><i class="material-icons circle"></i>
-							<span class="title">{{ item.skateparkName }}</span>
-							<upvote-button ng-click="incrementRating(item)" ng-hide="item.hasVote" class="secondary-content" ></upvote-button>
-						</li>
+						<div ng-repeat="item in allData | orderBy: '-skateparkRating' | limitTo: 6" class="list-of-highest-rated-items collection mouse-clickable "  ng-controller="RatingCtrl">
 
-					</ul>
+							<div class="collection-item avatar" ng-click="showSkateparkDetails(item._id, item)">
+								<span class="absolute-label">{{ item.skateparkRating }}</span><i class="material-icons circle"></i>
+								<span class="title">{{ item.skateparkName }}</span>
+								<upvote-button ng-click="incrementRating(item)" ng-hide="item.hasVote" class="secondary-content" ></upvote-button>
+							</div>
 
-				</div>
-			</div>
+						</div>
+
+					</div>
+			</li>
 
 			<!-- most recently added items -->
-			<div class="row">
-				<div class="most-recent-items col s12">
-					<h5>Most Recent Items</h5>
-					<div class="list-of-most-recent-items">
+			<li>
+					<h5 class="collapsible-header ">Most Recent Items</h5>
+					<div class="list-of-most-recent-items collapsible-body">
 						<div ng-repeat="item in rev(allData) | limitTo: 5">
 
 							<div class="item-name" ng-click="showSkateparkDetails(item._id, item)">{{ item.skateparkName }} <span class="small"> {{ item.createdAt | date: 'h:mm a, MMM d' }} by {{ item.addedBy }} </span></div>
 
 						</div>
 					</div>
+			</li>
+
+			<div class="row">
+				<div class="responsive-switch col s12">
+					
+					<div class="switch" id="responsive-panel">
+						<label>
+							Hide
+							<input type="checkbox">
+							<span class="lever"></span>
+							Show
+						</label>
+					</div>
+
 				</div>
 			</div>
 
+
+			<!-- bottom stuff -->
 			<div class="connection-info-triangle"></div>
 
 			<div class="bottom-right">
@@ -161,7 +172,7 @@
 				<div class="icon icon-users"></div>
 			</div>
 
-		</div> <!-- end right hand side -->
+		</ul> <!-- end right hand side -->
 
 		</div>
 
@@ -189,6 +200,8 @@
 	<script src="js/directives.js"></script>
 	<script src="js/factories.js"></script>
 	<script src="js/filters.js"></script>
+	<script src="js/responsive.js"></script>
+
 
 </body>
 </html>
