@@ -270,12 +270,30 @@ app.controller("addNewSkateparkCtrl", ($scope, $http, $rootScope, $location, NgM
 			}
 			else if ($scope.screenshots)
 			{
-				let test = cloudinaryUploadService.uploadFile($scope.screenshots);
+				$.each($scope.screenshots, (pointer, file) => {
 
-				test.success((response) => {
-					console.log(response);
-				})
-				
+					Upload.upload({
+
+						url: "https://api.cloudinary.com/v1_1/lgycbktyo/upload",
+						data: {
+							upload_preset: "p0cxg2v9",
+							tags: 'skateparkimages',
+							context: 'photo=filenamehere',
+							file: file
+						}
+
+					}).progress((event) => {
+						let progress = Math.round((event.loaded * 100.0) / event.total);
+						console.log(progress);
+					}).success((data, status, headers, config) => {
+
+						console.log(data);
+						console.log(status);
+						console.log(headers);
+						console.log(config);
+
+					});
+				});
 			}
 		}
 
