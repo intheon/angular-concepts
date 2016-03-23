@@ -44,6 +44,7 @@
 					zoom="5"
 					center="48.60385760823255, 18.9404296875"
 					styles="{{ styles }}"
+					on-click=""
 					trigger-resize>
 
 
@@ -82,7 +83,13 @@
 				</info-window>
 
 
+				<info-window id="newSkateparkWindow" ng-controller="addNewSkateparkCtrl">
 
+					<h2>This is some data to help with the info window</h2>
+
+				</info-window>
+
+				<!-- This will be dynamically draw ALL markers in the allData array -->
 				<marker ng-repeat="marker in allData | filter: parks" 
 						position="{{marker.skateparkLocation}}"
 						title="{{marker.skateparkName}}"
@@ -90,6 +97,15 @@
 						on-click="showSkateparkDetails(marker)">
 				</marker>
 
+				<!-- This is the POTENTIAL marker that will appear when the user clicked on the map. it can theoretically go anywhere -->
+				<marker
+						position="{{ clickedLongLat }}"
+						title="This is a marker"
+						id="testMarkerBen"
+						on-click="showAddNewSkateparkForm()">
+				</marker>
+
+				<!-- this is IMMEDIATELY added because otherwise I cant style the infoWindows (dont ask) -->
 				<marker ng-repeat="marker in fake" 
 						position="{{marker.skateparkLocation}}"
 						id="showMePlease"

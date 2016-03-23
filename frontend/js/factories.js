@@ -102,6 +102,7 @@ angular.module("mapService", [])
 					// Create an InfoWindow to be bound to the marker. This will contain the forms to define a new skatepark
 					let InfoWindow = new google.maps.InfoWindow({
 						content: "<form class='add-skate-location' id='skateparkForm' action='#' ng-controller='newSkateparkCtrl'>\
+							{{ testing }}\
 							<div class='input-field row'>\
 								<i class='material-icons prefix'>room</i>\
 								<input type='text' id='skateparkName' ng-model='name'>\
