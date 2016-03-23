@@ -1,6 +1,6 @@
 "use strict";
 
-const app = angular.module("ngSkateApp", ["getJson", "ngMap", "mapService", "localStorageService", "cloudinary", "ngFileUpload"]);
+const app = angular.module("ngSkateApp", ["getJson", "ngMap", "mapService", "cloudinaryUploadService", "localStorageService", "cloudinary", "ngFileUpload"]);
 
 // Controller for getting data from server and presenting to view
 app.controller("ListCtrl", ($scope, $http, $rootScope, getJson) => {
@@ -108,47 +108,6 @@ app.controller("MapCtrl", ($scope, $http, $rootScope, NgMap, mapService, Upload)
 			inst.map = map;
 			$scope.scopeMap = map;
 
-			// NOW THE FUN STUFF
-
-			// Make the map clickable
-			google.maps.event.addListener(inst.map, "click", (event) => {
-
-				// get the latLng from precisely where the user clicked
-				const clickedLocation = [{
-					location: [
-						event.latLng.lat(),
-						event.latLng.lng(),
-					]
-				}];
-
-				// $apply binds stuff that would normally automagically work where the click event handler screws it up
-				$scope.$apply(function(){
-					$scope.clickedLocation = clickedLocation;
-				})
-
-				inst.map.showInfoWindow('newSkateparkWindow', "testMarkerBen");
-
-
-
-				// Create a Marker
-				//const MapMarker = mapService.returnMarker(inst.map, event);
-
-								/*
-
-				// Create an InfoWindow
-				const InfoWindow = mapService.returnInfoWindow();
-
-				// Open the InfoWindow on its Marker
-				InfoWindow.open(inst.map, MapMarker);
-
-				// Housekeeping to close IW if not needed
-				mapService.closeAndDismiss(inst.map, event, MapMarker, InfoWindow);
-
-				// TODO - Have the InfoWindow DOM call the uploadSkateparkCtrl
-				*/
-
-			});
-
 			// Show a skateparks info when clicked
 			// Not using an arrow function as it messes up the reference to 'this'
 			$scope.showSkateparkDetails = function(event, skatepark) {
@@ -190,6 +149,35 @@ app.controller("MapCtrl", ($scope, $http, $rootScope, NgMap, mapService, Upload)
 				}, 300)
 
 			}, 1)
+
+
+			// NOW THE FUN STUFF
+
+			// Make the map clickable
+			google.maps.event.addListener(inst.map, "click", (event) => {
+
+				// get the latLng from precisely where the user clicked
+				const clickedLocation = [{
+					location: [
+						event.latLng.lat(),
+						event.latLng.lng(),
+					]
+				}];
+
+				// $apply binds stuff that would normally automagically work where the click event handler screws it up
+				$scope.$apply(function(){
+					$scope.clickedLocation = clickedLocation;
+				})
+
+				// show an InfoWindow
+				inst.map.showInfoWindow('newSkateparkWindow', "inProgressMarker");
+
+				$scope.submitNewSkateparkForm = () => {
+					$rootScope.$broadcast("addNewSkatepark");
+				}
+
+			});
+
 
 
 		});
@@ -269,8 +257,28 @@ app.controller("responsiveCtrl", ($scope, $rootScope, NgMap, mapService) => {
 });
 
 // File Controller - Handles uploads of skatepark screenshots to the server
-app.controller("addNewSkateparkCtrl", ($scope, $http, $rootScope, NgMap, mapService, Upload) => {
+app.controller("addNewSkateparkCtrl", ($scope, $http, $rootScope, $location, NgMap, cloudinaryUploadService, Upload) => {
 
-	console.log("this is running");
+	$rootScope.$on("addNewSkatepark", () => {
+
+		if (!$scope.skateparkName || !$scope.adderName ) return;
+		else
+		{
+			if (!$scope.screenshots)
+			{
+				console.log("do some logic to submit without screenshot");
+			}
+			else if ($scope.screenshots)
+			{
+				let test = cloudinaryUploadService.uploadFile($scope.screenshots);
+
+				test.success((response) => {
+					console.log(response);
+				})
+				
+			}
+		}
+
+	});
 
 });

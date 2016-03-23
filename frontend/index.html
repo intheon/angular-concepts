@@ -1,6 +1,7 @@
 <!doctype html>
 
 <html ng-app="ngSkateApp">
+
 <head>
 	<meta charset="utf-8">
 	<title>Blank App</title>
@@ -8,116 +9,145 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 
 	<!-- CSS -->
-	<link rel="stylesheet" href="css/material.css"/>
-	<link rel="stylesheet" href="css/style.css"/>
+	<link rel="stylesheet" href="css/material.css" />
+	<link rel="stylesheet" href="css/style.css" />
 
 	<!-- Icons -->
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
-
 </head>
+
 <body ng-controller="ListCtrl">
 
 	<div class="app-wrapper" ng-controller="MapCtrl">
 
 		<div ng-controller="VoteCtrl">
 
-		<div class="preload">
-		  <div class="preloader-wrapper big active">
-		    <div class="spinner-layer spinner-blue-only">
-		      <div class="circle-clipper left">
-		        <div class="circle"></div>
-		      </div><div class="gap-patch">
-		        <div class="circle"></div>
-		      </div><div class="circle-clipper right">
-		        <div class="circle"></div>
-		      </div>
-		    </div>
-		  </div>
-		</div>
+			<div class="preload">
+				<div class="preloader-wrapper big active">
+					<div class="spinner-layer spinner-blue-only">
+						<div class="circle-clipper left">
+							<div class="circle"></div>
+						</div>
+						<div class="gap-patch">
+							<div class="circle"></div>
+						</div>
+						<div class="circle-clipper right">
+							<div class="circle"></div>
+						</div>
+					</div>
+				</div>
+			</div>
 
-		<!-- the main list/map of items -->
-		<div class="left-column">
+			<!-- the main list/map of items -->
+			<div class="left-column">
 
-			<!-- A directive to handle the map -->
-			<ng-map class="map" 
-					zoom="5"
-					center="48.60385760823255, 18.9404296875"
-					styles="{{ styles }}"
-					on-click=""
-					trigger-resize>
+				<!-- A directive to handle the map -->
+				<ng-map class="map" zoom="5" center="48.60385760823255, 18.9404296875" styles="{{ styles }}" on-click="" trigger-resize>
 
+					<!-- Popup for EXISTING markers -->
+					<info-window id="detailsWindow" class="detailsWindow" max-width="1400">
+						<div class="card medium">
 
-				<info-window id="detailsWindow" class="detailsWindow" max-width="1400">
-							<div class="card medium">
+							<div class="card-image">
+								<img src="img/viccy.jpg">
+								<span class="card-title">{{ currentSkatepark.skateparkName }}</span>
+							</div>
 
-								<div class="card-image">
-									<img src="img/viccy.jpg">
-									<span class="card-title">{{ currentSkatepark.skateparkName }}</span>
+							<div class="card-content">
+
+								<div class="row">
+									<div class="desc col 12">{{ currentSkatepark.skateparkDesc }}</div>
 								</div>
 
-								<div class="card-content">
-									
-									<div class="row">
-										<div class="desc col 12">{{ currentSkatepark.skateparkDesc }}</div>
+							</div>
+
+							<div class="card-action">
+
+								<div class="row">
+
+									<div class="added col s9">
+										<div class="added-by">Added by: {{ currentSkatepark.addedBy }} <span class="small">({{ currentSkatepark.createdAt | date: 'h:mm a, MMM d' }})</span>
+										</div>
+									</div>
+
+									<div class="votes col s3" ng-controller="RatingCtrl">
+										<div ng-click="incrementRating(currentSkatepark)" ng-hide="currentSkatepark.hasVote" class="votes">{{ currentSkatepark.skateparkRating }} votes ^</div>
 									</div>
 
 								</div>
 
-								<div class="card-action">
-									
-									<div class="row">
+							</div>
+						</div>
+					</info-window>
 
-										<div class="added col s9">
-											<div class="added-by">Added by: {{ currentSkatepark.addedBy }} <span class="small">({{ currentSkatepark.createdAt | date: 'h:mm a, MMM d' }})</span></div>
-										</div>
+					<!-- Popup for NEW markers -->
+					<info-window id="newSkateparkWindow" ng-controller="addNewSkateparkCtrl">
 
-										<div class="votes col s3" ng-controller="RatingCtrl">
-												<div ng-click="incrementRating(currentSkatepark)" ng-hide="currentSkatepark.hasVote" class="votes">{{ currentSkatepark.skateparkRating }} votes ^</div>
-										</div>
+						<form action="#" class="add-skate-location">
 
-									</div>
+							<!-- Ask for the skatepark name -->
+							<div class="input-field row">
+								<i class="material-icons prefix">room</i>
+								<input type="text" ng-model="skateparkName" id="skateparkName">
+								<label for="skateparkName">Skatepark Name</label>
+							</div>
 
+							<!-- Ask for your name -->
+							<div class="input-field row">
+								<i class="material-icons prefix">perm_identity</i>
+								<input type="text" ng-model="adderName" id="adderName">
+								<label for="adderName">Your Name</label>
+							</div>
+
+							<!-- Ask for the name -->
+							<div class="input-field row">
+								<i class="material-icons prefix">mode_edit</i>
+								<textarea class="materialize-textarea" id="skateparkDesc" ng-model="skateparkDesc"></textarea>
+								<label for="skateparkDesc">A description - Optional.</label>
+							</div>
+
+							<!-- Ask for screenshots -->
+							<div class="file-field input-field row">
+								<div class="btn">
+									<div>File</div>
+									<input type="file" ngf-select ng-model="screenshots" ngf-multiple="true" accept="image/*" ngf-max-size="4MB">
+								</div>
+								<div class="file-path-wrapper">
+									<input class="file-path validate" type="text" placeholder="upload some screenshots">
 								</div>
 							</div>
-				</info-window>
 
+							<!-- Submit button -->
+							<div class="row">
+								<input type="button" value="Submit!" class="waves-effect waves-light btn col s12" ng-click="submitNewSkateparkForm()">
+							</div>
 
-				<info-window id="newSkateparkWindow" ng-controller="addNewSkateparkCtrl">
+						</form>
 
-					<h2>This is some data to help with the info window</h2>
+					</info-window>
 
-				</info-window>
+					<!-- This will be dynamically draw ALL markers in the allData array -->
+					<marker ng-repeat="marker in allData | filter: parks" position="{{marker.skateparkLocation}}" title="{{marker.skateparkName}}" id="{{marker._id}}" on-click="showSkateparkDetails(marker)">
+					</marker>
 
-				<!-- This will be dynamically draw ALL markers in the allData array -->
-				<marker ng-repeat="marker in allData | filter: parks" 
-						position="{{marker.skateparkLocation}}"
-						title="{{marker.skateparkName}}"
-						id="{{marker._id}}"
-						on-click="showSkateparkDetails(marker)">
-				</marker>
+					<!-- This is the POTENTIAL marker that will appear when the user clicked on the map. it can theoretically go anywhere -->
+					<marker ng-repeat="marker in clickedLocation" position="{{ marker.location }}" title="This is a marker" id="inProgressMarker">
+					</marker>
 
-				<!-- This is the POTENTIAL marker that will appear when the user clicked on the map. it can theoretically go anywhere -->
-				<marker ng-repeat="marker in clickedLocation"
-						position="{{ marker.location }}"
-						title="This is a marker"
-						id="testMarkerBen">
-				</marker>
+					<!-- this is IMMEDIATELY added because otherwise I cant style the infoWindows (dont ask) -->
+					<marker ng-repeat="marker in fake" position="{{marker.skateparkLocation}}" id="showMePlease" </marker>
 
-				<!-- this is IMMEDIATELY added because otherwise I cant style the infoWindows (dont ask) -->
-				<marker ng-repeat="marker in fake" 
-						position="{{marker.skateparkLocation}}"
-						id="showMePlease"
-				</marker>
+				</ng-map>
 
-			</ng-map>
+			</div>
+			<!-- end left hand side -->
 
-		</div> <!-- end left hand side -->
+			<!-- right hand side -->
+			<ul class="right-column collapsible" data-collapsible="accordion">
 
-		<ul class="right-column collapsible"  data-collapsible="accordion">
-
-			<!-- First row -->
-			<div>
+				<!-- First row -->
+				<div>
 
 					<h2>SkateLocate<img src="./img/skate-icon.png" class="skate-icon" alt="skateboard icon" width="64px"></h2>
 
@@ -130,72 +160,74 @@
 					</div>
 
 
-			</div>
+				</div>
 
 
-			<!-- Third Row: Highest ranked items -->
-			<li>
+				<!-- Third Row: Highest ranked items -->
+				<li>
 					<h5 class="collapsible-header active">Highest Voted</h5>
 
 					<div class="collapsible-body">
 
-						<div ng-repeat="item in allData | orderBy: '-skateparkRating' | limitTo: 6" class="list-of-highest-rated-items collection mouse-clickable "  ng-controller="RatingCtrl">
+						<div ng-repeat="item in allData | orderBy: '-skateparkRating' | limitTo: 6" class="list-of-highest-rated-items collection mouse-clickable " ng-controller="RatingCtrl">
 
 							<div class="collection-item avatar" ng-click="showSkateparkDetails(item._id, item)">
 								<span class="absolute-label">{{ item.skateparkRating }}</span><i class="material-icons circle"></i>
 								<span class="title">{{ item.skateparkName }}</span>
-								<upvote-button ng-click="incrementRating(item)" ng-hide="item.hasVote" class="secondary-content" ></upvote-button>
+								<upvote-button ng-click="incrementRating(item)" ng-hide="item.hasVote" class="secondary-content"></upvote-button>
 							</div>
 
 						</div>
 
 					</div>
-			</li>
+				</li>
 
-			<!-- most recently added items -->
-			<li>
+				<!-- most recently added items -->
+				<li>
 					<h5 class="collapsible-header ">Most Recent Items</h5>
 					<div class="list-of-most-recent-items collapsible-body">
 						<div ng-repeat="item in rev(allData) | limitTo: 5">
 
-							<div class="item-name" ng-click="showSkateparkDetails(item._id, item)">{{ item.skateparkName }} <span class="small"> {{ item.createdAt | date: 'h:mm a, MMM d' }} by {{ item.addedBy }} </span></div>
+							<div class="item-name" ng-click="showSkateparkDetails(item._id, item)">{{ item.skateparkName }} <span class="small"> {{ item.createdAt | date: 'h:mm a, MMM d' }} by {{ item.addedBy }} </span>
+							</div>
 
 						</div>
 					</div>
-			</li>
+				</li>
 
-			<!-- bottom stuff -->
-			<div class="info-triangle"></div>
+				<!-- bottom stuff -->
+				<div class="info-triangle"></div>
 
-			<div class="bottom-right">
+				<div class="bottom-right">
 
-				<div class="users-connected">
-					<div class="icon icon-users"></div>
-					<div class="number-connected-users"></div>
+					<div class="users-connected">
+						<div class="icon icon-users"></div>
+						<div class="number-connected-users"></div>
+					</div>
+
+					<!-- a toggle switch -->
+					<div class="switch" id="responsive-panel" ng-controller="responsiveCtrl">
+						<label>
+							Show
+							<input type="checkbox">
+							<span class="lever" ng-click="togglePanel()"></span>
+							Hide
+						</label>
+					</div>
+
 				</div>
 
-				<!-- a toggle switch -->
-				<div class="switch" id="responsive-panel" ng-controller="responsiveCtrl">
-					<label >
-						Show
-						<input type="checkbox">
-						<span class="lever" ng-click="togglePanel()"></span>
-						Hide
-					</label>
-				</div>
-
-			</div>
-
-		</ul> <!-- end right hand side -->
+			</ul>
+			<!-- end right hand side -->
 
 		</div>
 
 	</div>
 
 
-<!-- JAVASCRIPT -->
+	<!-- JAVASCRIPT -->
 
-<!-- 3rd party libraries -->
+	<!-- 3rd party libraries -->
 	<script src="../libraries/jquery.js"></script>
 	<script src="../libraries/angular.js"></script>
 	<script src="../libraries/underscore.js"></script>
@@ -215,10 +247,10 @@
 	<script src="../libraries/ng-file-upload.js"></script>
 
 
-<!-- API -->
+	<!-- API -->
 	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyALYjGkfn-RVIETHo-KCBz_1zbVW1OH-O0"></script>
 
-<!-- Custom JS  -->
+	<!-- Custom JS  -->
 
 	<script src="js/sockets.js"></script>
 	<script src="js/controllers.js"></script>
@@ -229,4 +261,5 @@
 
 
 </body>
+
 </html>
