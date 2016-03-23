@@ -98,11 +98,10 @@
 				</marker>
 
 				<!-- This is the POTENTIAL marker that will appear when the user clicked on the map. it can theoretically go anywhere -->
-				<marker
-						position="{{ clickedLongLat }}"
+				<marker ng-repeat="marker in clickedLocation"
+						position="{{ marker.location }}"
 						title="This is a marker"
-						id="testMarkerBen"
-						on-click="showAddNewSkateparkForm()">
+						id="testMarkerBen">
 				</marker>
 
 				<!-- this is IMMEDIATELY added because otherwise I cant style the infoWindows (dont ask) -->

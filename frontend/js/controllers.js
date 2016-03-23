@@ -23,7 +23,7 @@ app.controller("ListCtrl", ($scope, $http, $rootScope, getJson) => {
 		// Store the response in the array
 		$scope.allData = response;
 
-		//console.log($scope.allData);
+		console.log($scope.allData);
 
 	}).then((response) => {
 
@@ -98,11 +98,6 @@ app.controller("MapCtrl", ($scope, $http, $rootScope, NgMap, mapService, Upload)
 	// Apply some custom css
 	$scope.styles = [{"featureType":"water","elementType":"all","stylers":[{"hue":"#76aee3"},{"saturation":38},{"lightness":-11},{"visibility":"on"}]},{"featureType":"road.highway","elementType":"all","stylers":[{"hue":"#8dc749"},{"saturation":-47},{"lightness":-17},{"visibility":"on"}]},{"featureType":"poi.park","elementType":"all","stylers":[{"hue":"#c6e3a4"},{"saturation":17},{"lightness":-2},{"visibility":"on"}]},{"featureType":"road.arterial","elementType":"all","stylers":[{"hue":"#cccccc"},{"saturation":-100},{"lightness":13},{"visibility":"on"}]},{"featureType":"administrative.land_parcel","elementType":"all","stylers":[{"hue":"#5f5855"},{"saturation":6},{"lightness":-31},{"visibility":"on"}]},{"featureType":"road.local","elementType":"all","stylers":[{"hue":"#ffffff"},{"saturation":-100},{"lightness":100},{"visibility":"simplified"}]},{"featureType":"water","elementType":"all","stylers":[]}]
 
-	$scope.showAddNewSkateparkForm = () => {
-
-		console.log("move me elsewhere");
-
-	}
 	// This is fired after the server has done it's thing
 	$rootScope.$on("runMapCtrl", () => {
 
@@ -113,15 +108,26 @@ app.controller("MapCtrl", ($scope, $http, $rootScope, NgMap, mapService, Upload)
 			inst.map = map;
 			$scope.scopeMap = map;
 
-			// set somewhere in sheffield
-			$scope.clickedLongLat = [53.848847, -0.830965];
-
 			// NOW THE FUN STUFF
 
 			// Make the map clickable
 			google.maps.event.addListener(inst.map, "click", (event) => {
 
-				console.log("clicked");
+				// get the latLng from precisely where the user clicked
+				const clickedLocation = [{
+					location: [
+						event.latLng.lat(),
+						event.latLng.lng(),
+					]
+				}];
+
+				// $apply binds stuff that would normally automagically work where the click event handler screws it up
+				$scope.$apply(function(){
+					$scope.clickedLocation = clickedLocation;
+				})
+
+				inst.map.showInfoWindow('newSkateparkWindow', "testMarkerBen");
+
 
 
 				// Create a Marker
