@@ -1,6 +1,6 @@
 "use strict";
 
-const app = angular.module("ngSkateApp", ["getJson", "ngMap", "mapService", "cloudinaryUploadService", "localStorageService", "cloudinary", "ngFileUpload"]);
+const app = angular.module("ngSkateApp", ["getJson", "ngMap", "newParkService", "localStorageService", "cloudinary", "ngFileUpload"]);
 
 // Controller for getting data from server and presenting to view
 app.controller("ListCtrl", ($scope, $http, $rootScope, getJson) => {
@@ -90,7 +90,7 @@ app.controller("SearchCtrl", ($scope, $http, $rootScope, NgMap) => {
 });
 
 // Controller for Google maps presentation, marker and infoWindow logic
-app.controller("MapCtrl", ($scope, $http, $rootScope, NgMap, mapService, Upload) => {
+app.controller("MapCtrl", ($scope, $http, $rootScope, NgMap, Upload) => {
 
 	// Namespace
 	const inst = this;
@@ -161,6 +161,7 @@ app.controller("MapCtrl", ($scope, $http, $rootScope, NgMap, mapService, Upload)
 
 			// Make the map clickable
 			google.maps.event.addListener(inst.map, "click", (event) => {
+				console.log("you at least got here");
 
 				// get the latLng from precisely where the user clicked
 				const clickedLocation = [{
@@ -180,8 +181,10 @@ app.controller("MapCtrl", ($scope, $http, $rootScope, NgMap, mapService, Upload)
 
 				$("#uploadScrollbar").hide();
 
+				let inp = this;
 				// Allow form to be submitted
-				$scope.submitNewSkateparkForm = () => {
+				$scope.inp.submitNewSkateparkForm = () => {
+					console.log("i was clicked!!!");
 					$rootScope.$broadcast("addNewSkatepark");
 				}
 
@@ -201,7 +204,12 @@ app.controller("MapCtrl", ($scope, $http, $rootScope, NgMap, mapService, Upload)
 
 	$rootScope.$on("pushLastToScope", function(event, data){
 
+		// Add the last one to the front-end
 		$scope.allData.push(data);
+
+		setTimeout(() => {
+			$scope.scopeMap.hideInfoWindow('newSkateparkWindow');
+		}, 400)
 
 	});
 
@@ -236,7 +244,7 @@ app.controller("VoteCtrl", ($scope, $rootScope, localStorageService) => {
 });
 
 // Responsive Controller - Allow the toggle button to switch between hidden/shown panels
-app.controller("responsiveCtrl", ($scope, $rootScope, NgMap, mapService) => {
+app.controller("responsiveCtrl", ($scope, $rootScope, NgMap) => {
 
 	$scope.togglePanel = () => {
 
@@ -264,24 +272,39 @@ app.controller("responsiveCtrl", ($scope, $rootScope, NgMap, mapService) => {
 });
 
 // File Controller - Handles uploads of skatepark screenshots to the server
-app.controller("addNewSkateparkCtrl", ($scope, $http, $rootScope, $location, NgMap, cloudinaryUploadService, Upload) => {
+app.controller("addNewSkateparkCtrl", ($scope, $http, $rootScope, $location, NgMap, newParkService, Upload) => {
 
 	// Is called at some point in the future when the form on the InfoWindow is submitted
 	$rootScope.$on("addNewSkatepark", () => {
+		console.log("you somehow get here");
 
-		if (!$scope.skateparkName || !$scope.adderName ) return;
+		let inp = this;
+
+		if (!$scope.inp.skateparkName || !$scope.inp.skateparkAdder )
+		{
+			console.log("am i getting here?");
+			console.log($scope.inp.skateparkName);
+			console.log($scope.inp.skateparkAdder);
+
+			return;
+		}
 		else
 		{
-			if (!$scope.screenshots)
+			console.log("or here?");
+			console.log($scope.inp.skateparkName);
+			console.log($scope.inp.skateparkAdder);
+
+			if (!$scope.inp.screenshots)
 			{
-				submitMetaToMongoDb($scope.skateparkName, $scope.skateparkDesc, $scope.clickedLocation, $scope.adderName, null);
+				submitMetaToMongoDb($scope.inp.skateparkName, $scope.inp.skateparkDesc, $scope.inp.clickedLocation, $scope.inp.skateparkAdder, null);
 				$("#uploadScrollbar div").width("100%");
+				removeModelFromFields();
 			}
-			else if ($scope.screenshots)
+			else if ($scope.inp.screenshots)
 			{
 				let cloudinaryImageMeta = [];
 
-				$.each($scope.screenshots, (pointer, file) => {
+				$.each($scope.inp.screenshots, (pointer, file) => {
 
 					Upload.upload({
 
@@ -294,7 +317,7 @@ app.controller("addNewSkateparkCtrl", ($scope, $http, $rootScope, $location, NgM
 						}
 
 					}).progress((event) => {
-
+						// TODO - fix this.... it's well screwed!!!
 						let progress = Math.round((event.loaded * 100.0) / event.total);
 						$("#uploadScrollbar div").width(progress + "%");
 
@@ -309,9 +332,11 @@ app.controller("addNewSkateparkCtrl", ($scope, $http, $rootScope, $location, NgM
 						}
 
 						// Because it's async, check if the number of items returned on the array match what was sent
-						if (cloudinaryImageMeta.length === $scope.screenshots.length)
+						if (cloudinaryImageMeta.length === $scope.inp.screenshots.length)
 						{
-							submitMetaToMongoDb($scope.skateparkName, $scope.skateparkDesc, $scope.clickedLocation, $scope.adderName, cloudinaryImageMeta);
+							submitMetaToMongoDb($scope.inp.skateparkName, $scope.inp.skateparkDesc, $scope.inp.clickedLocation, $scope.inp.skateparkAdder, cloudinaryImageMeta);
+							removeModelFromFields($scope);
+
 						}
 
 					});
@@ -323,31 +348,40 @@ app.controller("addNewSkateparkCtrl", ($scope, $http, $rootScope, $location, NgM
 
 	});
 
+	const removeModelFromFields = () => {
+
+		setTimeout(function(){
+			console.log("somehow you got here");
+		},1000)
+
+	};
+
 	// Internal functions
 	const submitMetaToMongoDb = (skateparkName, skateparkDesc, skateparkLocation, skateparkAdder, cloudinaryImageMeta) => {
 
-		console.log("--- WELCOME TO THE IMAGE SUBMIT FUNCTION ---");
+		const skateparkImages = [];
 
-		console.log(skateparkName);
-		console.log(skateparkDesc);
-		console.log(skateparkLocation);
-		console.log(skateparkAdder);
-		console.log(cloudinaryImageMeta);
+		if (cloudinaryImageMeta)
+		{
+			$.each(cloudinaryImageMeta, (pointer, image) => {
 
-		console.log("--- END FUNCTION ---");
+				skateparkImages.push(image.secure_url);
 
+			});
+		}
 
-		/* The MongoDB schema for this is follows;
+		const payload = {
+			skateparkName : skateparkName,
+			skateparkDesc : skateparkDesc,
+			skateparkLocation : skateparkLocation[0].location,
+			skateparkAdder : skateparkAdder,
+			skateparkRating : 1,
+			skateparkImages : skateparkImages
+		}
 
-			skateparkName: {type: String, required: true},		
-			skateparkDesc: {type: String, required: false},							<--- Optional
-			skateparkRating: {type: Number, required: false}, 						<--- Will always be set to 1.
-			skateparkLocation: {type: [Number], required: false}, // [Long, Lat]
-			skateparkImages: {type: Array, required: false},						<--- Optional
-			addedBy: String,
-			createdAt: {type: Date, default: Date.now} 								<--- will be created automatically.
+		console.log(payload);
 
-		*/
+		newParkService.submitNewPark(payload);
 
 	}
 

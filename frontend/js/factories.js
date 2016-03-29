@@ -9,93 +9,11 @@ angular.module("getJson", [])
 
 	});
 
-angular.module("submitNewPark", [])
-	.factory("submitNewPark", ($http) => {
-
-
-	});
-
-angular.module("cloudinaryUploadService", [])
-	.factory("cloudinaryUploadService", (cloudinary, Upload) => {
-
-		return {
-
-			uploadFile: (files) => {
-
-				let meta = [];
-				let upload = [];
-
-				$.each(files, (pointer, file) => {
-
-					upload.push(Upload.upload({
-
-							url: "https://api.cloudinary.com/v1_1/lgycbktyo/upload",
-							data: {
-								upload_preset: "p0cxg2v9",
-								tags: 'skateparkimages',
-								context: 'photo=filenamehere',
-								file: file
-							}
-
-					}).progress((event) => {
-						let progress = Math.round((event.loaded * 100.0) / event.total);
-						console.log(progress);
-					}).success((data, status, headers, config) => {
-
-							meta = {
-								data: data,
-								status: status,
-								headers: headers,
-								config: config
-							}
-
-					}));
-
-				})
-
-				return upload
-
-			}
-		}
-
-	});
-
-// A factory to load A Google Map
-angular.module("mapService", [])
-	.factory("mapService", ($http, $rootScope, Upload) => {
+angular.module("newParkService", [])
+	.factory("newParkService", ($http, $rootScope) => {
 
 		// Object to be returned to Controller
-		let map = {
-
-			retrieveData: (meta) => {
-
-				// Grab the populated values from the dom
-				const name = $("#skateparkName").val();
-				const adder = $("#skateparkAdder").val();
-				const desc = $("#skateparkDesc").val();
-				const img = $("#screenshotUpload").val();
-
-				// Laziest validation ever. Fix this.
-				if (!name || !adder || !img) return;
-
-				// Create a payload ready for DB
-				const payload = {
-					skateparkName: name,
-					skateparkDesc: desc,
-					skateparkRating: 1, 
-					skateparkLocation: [
-						meta.latLng.lat(),
-						meta.latLng.lng(),
-					],
-					skateparkImages: [],
-					addedBy: adder,
-					createdAt: new Date()
-				}
-
-				// Submit that to db
-				//map.submitNewPark(payload);
-
-			},
+		let newPark = {
 
 			submitNewPark: (payload) => {
 
@@ -109,7 +27,7 @@ angular.module("mapService", [])
 
 								// Emit the success to the controller
 								$rootScope.$emit("pushLastToScope", response);
-
+								
 							})
 
 					})
@@ -121,9 +39,10 @@ angular.module("mapService", [])
 
 		};
 
-		return map;
+		return newPark;
 
 	});
+
 
 	var isDefined = angular.isDefined,
 	isUndefined = angular.isUndefined,
@@ -132,8 +51,6 @@ angular.module("mapService", [])
 	isArray = angular.isArray,
 	extend = angular.extend,
 	toJson = angular.toJson;
-
-
 
 angular.module('localStorageService', [])
 	.provider('localStorageService', function() {

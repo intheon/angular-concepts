@@ -68,7 +68,7 @@
 								<div class="row">
 
 									<div class="added col s9">
-										<div class="added-by">Added by: {{ currentSkatepark.addedBy }} <span class="small">({{ currentSkatepark.createdAt | date: 'h:mm a, MMM d' }})</span>
+										<div class="added-by">Added by: {{ currentSkatepark.skateparkAdder }} <span class="small">({{ currentSkatepark.createdAt | date: 'h:mm a, MMM d' }})</span>
 										</div>
 									</div>
 
@@ -83,28 +83,28 @@
 					</info-window>
 
 					<!-- Popup for NEW markers -->
-					<info-window id="newSkateparkWindow" ng-controller="addNewSkateparkCtrl">
+					<info-window id="newSkateparkWindow" ng-controller="addNewSkateparkCtrl as inp">
 
 						<form action="#" class="add-skate-location">
 
 							<!-- Ask for the skatepark name -->
-							<div class="input-field row">
+							<div class="input-field row" id="testMe">
 								<i class="material-icons prefix">room</i>
-								<input type="text" ng-model="skateparkName" id="skateparkName">
+								<input type="text" ng-model="inp.skateparkName" id="skateparkName" name="skateparkName">
 								<label for="skateparkName">Skatepark Name</label>
 							</div>
 
 							<!-- Ask for your name -->
 							<div class="input-field row">
 								<i class="material-icons prefix">perm_identity</i>
-								<input type="text" ng-model="adderName" id="adderName">
-								<label for="adderName">Your Name</label>
+								<input type="text" ng-model="inp.skateparkAdder" id="skateparkAdder" name="skateparkAdder">
+								<label for="skateparkAdder">Your Name</label>
 							</div>
 
 							<!-- Ask for the name -->
 							<div class="input-field row">
 								<i class="material-icons prefix">mode_edit</i>
-								<textarea class="materialize-textarea" id="skateparkDesc" ng-model="skateparkDesc"></textarea>
+								<textarea class="materialize-textarea" id="skateparkDesc" ng-model="inp.skateparkDesc" name="skateparkDesc"></textarea>
 								<label for="skateparkDesc">A description - Optional.</label>
 							</div>
 
@@ -112,7 +112,7 @@
 							<div class="file-field input-field row">
 								<div class="btn">
 									<div>File</div>
-									<input type="file" ngf-select ng-model="screenshots" ngf-multiple="true" accept="image/*" ngf-max-size="4MB">
+									<input type="file" ngf-select ng-model="inp.screenshots" ngf-multiple="true" accept="image/*" ngf-max-size="4MB">
 								</div>
 								<div class="file-path-wrapper">
 									<input class="file-path validate" type="text" placeholder="upload some screenshots">
@@ -121,7 +121,7 @@
 
 							<!-- Submit button -->
 							<div class="row">
-								<input type="button" value="Submit!" class="waves-effect waves-light btn col s12" ng-click="submitNewSkateparkForm()">
+								<input type="button" value="Submit!" class="waves-effect waves-light btn col s12" ng-click="inp.submitNewSkateparkForm()">
 							</div>
 
 							<!-- Is hidden initially, but the Upload Service will command the width -->
@@ -194,7 +194,7 @@
 					<div class="list-of-most-recent-items collapsible-body">
 						<div ng-repeat="item in rev(allData) | limitTo: 5">
 
-							<div class="item-name" ng-click="showSkateparkDetails(item._id, item)">{{ item.skateparkName }} <span class="small"> {{ item.createdAt | date: 'h:mm a, MMM d' }} by {{ item.addedBy }} </span>
+							<div class="item-name" ng-click="showSkateparkDetails(item._id, item)">{{ item.skateparkName }} <span class="small"> {{ item.createdAt | date: 'h:mm a, MMM d' }} by {{ item.skateparkAdder }} </span>
 							</div>
 
 						</div>
