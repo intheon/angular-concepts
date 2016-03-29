@@ -107,6 +107,7 @@ app.controller("MapCtrl", ($scope, $http, $rootScope, NgMap, Upload) => {
 			// Set these to be local and scope vars
 			inst.map = map;
 			$scope.scopeMap = map;
+			$scope.addNew = {}
 
 			// Show a skateparks InfoWindow when clicked
 			// Not using an arrow function as it messes up the reference to 'this'
@@ -161,7 +162,6 @@ app.controller("MapCtrl", ($scope, $http, $rootScope, NgMap, Upload) => {
 
 			// Make the map clickable
 			google.maps.event.addListener(inst.map, "click", (event) => {
-				console.log("you at least got here");
 
 				// get the latLng from precisely where the user clicked
 				const clickedLocation = [{
@@ -181,11 +181,10 @@ app.controller("MapCtrl", ($scope, $http, $rootScope, NgMap, Upload) => {
 
 				$("#uploadScrollbar").hide();
 
-				let inp = this;
 				// Allow form to be submitted
-				$scope.inp.submitNewSkateparkForm = () => {
-					console.log("i was clicked!!!");
+				$scope.submitNewSkateparkForm = () => {
 					$rootScope.$broadcast("addNewSkatepark");
+					console.log($scope.addNew);
 				}
 
 			});
@@ -210,6 +209,9 @@ app.controller("MapCtrl", ($scope, $http, $rootScope, NgMap, Upload) => {
 		setTimeout(() => {
 			$scope.scopeMap.hideInfoWindow('newSkateparkWindow');
 		}, 400)
+
+		// read this https://github.com/angular/angular.js/wiki/Understanding-Scopes
+		$scope.addNew = {};
 
 	});
 
@@ -276,35 +278,24 @@ app.controller("addNewSkateparkCtrl", ($scope, $http, $rootScope, $location, NgM
 
 	// Is called at some point in the future when the form on the InfoWindow is submitted
 	$rootScope.$on("addNewSkatepark", () => {
-		console.log("you somehow get here");
 
-		let inp = this;
-
-		if (!$scope.inp.skateparkName || !$scope.inp.skateparkAdder )
+		if (!$scope.addNew.skateparkName || !$scope.addNew.skateparkAdder )
 		{
-			console.log("am i getting here?");
-			console.log($scope.inp.skateparkName);
-			console.log($scope.inp.skateparkAdder);
-
 			return;
 		}
 		else
 		{
-			console.log("or here?");
-			console.log($scope.inp.skateparkName);
-			console.log($scope.inp.skateparkAdder);
-
-			if (!$scope.inp.screenshots)
+			if (!$scope.addNew.screenshots)
 			{
-				submitMetaToMongoDb($scope.inp.skateparkName, $scope.inp.skateparkDesc, $scope.inp.clickedLocation, $scope.inp.skateparkAdder, null);
+				submitMetaToMongoDb($scope.addNew.skateparkName, $scope.addNew.skateparkDesc, $scope.clickedLocation, $scope.addNew.skateparkAdder, null);
 				$("#uploadScrollbar div").width("100%");
-				removeModelFromFields();
+				$scope.makeFieldsBlank();
 			}
-			else if ($scope.inp.screenshots)
+			else if ($scope.addNew.screenshots)
 			{
 				let cloudinaryImageMeta = [];
 
-				$.each($scope.inp.screenshots, (pointer, file) => {
+				$.each($scope.addNew.screenshots, (pointer, file) => {
 
 					Upload.upload({
 
@@ -332,10 +323,10 @@ app.controller("addNewSkateparkCtrl", ($scope, $http, $rootScope, $location, NgM
 						}
 
 						// Because it's async, check if the number of items returned on the array match what was sent
-						if (cloudinaryImageMeta.length === $scope.inp.screenshots.length)
+						if (cloudinaryImageMeta.length === $scope.addNew.screenshots.length)
 						{
-							submitMetaToMongoDb($scope.inp.skateparkName, $scope.inp.skateparkDesc, $scope.inp.clickedLocation, $scope.inp.skateparkAdder, cloudinaryImageMeta);
-							removeModelFromFields($scope);
+							submitMetaToMongoDb($scope.addNew.skateparkName, $scope.addNew.skateparkDesc, $scope.addNew.clickedLocation, $scope.addNew.skateparkAdder, cloudinaryImageMeta);
+							$scope.makeFieldsBlank();
 
 						}
 
@@ -348,13 +339,11 @@ app.controller("addNewSkateparkCtrl", ($scope, $http, $rootScope, $location, NgM
 
 	});
 
-	const removeModelFromFields = () => {
+	$scope.makeFieldsBlank = () => {
 
-		setTimeout(function(){
-			console.log("somehow you got here");
-		},1000)
+		$scope.addNew = {}
 
-	};
+	}
 
 	// Internal functions
 	const submitMetaToMongoDb = (skateparkName, skateparkDesc, skateparkLocation, skateparkAdder, cloudinaryImageMeta) => {
@@ -378,8 +367,6 @@ app.controller("addNewSkateparkCtrl", ($scope, $http, $rootScope, $location, NgM
 			skateparkRating : 1,
 			skateparkImages : skateparkImages
 		}
-
-		console.log(payload);
 
 		newParkService.submitNewPark(payload);
 

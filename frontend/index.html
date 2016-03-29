@@ -83,28 +83,28 @@
 					</info-window>
 
 					<!-- Popup for NEW markers -->
-					<info-window id="newSkateparkWindow" ng-controller="addNewSkateparkCtrl as inp">
+					<info-window id="newSkateparkWindow" ng-controller="addNewSkateparkCtrl">
 
 						<form action="#" class="add-skate-location">
 
 							<!-- Ask for the skatepark name -->
 							<div class="input-field row" id="testMe">
 								<i class="material-icons prefix">room</i>
-								<input type="text" ng-model="inp.skateparkName" id="skateparkName" name="skateparkName">
+								<input type="text" ng-model="addNew.skateparkName" id="skateparkName">
 								<label for="skateparkName">Skatepark Name</label>
 							</div>
 
 							<!-- Ask for your name -->
 							<div class="input-field row">
 								<i class="material-icons prefix">perm_identity</i>
-								<input type="text" ng-model="inp.skateparkAdder" id="skateparkAdder" name="skateparkAdder">
+								<input type="text" ng-model="addNew.skateparkAdder" id="skateparkAdder">
 								<label for="skateparkAdder">Your Name</label>
 							</div>
 
 							<!-- Ask for the name -->
 							<div class="input-field row">
 								<i class="material-icons prefix">mode_edit</i>
-								<textarea class="materialize-textarea" id="skateparkDesc" ng-model="inp.skateparkDesc" name="skateparkDesc"></textarea>
+								<textarea class="materialize-textarea" ng-model="addNew.skateparkDesc" id="skateparkDesc"></textarea>
 								<label for="skateparkDesc">A description - Optional.</label>
 							</div>
 
@@ -112,7 +112,7 @@
 							<div class="file-field input-field row">
 								<div class="btn">
 									<div>File</div>
-									<input type="file" ngf-select ng-model="inp.screenshots" ngf-multiple="true" accept="image/*" ngf-max-size="4MB">
+									<input type="file" ngf-select ng-model="addNew.screenshots" ngf-multiple="true" accept="image/*" ngf-max-size="4MB">
 								</div>
 								<div class="file-path-wrapper">
 									<input class="file-path validate" type="text" placeholder="upload some screenshots">
@@ -121,7 +121,7 @@
 
 							<!-- Submit button -->
 							<div class="row">
-								<input type="button" value="Submit!" class="waves-effect waves-light btn col s12" ng-click="inp.submitNewSkateparkForm()">
+								<input type="button" value="Submit!" class="waves-effect waves-light btn col s12" ng-click="submitNewSkateparkForm()">
 							</div>
 
 							<!-- Is hidden initially, but the Upload Service will command the width -->

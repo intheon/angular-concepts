@@ -27,5 +27,3 @@ SkateParkSchema.pre('save', (next) => {
 // Exports the Schema for use elsewhere. The MongoDB collection will be called 'skateparks'
 module.exports = mongoose.model('skateparks', SkateParkSchema);
 
-
-//http://docile-whippet.ospry.io/jcjocsn0rj7/viccy.jpg
