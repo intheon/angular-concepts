@@ -339,11 +339,11 @@ app.controller("addNewSkateparkCtrl", ($scope, $http, $rootScope, $location, NgM
 
 		/* The MongoDB schema for this is follows;
 
-			skateparkName: {type: String, required: true},
-			skateparkDesc: {type: String, required: false},
+			skateparkName: {type: String, required: true},		
+			skateparkDesc: {type: String, required: false},							<--- Optional
 			skateparkRating: {type: Number, required: false}, 						<--- Will always be set to 1.
 			skateparkLocation: {type: [Number], required: false}, // [Long, Lat]
-			skateparkImages: {type: Array, required: false},
+			skateparkImages: {type: Array, required: false},						<--- Optional
 			addedBy: String,
 			createdAt: {type: Date, default: Date.now} 								<--- will be created automatically.
 
