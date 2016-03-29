@@ -8712,6 +8712,8 @@ textarea.materialize-textarea {
   box-shadow: none;
   box-sizing: content-box;
   transition: all .3s;
+  z-index:40;
+  position:relative;
 }
 
 input:not([type]):disabled, input:not([type])[readonly="readonly"],

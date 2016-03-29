@@ -189,6 +189,14 @@ app.controller("MapCtrl", ($scope, $http, $rootScope, NgMap, Upload) => {
 
 			});
 
+			// TODO - Have markers disappear when infoWindows are clicked
+			/*
+			google.maps.event.addListener(inst.map, "closeClick", (event) => {
+				console.log("close button was clicked");
+			});
+			*/
+
+
 
 
 		});
@@ -299,11 +307,11 @@ app.controller("addNewSkateparkCtrl", ($scope, $http, $rootScope, $location, NgM
 
 					Upload.upload({
 
-						url: "https://api.cloudinary.com/v1_1/lgycbktyo/upload",
+						url: "https://api.cloudinary.com/v1_1/lgycbktyo/upload/",
 						data: {
 							upload_preset: "p0cxg2v9",
 							tags: 'skateparkimages',
-							context: 'photo=filenamehere',
+							context: 'photo=skateLocate',
 							file: file
 						}
 
@@ -325,7 +333,7 @@ app.controller("addNewSkateparkCtrl", ($scope, $http, $rootScope, $location, NgM
 						// Because it's async, check if the number of items returned on the array match what was sent
 						if (cloudinaryImageMeta.length === $scope.addNew.screenshots.length)
 						{
-							submitMetaToMongoDb($scope.addNew.skateparkName, $scope.addNew.skateparkDesc, $scope.addNew.clickedLocation, $scope.addNew.skateparkAdder, cloudinaryImageMeta);
+							submitMetaToMongoDb($scope.addNew.skateparkName, $scope.addNew.skateparkDesc, $scope.clickedLocation, $scope.addNew.skateparkAdder, cloudinaryImageMeta);
 							$scope.makeFieldsBlank();
 
 						}
