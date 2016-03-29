@@ -64,8 +64,7 @@ app.controller("RatingCtrl", ($scope, $rootScope, $http, localStorageService) =>
 					localStorageService.set("spUsrHasAdded", currents);
 
 				// Tell the vote controller to do its thing
-				$rootScope.$broadcast("runVoteCtrl");
-
+currentSkatepark
 			}
 
 		});
@@ -114,6 +113,16 @@ app.controller("MapCtrl", ($scope, $http, $rootScope, NgMap, Upload) => {
 			$scope.showSkateparkDetails = function(event, skatepark) {
 				$scope.currentSkatepark = skatepark;
 		    	inst.map.showInfoWindow('detailsWindow', skatepark._id);
+
+		    	if (skatepark.skateparkImages.length > 0)
+		    	{
+		    		$rootScope.$broadcast("loadCloudinaryImages", $scope.currentSkatepark.skateparkImages);
+		    	}
+		    	else
+		    	{
+		    		$("#placeHolderImg").show();
+		    	}
+
 			};
 
 
@@ -222,6 +231,33 @@ app.controller("MapCtrl", ($scope, $http, $rootScope, NgMap, Upload) => {
 		$scope.addNew = {};
 
 	});
+
+	$rootScope.$on("loadCloudinaryImages", function(event, data){
+
+		setTimeout(function(){
+
+			$("#placeHolderImg").attr("src", "img/viccy.jpg");
+			/*
+
+					$.each(data, (pointer, imagePath) => {
+
+			console.log($("#skateparkVisualHeader img")[0].src);
+			//const short = imagePath.subStr(1, (imagePath.length - 1));
+			console.log(imagePath);
+			$("#placeHolderImg")[0].src = imagePath;
+			//const img = "<img src='"+ imagePath +"'>";
+			//$("#skateparkVisualHeader .card-title").prepend(img);
+
+		});
+		*/
+
+
+		}, 4700)
+
+
+
+	});
+
 
 });
 
