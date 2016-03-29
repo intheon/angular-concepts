@@ -266,7 +266,6 @@ app.controller("responsiveCtrl", ($scope, $rootScope, NgMap, mapService) => {
 // File Controller - Handles uploads of skatepark screenshots to the server
 app.controller("addNewSkateparkCtrl", ($scope, $http, $rootScope, $location, NgMap, cloudinaryUploadService, Upload) => {
 
-
 	// Is called at some point in the future when the form on the InfoWindow is submitted
 	$rootScope.$on("addNewSkatepark", () => {
 
@@ -278,12 +277,11 @@ app.controller("addNewSkateparkCtrl", ($scope, $http, $rootScope, $location, NgM
 				submitMetaToMongoDb($scope.skateparkName, $scope.skateparkDesc, $scope.clickedLocation, $scope.adderName, null);
 				$("#uploadScrollbar div").width("100%");
 			}
-
 			else if ($scope.screenshots)
 			{
-				$.each($scope.screenshots, (pointer, file) => {
+				let cloudinaryImageMeta = [];
 
-					// Show progress bar
+				$.each($scope.screenshots, (pointer, file) => {
 
 					Upload.upload({
 
@@ -296,15 +294,25 @@ app.controller("addNewSkateparkCtrl", ($scope, $http, $rootScope, $location, NgM
 						}
 
 					}).progress((event) => {
-						let progress = Math.round((event.loaded * 100.0) / event.total);
 
+						let progress = Math.round((event.loaded * 100.0) / event.total);
 						$("#uploadScrollbar div").width(progress + "%");
 
 					}).success((data, status, headers, config) => {
 
 						$("#uploadScrollbar div").width("100%");
 
-						if (status === 200) submitMetaToMongoDb($scope.skateparkName, $scope.skateparkDesc, $scope.clickedLocation, $scope.adderName, data);
+						// place it on the array
+						if (status === 200) 
+						{
+							cloudinaryImageMeta.push(data)
+						}
+
+						// Because it's async, check if the number of items returned on the array match what was sent
+						if (cloudinaryImageMeta.length === $scope.screenshots.length)
+						{
+							submitMetaToMongoDb($scope.skateparkName, $scope.skateparkDesc, $scope.clickedLocation, $scope.adderName, cloudinaryImageMeta);
+						}
 
 					});
 
@@ -318,11 +326,16 @@ app.controller("addNewSkateparkCtrl", ($scope, $http, $rootScope, $location, NgM
 	// Internal functions
 	const submitMetaToMongoDb = (skateparkName, skateparkDesc, skateparkLocation, skateparkAdder, cloudinaryImageMeta) => {
 
+		console.log("--- WELCOME TO THE IMAGE SUBMIT FUNCTION ---");
+
 		console.log(skateparkName);
 		console.log(skateparkDesc);
 		console.log(skateparkLocation);
 		console.log(skateparkAdder);
 		console.log(cloudinaryImageMeta);
+
+		console.log("--- END FUNCTION ---");
+
 
 		/* The MongoDB schema for this is follows;
 
