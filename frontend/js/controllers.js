@@ -8,15 +8,6 @@ app.controller("ListCtrl", ($scope, $http, $rootScope, getJson) => {
 	// Initialise array to store databases response
 	$scope.allData = [];
 
-	// A fake skatepark
-	$scope.fake = [{skateparkLocation: [0, 0]}];
-
-	// Helper function to reverse contents of array
-	$scope.rev = (array) => {
-		let copy = [].concat(array);
-		return copy.reverse();
-	};
-
 	// This is fired on page init to get ALL the skateparks
 	getJson.success((response) => {
 
@@ -35,8 +26,16 @@ app.controller("ListCtrl", ($scope, $http, $rootScope, getJson) => {
 
 		});
 
-});
+	// A fake skatepark
+	$scope.fake = [{skateparkLocation: [0, 0]}];
 
+	// Helper function to reverse contents of array
+	$scope.rev = (array) => {
+		let copy = [].concat(array);
+		return copy.reverse();
+	};
+
+});
 
 // Controller to handle ratings / upvotes
 app.controller("RatingCtrl", ($scope, $rootScope, $http, localStorageService) => {
@@ -51,7 +50,8 @@ app.controller("RatingCtrl", ($scope, $rootScope, $http, localStorageService) =>
 		// Send put request to server
 		$http.put("/skateparks/" + item._id, item).success((response) => { 
 
-			// Once success has been reached, add a reference to localStorage to this particular item can't get upvoted by this device (can work around this by clearing browser cache / different browser but sufficient for this example)
+			// Once success has been reached, add a reference within localStorage so that this particular skatepark can't get upvoted by this device.
+			// note: can work around this by clearing browser cache / different browser but sufficient for this example - look into this as part of ongoing maintanence
 
 			// init new localstorage
 			if (!localStorageService.get("spUsrHasAdded")) localStorageService.set("spUsrHasAdded", [response]);
@@ -108,14 +108,20 @@ app.controller("MapCtrl", ($scope, $http, $rootScope, NgMap, mapService, Upload)
 			inst.map = map;
 			$scope.scopeMap = map;
 
-			// Show a skateparks info when clicked
+			// Show a skateparks InfoWindow when clicked
 			// Not using an arrow function as it messes up the reference to 'this'
 			$scope.showSkateparkDetails = function(event, skatepark) {
 				$scope.currentSkatepark = skatepark;
 		    	inst.map.showInfoWindow('detailsWindow', skatepark._id);
 			};
 
-			// H4X - The following code is because I really, really wanted to restyle the defaults
+
+			/* DISCLAIMER 
+
+				The below code is a horrible, horrible hack to remove the default InfoWindow style from Google.
+				It's prone to errors, so it will probably be removed completely and just go with the default styling
+
+			*/
 
 			// Show at least one so it gets added to the DOM
 		    inst.map.showInfoWindow('detailsWindow', "showMePlease");
@@ -148,7 +154,7 @@ app.controller("MapCtrl", ($scope, $http, $rootScope, NgMap, mapService, Upload)
 
 				}, 300)
 
-			}, 1)
+			}, 100)
 
 
 			// NOW THE FUN STUFF
@@ -172,6 +178,9 @@ app.controller("MapCtrl", ($scope, $http, $rootScope, NgMap, mapService, Upload)
 				// show an InfoWindow
 				inst.map.showInfoWindow('newSkateparkWindow', "inProgressMarker");
 
+				$("#uploadScrollbar").hide();
+
+				// Allow form to be submitted
 				$scope.submitNewSkateparkForm = () => {
 					$rootScope.$broadcast("addNewSkatepark");
 				}
@@ -204,12 +213,10 @@ app.controller("VoteCtrl", ($scope, $rootScope, localStorageService) => {
 	$rootScope.$on("runVoteCtrl", () => {
 
 		// add a prop to each element in the allData array to mention if it matches the id of that in LocalStorage
-
 		let votedFor = localStorageService.get("spUsrHasAdded");
 
 		// NOTE, this can definitely be optimised, but i need to read up on the big O to find out the best way
 		// Cycle through all data 
-
 		$.each($scope.allData, (allDataPointer, allDataVal) => {
 
 			// sub-list: cycle through localstorage data
@@ -259,6 +266,8 @@ app.controller("responsiveCtrl", ($scope, $rootScope, NgMap, mapService) => {
 // File Controller - Handles uploads of skatepark screenshots to the server
 app.controller("addNewSkateparkCtrl", ($scope, $http, $rootScope, $location, NgMap, cloudinaryUploadService, Upload) => {
 
+
+	// Is called at some point in the future when the form on the InfoWindow is submitted
 	$rootScope.$on("addNewSkatepark", () => {
 
 		if (!$scope.skateparkName || !$scope.adderName ) return;
@@ -266,11 +275,15 @@ app.controller("addNewSkateparkCtrl", ($scope, $http, $rootScope, $location, NgM
 		{
 			if (!$scope.screenshots)
 			{
-				console.log("do some logic to submit without screenshot");
+				submitMetaToMongoDb($scope.skateparkName, $scope.skateparkDesc, $scope.clickedLocation, $scope.adderName, null);
+				$("#uploadScrollbar div").width("100%");
 			}
+
 			else if ($scope.screenshots)
 			{
 				$.each($scope.screenshots, (pointer, file) => {
+
+					// Show progress bar
 
 					Upload.upload({
 
@@ -284,19 +297,45 @@ app.controller("addNewSkateparkCtrl", ($scope, $http, $rootScope, $location, NgM
 
 					}).progress((event) => {
 						let progress = Math.round((event.loaded * 100.0) / event.total);
-						console.log(progress);
+
+						$("#uploadScrollbar div").width(progress + "%");
+
 					}).success((data, status, headers, config) => {
 
-						console.log(data);
-						console.log(status);
-						console.log(headers);
-						console.log(config);
+						$("#uploadScrollbar div").width("100%");
+
+						if (status === 200) submitMetaToMongoDb($scope.skateparkName, $scope.skateparkDesc, $scope.clickedLocation, $scope.adderName, data);
 
 					});
-				});
+
+				}); // End all file uploads
+
 			}
 		}
 
 	});
+
+	// Internal functions
+	const submitMetaToMongoDb = (skateparkName, skateparkDesc, skateparkLocation, skateparkAdder, cloudinaryImageMeta) => {
+
+		console.log(skateparkName);
+		console.log(skateparkDesc);
+		console.log(skateparkLocation);
+		console.log(skateparkAdder);
+		console.log(cloudinaryImageMeta);
+
+		/* The MongoDB schema for this is follows;
+
+			skateparkName: {type: String, required: true},
+			skateparkDesc: {type: String, required: false},
+			skateparkRating: {type: Number, required: false}, 						<--- Will always be set to 1.
+			skateparkLocation: {type: [Number], required: false}, // [Long, Lat]
+			skateparkImages: {type: Array, required: false},
+			addedBy: String,
+			createdAt: {type: Date, default: Date.now} 								<--- will be created automatically.
+
+		*/
+
+	}
 
 });

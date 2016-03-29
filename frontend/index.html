@@ -23,6 +23,7 @@
 
 		<div ng-controller="VoteCtrl">
 
+			<!-- Preloader -->
 			<div class="preload">
 				<div class="preloader-wrapper big active">
 					<div class="spinner-layer spinner-blue-only">
@@ -123,6 +124,11 @@
 								<input type="button" value="Submit!" class="waves-effect waves-light btn col s12" ng-click="submitNewSkateparkForm()">
 							</div>
 
+							<!-- Is hidden initially, but the Upload Service will command the width -->
+							  <div class="progress" id="uploadScrollbar">
+							      <div class="determinate" style="width: 0%"></div>
+							  </div>
+        
 						</form>
 
 					</info-window>
