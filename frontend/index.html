@@ -100,7 +100,7 @@
 						<form action="#" class="add-skate-location">
 
 							<!-- Ask for the skatepark name -->
-							<div class="input-field row" id="testMe">
+							<div class="input-field row">
 								<i class="material-icons prefix">room</i>
 								<input type="text" ng-model="addNew.skateparkName" id="skateparkName">
 								<label for="skateparkName">Skatepark Name</label>
@@ -120,20 +120,28 @@
 								<label for="skateparkDesc">A description - Optional.</label>
 							</div>
 
+							<!-- Ask for a remote url -->
+							<div class="input-field row">
+								<i class="material-icons prefix">launch</i>
+								<input type="text" ng-model="addNew.screenshotURL" id="screenshotURL">
+								<label for="screenshotURL">Paste a link to an image...</label>
+							</div>
+
 							<!-- Ask for screenshots -->
 							<div class="file-field input-field row">
-								<div class="btn">
+								<div class="btn waves-effect waves-light">
 									<div>File</div>
 									<input type="file" ngf-select ng-model="addNew.screenshots" ngf-multiple="true" accept="image/*" ngf-max-size="4MB">
 								</div>
 								<div class="file-path-wrapper">
-									<input class="file-path validate" type="text" placeholder="upload some screenshots">
+									<input class="file-path validate" type="text"  placeholder="Or upload some!">
 								</div>
 							</div>
 
+
 							<!-- Submit button -->
 							<div class="row">
-								<input type="button" value="Submit!" class="waves-effect waves-light btn col s12" ng-click="submitNewSkateparkForm()">
+								<input type="button" value="Submit!" class="btn col s12" ng-click="submitNewSkateparkForm()">
 							</div>
 
 							<!-- Is hidden initially, but the Upload Service will command the width -->

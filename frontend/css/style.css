@@ -264,6 +264,11 @@ html, body
 	border-radius: 2px 2px 0 0;
 }
 
+#newSkateparkWindow input[type="text"]
+{
+	font-family: coming !important;
+}
+
 .votes
 {
 	font-weight: 500;

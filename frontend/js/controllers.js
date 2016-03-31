@@ -196,7 +196,6 @@ app.controller("MapCtrl", ($scope, $http, $rootScope, NgMap, Upload) => {
 				// Allow form to be submitted
 				$scope.submitNewSkateparkForm = () => {
 					$rootScope.$broadcast("addNewSkatepark");
-					console.log($scope.addNew);
 				}
 
 			});
@@ -349,18 +348,41 @@ app.controller("addNewSkateparkCtrl", ($scope, $http, $rootScope, $location, NgM
 
 		if (!$scope.addNew.skateparkName || !$scope.addNew.skateparkAdder )
 		{
+			Materialize.toast('Please enter the first two fields! :)', 2000) // 4000 is the duration of the toast
 			return;
 		}
 		else
 		{
-			if (!$scope.addNew.screenshots)
+			if (!$scope.addNew.screenshots && !$scope.addNew.screenshotURL)
 			{
+				console.log("no screenshots (url or local)... proceed as normal");
+				/*
 				submitMetaToMongoDb($scope.addNew.skateparkName, $scope.addNew.skateparkDesc, $scope.clickedLocation, $scope.addNew.skateparkAdder, null);
 				$("#uploadScrollbar div").width("100%");
 				$scope.makeFieldsBlank();
+				*/
 			}
-			else if ($scope.addNew.screenshots)
-			{
+			else if ($scope.addNew.screenshots || $scope.addNew.screenshotURL)
+			{	
+				// Handle JUST local screenshots
+				if ($scope.addNew.screenshots && !$scope.addNew.screenshotURL)
+				{
+					submitLocalFiles($scope.addNew.screenshots);
+				}
+				// Handle JUST remote screenshots
+				else if (!$scope.addNew.screenshots && $scope.addNew.screenshotURL)
+				{
+					submitRemoteFiles($scope.addNew.screenshotURL);
+				}
+				// Handle BOTH local screenshots AND remotes
+				else if ($scope.addNew.screenshots && $scope.addNew.screenshotURL)
+				{
+					// TODO - Look into performance of this
+					submitLocalFiles($scope.addNew.screenshots);
+					submitRemoteFiles($scope.addNew.screenshotURL);
+				}
+
+				/*
 				let cloudinaryImageMeta = [];
 
 				$.each($scope.addNew.screenshots, (pointer, file) => {
@@ -402,6 +424,8 @@ app.controller("addNewSkateparkCtrl", ($scope, $http, $rootScope, $location, NgM
 
 				}); // End all file uploads
 
+				*/
+
 			}
 		}
 
@@ -414,6 +438,8 @@ app.controller("addNewSkateparkCtrl", ($scope, $http, $rootScope, $location, NgM
 	}
 
 	// Internal functions
+
+	// Submits metadata to internal database - The final stage
 	const submitMetaToMongoDb = (skateparkName, skateparkDesc, skateparkLocation, skateparkAdder, cloudinaryImageMeta) => {
 
 		const skateparkImages = [];
@@ -438,6 +464,61 @@ app.controller("addNewSkateparkCtrl", ($scope, $http, $rootScope, $location, NgM
 
 		newParkService.submitNewPark(payload);
 
-	}
+	};
+
+	// Submits LOCAL files to cloudinary
+	const submitLocalFiles = (localFiles) => {
+		console.log(localFiles);
+	};
+
+	// Submits REMOTE URLS to cloudinary
+	const submitRemoteFiles = (remoteURLS) => {
+		console.log(remoteURLS);
+	};
+
+	// Helper function to handle the ajaxy stuff
+	const ajaxHelper = () => {
+
+		Upload.upload({
+			url: "https://api.cloudinary.com/v1_1/lgycbktyo/upload/",
+				data: {
+					upload_preset: "p0cxg2v9",
+					tags: 'skateparkimages',
+					context: 'photo=skateLocate',
+					file: file
+				}
+			}).progress((event) => {
+				// TODO - fix this.... it's well screwed!!!
+				let progress = Math.round((event.loaded * 100.0) / event.total);
+				$("#uploadScrollbar div").width(progress + "%");
+				console.log(progress);
+			}).success((data, status, headers, config) => {
+
+				console.log(data);
+				console.log(status);
+
+					/*
+
+						$("#uploadScrollbar div").width("100%");
+
+						// place it on the array
+						if (status === 200) 
+						{
+							cloudinaryImageMeta.push(data)
+						}
+
+						// Because it's async, check if the number of items returned on the array match what was sent
+						if (cloudinaryImageMeta.length === $scope.addNew.screenshots.length)
+						{
+							submitMetaToMongoDb($scope.addNew.skateparkName, $scope.addNew.skateparkDesc, $scope.clickedLocation, $scope.addNew.skateparkAdder, cloudinaryImageMeta);
+							$scope.makeFieldsBlank();
+
+						}
+
+						*/
+
+			});
+
+	};
 
 });
