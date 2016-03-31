@@ -175,14 +175,14 @@
 				<li>
 
 
-					<h5 class="collapsible-header active"><i class="material-icons align">present_to_all</i>  Highest Voted </h5>
+					<h5 class="collapsible-header active"><i class="material-icons align">present_to_all</i>  Highest Voted <i class="material-icons">swap_vert</i></h5>
 
 					<div class="collapsible-body">
 
 						<div ng-repeat="item in allData | orderBy: '-skateparkRating' | limitTo: 6" class="list-of-highest-rated-items collection mouse-clickable " ng-controller="RatingCtrl">
 
 							<div class="collection-item avatar" ng-click="showSkateparkDetails(item._id, item)">
-								<span class="absolute-label">{{ item.skateparkRating }}</span><i class="material-icons circle"></i>
+								<span class="absolute-label">{{ item.skateparkRating }}</span><i class=" circle"></i>
 								<span class="title">{{ item.skateparkName }}</span>
 								<upvote-button ng-click="incrementRating(item)" ng-hide="item.hasVote" class="secondary-content"></upvote-button>
 							</div>
@@ -194,7 +194,7 @@
 
 				<!-- most recently added items -->
 				<li>
-					<h5 class="collapsible-header"><i class="material-icons align">forward_10</i> Recently Added</h5>
+					<h5 class="collapsible-header"><i class="material-icons align">forward_10</i> Recently Added <i class="material-icons">swap_vert</i></h5>
 					<div class="list-of-most-recent-items collapsible-body">
 						<div ng-repeat="item in rev(allData) | limitTo: 10">
 
