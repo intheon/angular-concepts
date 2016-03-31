@@ -75,7 +75,7 @@
 
 									<div class="votes" ng-controller="RatingCtrl">
 										<div class="mini-upvote">{{ currentSkatepark.skateparkRating }} Votes</div>
-										<div ng-click="incrementRating(currentSkatepark)" ng-hide="item.hasVote" class="mini-upvote">^</div>
+										<div ng-click="incrementRating(currentSkatepark)" ng-hide="currentSkatepark.hasVote" class="mini-upvote">^</div>
 									</div>
 
 								</div>

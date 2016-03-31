@@ -66,7 +66,7 @@ app.controller("RatingCtrl", ($scope, $rootScope, $http, localStorageService) =>
 					localStorageService.set("spUsrHasAdded", currents);
 
 				// Tell the vote controller to do its thing
-currentSkatepark
+				$rootScope.$broadcast("runVoteCtrl");
 			}
 
 		});
