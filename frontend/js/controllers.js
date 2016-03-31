@@ -14,7 +14,7 @@ app.controller("ListCtrl", ($scope, $http, $rootScope, getJson) => {
 		// Store the response in the array
 		$scope.allData = response;
 
-		console.log($scope.allData);
+		//console.log($scope.allData);
 
 	}).then((response) => {
 
@@ -24,10 +24,12 @@ app.controller("ListCtrl", ($scope, $http, $rootScope, getJson) => {
 			// Tell the vote controller to do its thing
 			$rootScope.$broadcast("runVoteCtrl");
 
-		});
+			// Remove preloader
+			$(".preload").fadeOut(() => {
+				$(this).hide();
+			})
 
-	// A fake skatepark
-	$scope.fake = [{skateparkLocation: [0, 0]}];
+		});
 
 	// Helper function to reverse contents of array
 	$scope.rev = (array) => {
@@ -131,7 +133,7 @@ app.controller("MapCtrl", ($scope, $http, $rootScope, NgMap, Upload) => {
 				The below code is a horrible, horrible hack to remove the default InfoWindow style from Google.
 				It's prone to errors, so it will probably be removed completely and just go with the default styling
 
-			*/
+
 
 			// Show at least one so it gets added to the DOM
 		    inst.map.showInfoWindow('detailsWindow', "showMePlease");
@@ -166,6 +168,7 @@ app.controller("MapCtrl", ($scope, $http, $rootScope, NgMap, Upload) => {
 
 			}, 100)
 
+			*/
 
 			// NOW THE FUN STUFF
 

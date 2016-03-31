@@ -4,7 +4,7 @@
 
 <head>
 	<meta charset="utf-8">
-	<title>Blank App</title>
+	<title>SkateLocate</title>
 	<meta name="description" content="An app to find and locate skateparks and skate spots">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -150,13 +150,15 @@
 			<!-- end left hand side -->
 
 			<!-- right hand side -->
-			<ul class="collapsible right-column " data-collapsible="accordion">
+			<ul class="collapsible right-column " data-collapsible="expandable">
 
 				<!-- First row -->
 				<div>
 
-					<h2>SkateLocate<img src="./img/skate-icon.png" class="skate-icon" alt="skateboard icon" width="64px"></h2>
-
+					<div class="row">
+						<h2>SkateLocate<img src="./img/skate-icon.png" class="skate-icon" alt="skateboard icon" width="48px"></h2>
+					</div>
+					
 					<div class="search-for-items" ng-controller="SearchCtrl">
 						<div class="input-field">
 							<i class="material-icons prefix">search</i>
@@ -171,7 +173,9 @@
 
 				<!-- Third Row: Highest ranked items -->
 				<li>
-					<h5 class="collapsible-header active">Highest Voted</h5>
+
+
+					<h5 class="collapsible-header active"><i class="material-icons align">present_to_all</i>  Highest Voted </h5>
 
 					<div class="collapsible-body">
 
@@ -190,9 +194,9 @@
 
 				<!-- most recently added items -->
 				<li>
-					<h5 class="collapsible-header ">Most Recent Items</h5>
+					<h5 class="collapsible-header"><i class="material-icons align">forward_10</i> Recently Added</h5>
 					<div class="list-of-most-recent-items collapsible-body">
-						<div ng-repeat="item in rev(allData) | limitTo: 5">
+						<div ng-repeat="item in rev(allData) | limitTo: 10">
 
 							<div class="item-name" ng-click="showSkateparkDetails(item._id, item)">{{ item.skateparkName }} <span class="small"> {{ item.createdAt | date: 'h:mm a, MMM d' }} by {{ item.skateparkAdder }} </span>
 							</div>
