@@ -367,12 +367,21 @@ app.controller("addNewSkateparkCtrl", ($scope, $http, $rootScope, $location, NgM
 				// Handle JUST local screenshots
 				if ($scope.addNew.screenshots && !$scope.addNew.screenshotURL)
 				{
+					// TODO - virus checking etc!!
 					submitLocalFiles($scope.addNew.screenshots);
 				}
 				// Handle JUST remote screenshots
 				else if (!$scope.addNew.screenshots && $scope.addNew.screenshotURL)
 				{
-					submitRemoteFiles($scope.addNew.screenshotURL);
+					if (testIsValidURL($scope.addNew.screenshotURL))
+					{
+						submitRemoteFiles($scope.addNew.screenshotURL);
+					}
+					else
+					{
+						Materialize.toast('Please enter a correct URL :)', 2000) // 4000 is the duration of the toast
+						$scope.addNew.screenshotURL = "";
+					}
 				}
 				// Handle BOTH local screenshots AND remotes
 				else if ($scope.addNew.screenshots && $scope.addNew.screenshotURL)
@@ -520,5 +529,12 @@ app.controller("addNewSkateparkCtrl", ($scope, $http, $rootScope, $location, NgM
 			});
 
 	};
+
+	const testIsValidURL = (string) => {
+		// This regex probably sucks and will probably break
+		const testRegEx = /(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/;
+		const isIt = string.match(testRegEx);
+		return isIt;
+	}
 
 });
