@@ -132,6 +132,12 @@ html, body
 	overflow:hidden;
 }
 
+.right-column h2
+{
+	margin-left: 3.5rem;
+}
+
+
 .right-column h5
 {
 	margin-top:7%;
@@ -146,10 +152,14 @@ html, body
 	cursor: pointer;
 }
 
-.right-column .collection
+.right-column i
 {
 }
 
+.grn-colour
+{
+	color: #26a69a;
+}
 
 .map
 {
@@ -167,6 +177,8 @@ html, body
 	float:left;
 	opacity:1;
 	transition:1s all;
+	margin-left:3.5rem;
+	margin-bottom:1%;
 }
 
 .item-name:hover
