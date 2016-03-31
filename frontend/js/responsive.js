@@ -3,40 +3,56 @@
 
 "use strict";
 
-$("#responsive-panel").click(() => {
+$(document).ready(() => {
 
-	//Responsive.shrinkRightPanel();
+	//Responsive.init();
 
 });
 
-// I love namespaces
 
-let Responsive = {
+const Responsive = {
 
-	calcColumnWidths: () => {
+	/*
 
-		const leftWidth = $(".left-column").width();
-		const rightWidth = $(".right-column").width();
+	init: () => {
 
-		return {
-			left: leftWidth,
-			right: rightWidth
-		}
+		Responsive.collapseOnResize(Responsive.getCurrentWidth());
+
+
+		$(window).resize(() => {
+
+			Responsive.collapseOnResize(Responsive.getCurrentWidth());
+
+		})
 
 	},
 
-	shrinkRightPanel: () => {
+	getCurrentWidth: () => {
 
-		// dynamically get widths of left/right columns.
-		const colWidths = Responsive.calcColumnWidths();
+		return window.innerWidth;
 
+	},
 
-		$(".left-column").addClass("big-left");
-		$(".right-column").addClass("little-right");
+	collapseOnResize: (width) => {
 
-		$(".responsive-switch").addClass("mini-switch");
+		let no = $(".left-column").hasClass(".big-left");
 
+		if (width >= 800)
+		{
+			console.log("more than 800");
+			console.log(no);
+			//$("#resizeSwitch").trigger("click");
+		}
+		else
+		{
+			console.log("less than 800");
+			console.log(no);
+			//$("#resizeSwitch").trigger("click");
+		}
 
-	}
+	}	
+
+	*/
+
 
 }

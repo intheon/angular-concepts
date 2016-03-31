@@ -51,7 +51,7 @@
 						<div class="card medium">
 
 							<div class="card-image" id="skateparkVisualHeader">
-								<img  id="placeHolderImg">
+								<img src="/img/noImg.jpg" id="placeHolderImg">
 								<span class="card-title">{{ currentSkatepark.skateparkName }}</span>
 							</div>
 
@@ -150,7 +150,7 @@
 			<!-- end left hand side -->
 
 			<!-- right hand side -->
-			<ul class="right-column collapsible" data-collapsible="accordion">
+			<ul class="collapsible right-column " data-collapsible="accordion">
 
 				<!-- First row -->
 				<div>
@@ -216,7 +216,7 @@
 						<label>
 							Show
 							<input type="checkbox">
-							<span class="lever" ng-click="togglePanel()"></span>
+							<span class="lever" ng-click="togglePanel()" id="resizeSwitch"></span>
 							Hide
 						</label>
 					</div>

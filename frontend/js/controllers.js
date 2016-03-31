@@ -235,22 +235,9 @@ app.controller("MapCtrl", ($scope, $http, $rootScope, NgMap, Upload) => {
 	$rootScope.$on("loadCloudinaryImages", function(event, data){
 
 		setTimeout(function(){
+			console.log("firing");
 
 			$("#placeHolderImg").attr("src", "img/viccy.jpg");
-			/*
-
-					$.each(data, (pointer, imagePath) => {
-
-			console.log($("#skateparkVisualHeader img")[0].src);
-			//const short = imagePath.subStr(1, (imagePath.length - 1));
-			console.log(imagePath);
-			$("#placeHolderImg")[0].src = imagePath;
-			//const img = "<img src='"+ imagePath +"'>";
-			//$("#skateparkVisualHeader .card-title").prepend(img);
-
-		});
-		*/
-
 
 		}, 4700)
 
@@ -292,6 +279,23 @@ app.controller("VoteCtrl", ($scope, $rootScope, localStorageService) => {
 // Responsive Controller - Allow the toggle button to switch between hidden/shown panels
 app.controller("responsiveCtrl", ($scope, $rootScope, NgMap) => {
 
+	const resizeLogic = () => {
+
+		let width = window.innerWidth;
+
+		let fullScreenMap = $(".left-column").hasClass("big-left");
+
+		if (width < 1000 && !fullScreenMap)
+		{
+			$("#resizeSwitch").trigger("click")
+		}	
+		else if (width > 1000 && fullScreenMap)
+		{
+			$("#resizeSwitch").trigger("click")
+		}
+
+	}
+
 	$scope.togglePanel = () => {
 
 		if($(".left-column").hasClass("big-left") || $(".left-column").hasClass("little-right"))
@@ -314,6 +318,23 @@ app.controller("responsiveCtrl", ($scope, $rootScope, NgMap) => {
 		 });
 
 	}
+
+	// Listen for resize
+	$(window).resize(() => {
+		resizeLogic();
+	});
+
+	setTimeout(() => {
+
+		// Fire once when page is initialised
+		resizeLogic();
+
+	},2000)
+
+
+
+
+
 
 });
 
