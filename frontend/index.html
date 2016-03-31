@@ -52,7 +52,13 @@
 
 							<div class="card-image" id="skateparkVisualHeader">
 								<img src="/img/noImg.jpg" id="placeHolderImg">
-								<span class="card-title">{{ currentSkatepark.skateparkName }}</span>
+								<span class="card-title">{{ currentSkatepark.skateparkName }}
+										<div class="added-by">
+											Added by: {{ currentSkatepark.skateparkAdder }} <br />
+											<span class="small">({{ currentSkatepark.createdAt | date: 'h:mm a, MMM d' }})</span>
+										</div>
+								</span>
+
 							</div>
 
 							<div class="card-content">
@@ -67,16 +73,22 @@
 
 								<div class="row">
 
-									<div class="added col s9">
-										<div class="added-by">Added by: {{ currentSkatepark.skateparkAdder }} <span class="small">({{ currentSkatepark.createdAt | date: 'h:mm a, MMM d' }})</span>
-										</div>
-									</div>
-
-									<div class="votes col s3" ng-controller="RatingCtrl">
-										<div ng-click="incrementRating(currentSkatepark)" ng-hide="currentSkatepark.hasVote" class="votes">{{ currentSkatepark.skateparkRating }} votes ^</div>
+									<div class="votes" ng-controller="RatingCtrl">
+										<div class="mini-upvote">{{ currentSkatepark.skateparkRating }} Votes</div>
+										<div ng-click="incrementRating(currentSkatepark)" ng-hide="item.hasVote" class="mini-upvote">^</div>
 									</div>
 
 								</div>
+
+								<div class="row">
+
+									<div class="comments">
+										0 comments
+									</div>
+
+								</div>
+
+		
 
 							</div>
 						</div>

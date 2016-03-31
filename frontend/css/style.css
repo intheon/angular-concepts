@@ -152,6 +152,10 @@ html, body
 	cursor: pointer;
 }
 
+.added-by
+{
+	font-size:12px;
+}
 .right-column i
 {
 }
@@ -223,11 +227,9 @@ html, body
 
 
 .gm-style-iw {
-  	overflow: hidden;
 }
 
 .gm-style-iw div {
-	overflow: hidden;
 }
 
 .ng-map-info-window
@@ -241,9 +243,44 @@ html, body
 	display:none;
 }
 
+.card
+{
+	font-family: coming;
+}
 
+.card .row .col
+{
+	padding:0;
+}
 
+.card-content .desc
+{
+	font-size: 1.3em;
+}
 
+.card-title
+{
+	background: rgba(0,0,0,0.2);
+	border-radius: 2px 2px 0 0;
+}
+
+.votes
+{
+	font-weight: 500;
+}
+.mini-upvote
+{
+	float:left;
+}
+
+.comments
+{
+}
+
+.row
+{
+	margin-bottom: 0;
+}
 
 .add-skate-location
 {
