@@ -14,7 +14,7 @@ app.controller("ListCtrl", ($scope, $http, $rootScope, getJson) => {
 		// Store the response in the array
 		$scope.allData = response;
 
-		//console.log($scope.allData);
+		console.log($scope.allData);
 
 	}).then((response) => {
 
@@ -237,11 +237,11 @@ app.controller("MapCtrl", ($scope, $http, $rootScope, NgMap, Upload) => {
 	$rootScope.$on("loadCloudinaryImages", function(event, data){
 
 		setTimeout(function(){
-			console.log("firing");
 
-			$("#placeHolderImg").attr("src", "img/viccy.jpg");
+			console.log("wat");
+			$("#placeHolderImg").remove();
 
-		}, 4700)
+		}, 1000)
 
 
 
