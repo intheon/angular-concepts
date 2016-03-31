@@ -477,56 +477,57 @@ app.controller("addNewSkateparkCtrl", ($scope, $http, $rootScope, $location, NgM
 
 	// Submits LOCAL files to cloudinary
 	const submitLocalFiles = (localFiles) => {
-		console.log(localFiles);
+		ajaxHelper(localFiles);
 	};
 
 	// Submits REMOTE URLS to cloudinary
 	const submitRemoteFiles = (remoteURLS) => {
-		console.log(remoteURLS);
+		ajaxHelper([remoteURLS]);
 	};
 
 	// Helper function to handle the ajaxy stuff
-	const ajaxHelper = () => {
+	const ajaxHelper = (file) => {
 
-		Upload.upload({
-			url: "https://api.cloudinary.com/v1_1/lgycbktyo/upload/",
-				data: {
-					upload_preset: "p0cxg2v9",
-					tags: 'skateparkimages',
-					context: 'photo=skateLocate',
-					file: file
-				}
-			}).progress((event) => {
-				// TODO - fix this.... it's well screwed!!!
-				let progress = Math.round((event.loaded * 100.0) / event.total);
-				$("#uploadScrollbar div").width(progress + "%");
-				console.log(progress);
-			}).success((data, status, headers, config) => {
+		let cloudinaryImageMeta = [];
 
-				console.log(data);
-				console.log(status);
+		$.each(file, (pointer, thisFile) => {
 
-					/*
+			Upload.upload({
+				url: "https://api.cloudinary.com/v1_1/lgycbktyo/upload/",
+					data: {
+						upload_preset: "p0cxg2v9",
+						tags: 'skateparkimages',
+						context: 'photo=skateLocate',
+						file: thisFile
+					}
+				}).progress((event) => {
+					// TODO - fix this.... it's well screwed!!!
+					let progress = Math.round((event.loaded * 100.0) / event.total);
+					$("#uploadScrollbar div").width(progress + "%");
+					//console.log(progress);
+				}).success((data, status, headers, config) => {
 
-						$("#uploadScrollbar div").width("100%");
+					//console.log(data);
+					//console.log(status);
 
-						// place it on the array
-						if (status === 200) 
-						{
-							cloudinaryImageMeta.push(data)
-						}
+					$("#uploadScrollbar div").width("100%");
 
-						// Because it's async, check if the number of items returned on the array match what was sent
-						if (cloudinaryImageMeta.length === $scope.addNew.screenshots.length)
-						{
-							submitMetaToMongoDb($scope.addNew.skateparkName, $scope.addNew.skateparkDesc, $scope.clickedLocation, $scope.addNew.skateparkAdder, cloudinaryImageMeta);
-							$scope.makeFieldsBlank();
+					// place it on the array
+					if (status === 200) 
+					{
+						cloudinaryImageMeta.push(data.secure_url)
+					}
 
-						}
+					// Because it's async, check if the number of items returned on the array match what was sent
+					if (cloudinaryImageMeta.length === file.length)
+					{
+						submitMetaToMongoDb($scope.addNew.skateparkName, $scope.addNew.skateparkDesc, $scope.clickedLocation, $scope.addNew.skateparkAdder, cloudinaryImageMeta);
+						$scope.makeFieldsBlank();
+					}
 
-						*/
+				});
 
-			});
+		}); // End .each
 
 	};
 
