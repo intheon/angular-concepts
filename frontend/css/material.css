@@ -7579,9 +7579,13 @@ h4 {
 }
 
 h5 {
-  font-size: 1.64rem;
+  font-size: 2rem;
+  /*
   line-height: 110%;
   margin: 0.82rem 0 0.656rem 0;
+  */
+  margin:0;
+  margin-bottom:2.5%;
 }
 
 h6 {
@@ -8970,7 +8974,7 @@ textarea.materialize-textarea + label:after {
 
 .input-field .prefix ~ input,
 .input-field .prefix ~ textarea {
-  margin-left: 3rem;
+  margin-left: 3.5rem;
   width: 92%;
   width: calc(100% - 3rem);
 }
@@ -8980,7 +8984,7 @@ textarea.materialize-textarea + label:after {
 }
 
 .input-field .prefix ~ label {
-  margin-left: 3rem;
+  margin-left: 3.5rem;
 }
 
 @media only screen and (max-width: 992px) {
