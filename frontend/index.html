@@ -46,7 +46,7 @@
 				<!-- A directive to handle the map -->
 				<ng-map class="map" zoom="5" center="48.60385760823255, 18.9404296875" styles="{{ styles }}" on-click="" trigger-resize>
 
-					<!-- Popup for EXISTING markers -->
+					<!-- InfoWindow for EXISTING markers -->
 					<info-window id="detailsWindow" class="detailsWindow" max-width="1400">
 						<div class="card medium">
 
@@ -94,8 +94,8 @@
 						</div>
 					</info-window>
 
-					<!-- Popup for NEW markers -->
-					<info-window id="newSkateparkWindow" ng-controller="addNewSkateparkCtrl">
+					<!-- InfoWindow for NEW markers -->
+					<info-window id="newSkateparkWindow" ng-controller="addNewSkateparkCtrl" close-click="hello()">
 
 						<form action="#" class="add-skate-location">
 
@@ -153,7 +153,7 @@
 
 					</info-window>
 
-					<!-- This will be dynamically draw ALL markers in the allData array -->
+					<!-- This will be dynamically draw ALL EXISTING markers in the allData array -->
 					<marker ng-repeat="marker in allData | filter: parks" position="{{marker.skateparkLocation}}" title="{{marker.skateparkName}}" id="{{marker._id}}" on-click="showSkateparkDetails(marker)">
 					</marker>
 

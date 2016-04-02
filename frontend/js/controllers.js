@@ -93,6 +93,7 @@ app.controller("SearchCtrl", ($scope, $http, $rootScope, NgMap) => {
 // Controller for Google maps presentation, marker and infoWindow logic
 app.controller("MapCtrl", ($scope, $http, $rootScope, NgMap, Upload) => {
 
+
 	// Namespace
 	const inst = this;
 
@@ -126,7 +127,6 @@ app.controller("MapCtrl", ($scope, $http, $rootScope, NgMap, Upload) => {
 		    	}
 
 			};
-
 
 			/* DISCLAIMER 
 
@@ -191,6 +191,8 @@ app.controller("MapCtrl", ($scope, $http, $rootScope, NgMap, Upload) => {
 				// show an InfoWindow
 				inst.map.showInfoWindow('newSkateparkWindow', "inProgressMarker");
 
+
+
 				$("#uploadScrollbar").hide();
 
 				// Allow form to be submitted
@@ -198,14 +200,23 @@ app.controller("MapCtrl", ($scope, $http, $rootScope, NgMap, Upload) => {
 					$rootScope.$broadcast("addNewSkatepark");
 				}
 
+
+				// TODO - Have markers disappear when infoWindows are clicked
+
+				// This is the best implementation I can find because the API doesnt have it's own method to do so!
+					// LOL
+					setTimeout(function(){
+						$("div img[src='https://maps.gstatic.com/mapfiles/api-3/images/mapcnt6.png']").click(function(){
+							$scope.$apply(function(){
+								$scope.clickedLocation = [];
+							})
+						})
+					},100)
+
+
 			});
 
-			// TODO - Have markers disappear when infoWindows are clicked
-			/*
-			google.maps.event.addListener(inst.map, "closeClick", (event) => {
-				console.log("close button was clicked");
-			});
-			*/
+
 
 
 
