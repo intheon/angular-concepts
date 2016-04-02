@@ -37,6 +37,13 @@ app.controller("ListCtrl", ($scope, $http, $rootScope, getJson) => {
 		return copy.reverse();
 	};
 
+	// Helper function to make the new form fields blank (useful for when a submit event never happens)
+	$scope.makeFieldsBlank = () => {
+
+		$scope.addNew = {}
+
+	}
+
 });
 
 // Controller to handle ratings / upvotes
@@ -207,6 +214,9 @@ app.controller("MapCtrl", ($scope, $http, $rootScope, NgMap, Upload) => {
 					// LOL
 					setTimeout(function(){
 						$("div img[src='https://maps.gstatic.com/mapfiles/api-3/images/mapcnt6.png']").click(function(){
+						
+							$scope.addNew = {};
+
 							$scope.$apply(function(){
 								$scope.clickedLocation = [];
 							})
@@ -247,13 +257,8 @@ app.controller("MapCtrl", ($scope, $http, $rootScope, NgMap, Upload) => {
 
 	$rootScope.$on("loadCloudinaryImages", function(event, data){
 
-		setTimeout(function(){
-
-			console.log("wat");
-			$("#placeHolderImg").remove();
-
-		}, 1000)
-
+		console.log(event);
+		console.log(data);
 
 
 	});
@@ -366,12 +371,9 @@ app.controller("addNewSkateparkCtrl", ($scope, $http, $rootScope, $location, NgM
 		{
 			if (!$scope.addNew.screenshots && !$scope.addNew.screenshotURL)
 			{
-				console.log("no screenshots (url or local)... proceed as normal");
-				/*
 				submitMetaToMongoDb($scope.addNew.skateparkName, $scope.addNew.skateparkDesc, $scope.clickedLocation, $scope.addNew.skateparkAdder, null);
 				$("#uploadScrollbar div").width("100%");
 				$scope.makeFieldsBlank();
-				*/
 			}
 			else if ($scope.addNew.screenshots || $scope.addNew.screenshotURL)
 			{	
@@ -451,11 +453,6 @@ app.controller("addNewSkateparkCtrl", ($scope, $http, $rootScope, $location, NgM
 
 	});
 
-	$scope.makeFieldsBlank = () => {
-
-		$scope.addNew = {}
-
-	}
 
 	// Internal functions
 
@@ -467,9 +464,7 @@ app.controller("addNewSkateparkCtrl", ($scope, $http, $rootScope, $location, NgM
 		if (cloudinaryImageMeta)
 		{
 			$.each(cloudinaryImageMeta, (pointer, image) => {
-
-				skateparkImages.push(image.secure_url);
-
+				skateparkImages.push(image);
 			});
 		}
 
@@ -515,11 +510,7 @@ app.controller("addNewSkateparkCtrl", ($scope, $http, $rootScope, $location, NgM
 					// TODO - fix this.... it's well screwed!!!
 					let progress = Math.round((event.loaded * 100.0) / event.total);
 					$("#uploadScrollbar div").width(progress + "%");
-					//console.log(progress);
 				}).success((data, status, headers, config) => {
-
-					//console.log(data);
-					//console.log(status);
 
 					$("#uploadScrollbar div").width("100%");
 
@@ -537,6 +528,7 @@ app.controller("addNewSkateparkCtrl", ($scope, $http, $rootScope, $location, NgM
 					}
 
 				});
+
 
 		}); // End .each
 
