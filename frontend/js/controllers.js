@@ -257,12 +257,121 @@ app.controller("MapCtrl", ($scope, $http, $rootScope, NgMap, Upload) => {
 
 	$rootScope.$on("loadCloudinaryImages", function(event, data){
 
-		console.log(event);
-		console.log(data);
+		setTimeout(function(){
 
+				const swiper = new Swiper(".swiper-container", {
+
+				nextButton: ".swiper-button-next",
+				prevButton: ".swiper-button-prev",
+				pagination: ".swiper-pagination",
+				paginationClickable: true,
+				preloadImages: true,
+				lazyLoading: true,
+				loop: true
+
+			});
+
+		}, 100);
+
+
+/*
+		const meta = ["https://res.cloudinary.com/lgycbktyo/image/upload/v1459606412/xl5jpdgqywkceo94ft1n.jpg", "https://res.cloudinary.com/lgycbktyo/image/upload/v1459606413/ditytfvjc9saerwletvp.jpg", "https://res.cloudinary.com/lgycbktyo/image/upload/v1459606413/rcpol9d34rwyksvzj7xz.jpg"]
+
+
+
+
+
+		setTimeout(function(){
+
+						$.each(meta, (pointer, value) => {
+
+
+
+				$(".swiper-wrapper").append("<div class='swiper-slide'>\
+							<img data-src='" + value + "' class='swiper-lazy'>\
+							<div class='swiper-lazy-preloader'></div>\
+						</div");
+
+			});
+
+
+
+		const swiper = new Swiper(".swiper-container", {
+
+				nextButton: ".swiper-button-next",
+				prevButton: ".swiper-button-prev",
+				pagination: ".swiper-pagination",
+				paginationClickable: true,
+				preloadImages: true,
+				lazyLoading: true,
+				loop: true
+
+			});
+
+		},100)
+
+*/
 
 	});
+			/*
+		setTimeout(function(){
 
+
+
+		$.each(meta, (pointer, value) => {
+
+			// Dynamically append swipers forEach
+				$(".swiper-wrapper").append("<div class='swiper-slide'>\
+						<img data-src='" + value + "' class='swiper-lazy'>\
+						<div class='swiper-lazy-preloader'></div>\
+					</div");
+			});
+
+			// Upon completion, init Swiper
+
+			const swiper = new Swiper(".swiper-container", {
+
+				nextButton: ".swiper-button-next",
+				prevButton: ".swiper-button-prev",
+				pagination: ".swiper-pagination",
+				paginationClickable: true,
+				preloadImages: true,
+				lazyLoading: true,
+				loop: true
+
+			});
+
+
+		},100)
+
+		*/
+
+
+
+		/*
+
+		if (data.length <= 1)
+		{
+			console.log(data[0]);
+
+			setTimeout(function(){
+				$(".replaceMe").attr("src", data[0]);
+			},10)
+		}
+		else
+		{
+			console.log(data);
+		}
+
+
+
+		//$("#replaceMe").src()
+
+
+
+
+	});	
+		*/
 
 });
 
@@ -403,50 +512,6 @@ app.controller("addNewSkateparkCtrl", ($scope, $http, $rootScope, $location, NgM
 					submitLocalFiles($scope.addNew.screenshots);
 					submitRemoteFiles($scope.addNew.screenshotURL);
 				}
-
-				/*
-				let cloudinaryImageMeta = [];
-
-				$.each($scope.addNew.screenshots, (pointer, file) => {
-
-					Upload.upload({
-
-						url: "https://api.cloudinary.com/v1_1/lgycbktyo/upload/",
-						data: {
-							upload_preset: "p0cxg2v9",
-							tags: 'skateparkimages',
-							context: 'photo=skateLocate',
-							file: file
-						}
-
-					}).progress((event) => {
-						// TODO - fix this.... it's well screwed!!!
-						let progress = Math.round((event.loaded * 100.0) / event.total);
-						$("#uploadScrollbar div").width(progress + "%");
-
-					}).success((data, status, headers, config) => {
-
-						$("#uploadScrollbar div").width("100%");
-
-						// place it on the array
-						if (status === 200) 
-						{
-							cloudinaryImageMeta.push(data)
-						}
-
-						// Because it's async, check if the number of items returned on the array match what was sent
-						if (cloudinaryImageMeta.length === $scope.addNew.screenshots.length)
-						{
-							submitMetaToMongoDb($scope.addNew.skateparkName, $scope.addNew.skateparkDesc, $scope.clickedLocation, $scope.addNew.skateparkAdder, cloudinaryImageMeta);
-							$scope.makeFieldsBlank();
-
-						}
-
-					});
-
-				}); // End all file uploads
-
-				*/
 
 			}
 		}

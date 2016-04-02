@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>Swiper demo</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+
+	<!-- CSS -->
+	<link rel="stylesheet" href="css/material.css" />
+	<link rel="stylesheet" href="css/swiper.css" />
+	<link rel="stylesheet" href="css/style.css" />
+
+	<!-- Demo styles -->
+	<style>
+	html, body {
+		background: rgba(0,0,0,0.1);
+	}
+	body {
+		margin: 0;
+		padding: 0;
+	}
+
+
+	summary{
+		margin:0;
+		padding:0;
+	}
+	.frame
+	{
+		position:absolute;
+
+	}
+
+	.expanding-image
+	{
+		position:relative;
+	}
+
+	.expanding-image img
+	{
+		width: 1000px;
+	}
+
+
+	.meta
+	{
+		padding:2%;
+		color: white;
+		background: rgba(0,0,0,0.3);
+		position:absolute;
+		z-index: 3;
+		bottom:0;
+	}
+
+	</style>
+</head>
+<body>
+
+	<summary class="frame">
+		<div class="expanding-image">
+			<img src="/img/response.jpg" alt="">
+		</div>
+		<div class="meta">I am some text</div>
+	</summary>
+
+	<!-- 3rd party libraries -->
+	<script src="../libraries/jquery.js"></script>
+	<script src="../libraries/angular.js"></script>
+	<script src="../libraries/underscore.js"></script>
+	<script src="../libraries/angular-route.js"></script>
+	<script src="../libraries/angular-local-storage.js"></script>
+	<script src="../libraries/ng-map-dev.js"></script>
+	<script src="../libraries/socket.io.js"></script>
+	<script src="../libraries/material.js"></script>
+	<script src="../libraries/cloudinary-core.js"></script>
+	<script src="../libraries/angular-animate.js"></script>
+	<script src="../libraries/angular-route.js"></script>
+	<script src="../libraries/angular-resource.js"></script>
+	<script src="../libraries/angular.cloudinary.js"></script>
+	<script src="../libraries/jquery.ui.widget.js"></script>
+	<script src="../libraries/jquery.iframe-transport.js"></script>
+	<script src="../libraries/jquery.fileupload.js"></script>
+	<script src="../libraries/ng-file-upload.js"></script>
+	<script src="../libraries/swiper.js"></script>
+
+
+	<!-- API -->
+	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyALYjGkfn-RVIETHo-KCBz_1zbVW1OH-O0"></script>
+
+	<!-- Custom JS  -->
+
+	<script src="js/sockets.js"></script>
+	<script src="js/controllers.js"></script>
+	<script src="js/directives.js"></script>
+	<script src="js/factories.js"></script>
+	<script src="js/filters.js"></script>
+	<script src="js/responsive.js"></script>
+
+
+</body>
+</html>

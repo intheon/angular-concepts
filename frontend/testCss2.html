@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>Swiper demo</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+
+	<!-- CSS -->
+	<link rel="stylesheet" href="css/material.css" />
+	<link rel="stylesheet" href="css/swiper.css" />
+	<link rel="stylesheet" href="css/style.css" />
+
+	<!-- Demo styles -->
+	<style>
+	html, body {
+		position: relative;
+		height: 100%;
+	}
+	body {
+		margin: 0;
+		padding: 0;
+	}
+
+	.layered-info
+	{
+		margin:0;
+		padding: 0;
+		position: relative;
+	}
+
+	.layered-info h4
+	{
+		margin:0;
+		padding: 0;
+	}
+
+	figure
+	{
+		height:100%;
+		margin:0;
+		padding: 0;
+	}
+
+	.main-info-fixed
+	{
+		background: rgba(0,0,0,0.2);
+		border-radius: 2px 2px 0 0;
+		color: white;
+		position: relative;
+		bottom: 0;
+		padding-left: 2%;
+		width:100%;
+		z-index:66;
+		margin-top:-158px;
+		height:62px;
+	}
+
+
+	.description
+	{
+		padding-top: 5%;
+		padding-bottom: 5%;
+		font-size:1.2em;
+	}
+
+	.card-wrapper footer
+	{
+		border-top: 1px solid grey;
+		padding-top: 5%;
+		padding-bottom: 5%;
+	}
+
+	.swiper-container
+	{
+	    width: 100%;
+	    text-align: center;
+	    overflow: hidden;
+	}
+
+	.swiper-slide
+	{
+		width:50%;
+    
+
+	}
+
+	.swiper-slide img
+	{
+    	position: relative;
+	    width: 100%;
+	}
+
+	main
+	{
+		position: relative;
+		z-index: 50;
+		background: white;
+	}
+
+	.swiper-pagination-bullets
+	{
+		bottom: 165px !important;
+		position: absolute;
+	}
+
+
+	</style>
+</head>
+<body>
+
+	<div class="card-wrapper">
+			
+		<header class="layered-info">
+			<figure class="slideshow">
+				<div class="swiper-container">
+					<div class="swiper-wrapper"></div>
+					<div class="swiper-pagination swiper-pagination-white"></div>
+					<div class="swiper-button-next swiper-button-white"></div>
+					<div class="swiper-button-prev swiper-button-white"></div>
+				</div>
+			</figure>
+			<section class="main-info-fixed">
+				<h4>Bay66</h4>
+				<time>1st Oct 2016</time>
+			</section>
+		</header>
+
+		<main>
+			<section class="description">
+				Bacon ipsum dolor amet swine doner shankle t-bone strip steak ham hock landjaeger kielbasa. Pork kielbasa turducken chicken drumstick. Sausage chuck meatloaf meatball turducken, capicola pig cow ball tip jerky bacon prosciutto kevin pork. Rump sausage kevin bresaola jerky.
+			</section>
+		</main>
+
+		<footer>
+			<section class="votes">1 vote</section>
+			<section class="comments">0 comments</section>
+		</footer>
+
+	</div>
+
+
+	<!-- Swiper 
+	<div class="swiper-container">
+		<div class="swiper-wrapper"></div>
+		<div class="swiper-pagination swiper-pagination-white"></div>
+		<div class="swiper-button-next swiper-button-white"></div>
+		<div class="swiper-button-prev swiper-button-white"></div>
+	</div>-->
+
+	<!-- 3rd party libraries -->
+	<script src="../libraries/jquery.js"></script>
+	<script src="../libraries/angular.js"></script>
+	<script src="../libraries/underscore.js"></script>
+	<script src="../libraries/angular-route.js"></script>
+	<script src="../libraries/angular-local-storage.js"></script>
+	<script src="../libraries/ng-map-dev.js"></script>
+	<script src="../libraries/socket.io.js"></script>
+	<script src="../libraries/material.js"></script>
+	<script src="../libraries/cloudinary-core.js"></script>
+	<script src="../libraries/angular-animate.js"></script>
+	<script src="../libraries/angular-route.js"></script>
+	<script src="../libraries/angular-resource.js"></script>
+	<script src="../libraries/angular.cloudinary.js"></script>
+	<script src="../libraries/jquery.ui.widget.js"></script>
+	<script src="../libraries/jquery.iframe-transport.js"></script>
+	<script src="../libraries/jquery.fileupload.js"></script>
+	<script src="../libraries/ng-file-upload.js"></script>
+	<script src="../libraries/swiper.js"></script>
+
+
+	<!-- API -->
+	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyALYjGkfn-RVIETHo-KCBz_1zbVW1OH-O0"></script>
+
+	<!-- Custom JS  -->
+
+	<script src="js/sockets.js"></script>
+	<script src="js/controllers.js"></script>
+	<script src="js/directives.js"></script>
+	<script src="js/factories.js"></script>
+	<script src="js/filters.js"></script>
+	<script src="js/responsive.js"></script>
+
+	<script>
+		
+		const meta = ["https://res.cloudinary.com/lgycbktyo/image/upload/v1459606412/xl5jpdgqywkceo94ft1n.jpg", "https://res.cloudinary.com/lgycbktyo/image/upload/v1459606413/ditytfvjc9saerwletvp.jpg", "https://res.cloudinary.com/lgycbktyo/image/upload/v1459606413/rcpol9d34rwyksvzj7xz.jpg"]
+
+		$(document).ready(() => {
+
+			$.each(meta, (pointer, value) => {
+
+				// Dynamically append swipers forEach
+				$(".swiper-wrapper").append("<div class='swiper-slide'>\
+						<img data-src='" + value + "' class='swiper-lazy'>\
+						<div class='swiper-lazy-preloader'></div>\
+					</div");
+			});
+
+			// Upon completion, init Swiper
+
+			const swiper = new Swiper(".swiper-container", {
+
+				nextButton: ".swiper-button-next",
+				prevButton: ".swiper-button-prev",
+				pagination: ".swiper-pagination",
+				paginationClickable: true,
+				preloadImages: true,
+				lazyLoading: true,
+				loop: true
+
+			});
+
+
+		})
+	</script>
+
+</body>
+</html>
