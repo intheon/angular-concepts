@@ -52,17 +52,40 @@
 
 						<div class="card-wrapper" ng-non-bindable="">
 
-							<h1>for fuck sake</h1>
-
-
-							<div class="swiper-slide" ng-repeat="imageSrc in currentSkatepark.skateparkImages">
-							
-								<img ng-src="{{ imageSrc }}" alt="">
-
-
-							</div>
+							<header class="layered-info">
+								<figure class="slideshow">
+									<div class="swiper-container">
+										<div class="swiper-wrapper" ng-non-bindable="">
+											<div class="swiper-slide" ng-repeat="imageSrc in currentSkatepark.skateparkImages">
+												<img ng-src="{{ imageSrc }}" data-src="{{ imageSrc }}" class='swiper-lazy'>
+												<div class="swiper-lazy-preloader"></div>
+											</div>
+										</div>
+										<div class="swiper-pagination swiper-pagination-white"></div>
+										<div class="swiper-button-next swiper-button-white"></div>
+										<div class="swiper-button-prev swiper-button-white"></div>
+									</div>
+								</figure>
+								<section class="main-info-fixed">
+									<h4>{{ currentSkatepark.skateparkName }}</h4>
+									<time>{{ currentSkatepark.createdAt | date: 'h:mm a, MMM d' }}</time>
+								</section>
+							</header>
 
 								<!--
+							<div class="swiper-wrapper">
+
+								<div class="swiper-slide" ng-repeat="imageSrc in currentSkatepark.skateparkImages">
+									<img ng-src="{{ imageSrc }}" alt="">
+								</div>
+
+								<div class="swiper-button-next swiper-button-white" ng-click="navigateThroughSlideshow('next')"></div>
+								<div class="swiper-button-prev swiper-button-white" ng-click="navigateThroughSlideshow('prev')"></div>
+
+								-->
+
+
+	<!--
 							<header class="layered-info">
 								<figure class="slideshow">
 									<div class="swiper-container">

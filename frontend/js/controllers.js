@@ -135,6 +135,10 @@ app.controller("MapCtrl", ($scope, $http, $rootScope, NgMap, Upload) => {
 
 			};
 
+			$scope.navigateThroughSlideshow = (direction) => {
+				console.log(direction);
+			}
+
 			/* DISCLAIMER 
 
 				The below code is a horrible, horrible hack to remove the default InfoWindow style from Google.
@@ -271,7 +275,8 @@ app.controller("MapCtrl", ($scope, $http, $rootScope, NgMap, Upload) => {
 
 			});
 
-		}, 100);
+		}, 1000);
+
 
 
 /*
@@ -605,5 +610,13 @@ app.controller("addNewSkateparkCtrl", ($scope, $http, $rootScope, $location, NgM
 		const isIt = string.match(testRegEx);
 		return isIt;
 	}
+
+});
+
+
+app.controller("SlideshowCtrl", ($scope, $http, $rootScope, angularCarousel) => {
+
+	$scope.meta = ["https://res.cloudinary.com/lgycbktyo/image/upload/v1459606412/xl5jpdgqywkceo94ft1n.jpg", "https://res.cloudinary.com/lgycbktyo/image/upload/v1459606413/ditytfvjc9saerwletvp.jpg", "https://res.cloudinary.com/lgycbktyo/image/upload/v1459606413/rcpol9d34rwyksvzj7xz.jpg"];
+
 
 });
