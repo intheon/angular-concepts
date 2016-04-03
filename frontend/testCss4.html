@@ -104,64 +104,39 @@
 	}
 
 
-
-
-
 	</style>
 
-		<script type="text/javascript">
-
-	const app = angular.module("blahApp", []);
-
-	app.controller("DrawCardCtrl", ($scope, $http, $rootScope) => {
-
-		$scope.meta = ["https://res.cloudinary.com/lgycbktyo/image/upload/v1459606412/xl5jpdgqywkceo94ft1n.jpg", "https://res.cloudinary.com/lgycbktyo/image/upload/v1459606413/ditytfvjc9saerwletvp.jpg", "https://res.cloudinary.com/lgycbktyo/image/upload/v1459606413/rcpol9d34rwyksvzj7xz.jpg"]
-		$scope.message = "hi!";
-
-		$(".derp").append($scope.message)
-	});
-
-
-		/*
-		$(document).ready(() => {
-
-			$.each(meta, (pointer, value) => {
-
-				// Dynamically append swipers forEach
-				$(".swiper-wrapper").append("<div class='swiper-slide'>\
-						<img data-src='" + value + "' class='swiper-lazy'>\
-						<div class='swiper-lazy-preloader'></div>\
-					</div");
-			});
-
-			// Upon completion, init Swiper
-
-			const swiper = new Swiper(".swiper-container", {
-
-				nextButton: ".swiper-button-next",
-				prevButton: ".swiper-button-prev",
-				pagination: ".swiper-pagination",
-				paginationClickable: true,
-				preloadImages: true,
-				lazyLoading: true,
-				loop: true
-
-			});
-
-			*/
-
-
-	</script>
 	
 </head>
 <body>
 
-	<div class="card-wrapper" ng-controller="DrawCardCtrl as derp">
+	<div class="card-wrapper" ng-controller="DrawCardCtrl">
 			
 		<header class="layered-info">
 			<figure class="slideshow">
 				<div class="swiper-container">
 					<div class="swiper-wrapper">
+<!--
+						<div class="swiper-slide">
+							<img data-src="https://res.cloudinary.com/lgycbktyo/image/upload/v1459606412/xl5jpdgqywkceo94ft1n.jpg" alt="" class="swiper-lazy">
+							<div class='swiper-lazy-preloader'></div>
+						</div>
+
+						<div class="swiper-slide">
+							<img data-src="https://res.cloudinary.com/lgycbktyo/image/upload/v1459606413/ditytfvjc9saerwletvp.jpg" alt="" class="swiper-lazy">
+							<div class='swiper-lazy-preloader'></div>
+						</div>
+
+						<div class="swiper-slide">
+							<img data-src="https://res.cloudinary.com/lgycbktyo/image/upload/v1459606413/rcpol9d34rwyksvzj7xz.jpg" alt="" class="swiper-lazy">
+							<div class='swiper-lazy-preloader'></div>
+						</div>-->
+
+						<div class="swiper-slide" ng-repeat="images in meta">
+							<img ng-src="{{ images }}" alt="" class="swiper-lazy">
+							<div class='swiper-lazy-preloader'></div>
+						</div>
+
 					</div>
 					<div class="swiper-pagination swiper-pagination-white"></div>
 					<div class="swiper-button-next swiper-button-white"></div>
@@ -170,7 +145,7 @@
 			</figure>
 			<section class="main-info-fixed">
 				<h4>Bay66</h4>
-				<time>{{message}}</time>
+				<time>1st Oct 2016</time>
 			</section>
 		</header>
 
@@ -233,5 +208,63 @@
 
 
 
+<script type="text/javascript">
+
+	const app = angular.module("blahApp", []);
+
+	app.controller("DrawCardCtrl", ($scope, $http, $rootScope) => {
+
+		$scope.meta = ["https://res.cloudinary.com/lgycbktyo/image/upload/v1459606412/xl5jpdgqywkceo94ft1n.jpg", "https://res.cloudinary.com/lgycbktyo/image/upload/v1459606413/ditytfvjc9saerwletvp.jpg", "https://res.cloudinary.com/lgycbktyo/image/upload/v1459606413/rcpol9d34rwyksvzj7xz.jpg"]
+
+		setTimeout(() => {
+
+			const swiper = new Swiper(".swiper-container", {
+
+				nextButton: ".swiper-button-next",
+				prevButton: ".swiper-button-prev",
+				pagination: ".swiper-pagination",
+				paginationClickable: true,
+				preloadImages: true,
+				lazyLoading: true,
+				loop: true
+
+			});
+
+
+		},200);
+
+	});
+
+
+		/*
+		$(document).ready(() => {
+
+			$.each(meta, (pointer, value) => {
+
+				// Dynamically append swipers forEach
+				$(".swiper-wrapper").append("<div class='swiper-slide'>\
+						<img data-src='" + value + "' class='swiper-lazy'>\
+						<div class='swiper-lazy-preloader'></div>\
+					</div");
+			});
+
+			// Upon completion, init Swiper
+
+			const swiper = new Swiper(".swiper-container", {
+
+				nextButton: ".swiper-button-next",
+				prevButton: ".swiper-button-prev",
+				pagination: ".swiper-pagination",
+				paginationClickable: true,
+				preloadImages: true,
+				lazyLoading: true,
+				loop: true
+
+			});
+
+			*/
+
+
+	</script>
 </body>
 </html>

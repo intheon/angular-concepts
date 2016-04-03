@@ -55,54 +55,28 @@
 							<header class="layered-info">
 								<figure class="slideshow">
 									<div class="swiper-container">
-										<div class="swiper-wrapper" ng-non-bindable="">
-											<div class="swiper-slide" ng-repeat="imageSrc in currentSkatepark.skateparkImages">
-												<img ng-src="{{ imageSrc }}" data-src="{{ imageSrc }}" class='swiper-lazy'>
+										<div class="swiper-wrapper" >
+
+											<div class="swiper-slide" ng-repeat="imageSrc in currentSkatepark.skateparkImages" >
+												<img ng-src="{{ imageSrc }}" class='swiper-lazy'>
 												<div class="swiper-lazy-preloader"></div>
 											</div>
+
 										</div>
 										<div class="swiper-pagination swiper-pagination-white"></div>
-										<div class="swiper-button-next swiper-button-white"></div>
-										<div class="swiper-button-prev swiper-button-white"></div>
+										<div class="swiper-button-next swiper-button-white swiper-nav"></div>
+										<div class="swiper-button-prev swiper-button-white swiper-nav"></div>
 									</div>
 								</figure>
 								<section class="main-info-fixed">
-									<h4>{{ currentSkatepark.skateparkName }}</h4>
-									<time>{{ currentSkatepark.createdAt | date: 'h:mm a, MMM d' }}</time>
-								</section>
-							</header>
-
-								<!--
-							<div class="swiper-wrapper">
-
-								<div class="swiper-slide" ng-repeat="imageSrc in currentSkatepark.skateparkImages">
-									<img ng-src="{{ imageSrc }}" alt="">
-								</div>
-
-								<div class="swiper-button-next swiper-button-white" ng-click="navigateThroughSlideshow('next')"></div>
-								<div class="swiper-button-prev swiper-button-white" ng-click="navigateThroughSlideshow('prev')"></div>
-
-								-->
-
-
-	<!--
-							<header class="layered-info">
-								<figure class="slideshow">
-									<div class="swiper-container">
-										<div class="swiper-wrapper" ng-non-bindable="">
-											<div class="swiper-slide" ng-repeat="imageSrc in currentSkatepark.skateparkImages">
-												<img data-src="{{ imageSrc }}" class='swiper-lazy'>
-												<div class="swiper-lazy-preloader"></div>
-											</div>
-										</div>
-										<div class="swiper-pagination swiper-pagination-white"></div>
-										<div class="swiper-button-next swiper-button-white"></div>
-										<div class="swiper-button-prev swiper-button-white"></div>
+									<div class="left-info">
+										<h4>{{ currentSkatepark.skateparkName }}</h4>
+										<time>{{ currentSkatepark.createdAt | date: 'h:mm a, MMM d' }}</time>
 									</div>
-								</figure>
-								<section class="main-info-fixed">
-									<h4>{{ currentSkatepark.skateparkName }}</h4>
-									<time>{{ currentSkatepark.createdAt | date: 'h:mm a, MMM d' }}</time>
+									<div class="right-info">
+										<div class="upload-image tool-image" ><i class="material-icons prefix small">add</i></div>
+										<div class="upload-image tool-image" ><i class="material-icons prefix small">launch</i></div>
+									</div>
 								</section>
 							</header>
 
@@ -117,93 +91,12 @@
 								<section class="comments">0 comments</section>
 							</footer>
 
-							-->
 
 						</div>
 
 
 					</info-window>
 
-						<!--
-						<div class="card-wrapper">
-								
-							<header class="layered-info">
-								<figure class="slideshow">
-									<div class="swiper-container">
-										<div class="swiper-wrapper"></div>
-										<div class="swiper-pagination swiper-pagination-white"></div>
-										<div class="swiper-button-next swiper-button-white"></div>
-										<div class="swiper-button-prev swiper-button-white"></div>
-									</div>
-								</figure>
-								<section class="main-info-fixed">
-									<h4>{{ currentSkatepark.skateparkName }}</h4>
-									<time>{{ currentSkatepark.createdAt | date: 'h:mm a, MMM d' }}</time>
-								</section>
-							</header>
-
-							<main>
-								<section class="description">
-									{{ currentSkatepark.skateparkDesc }}
-								</section>
-							</main>
-
-							<footer>
-								<section class="votes" ng-controller="RatingCtrl">{{ currentSkatepark.skateparkRating }} vote <div ng-click="incrementRating(currentSkatepark)" ng-hide="currentSkatepark.hasVote" class="mini-upvote">^</div></section>
-								<section class="comments">0 comments</section>
-							</footer>
-
-						</div>
-
-						-->
-
-
-					<!-- InfoWindow for EXISTING markers OLD
-					<info-window id="detailsWindow" class="detailsWindow" max-width="1400">
-						<div class="card medium">
-
-							<div class="card-image swiper-container" id="skateparkVisualHeader">
-								<img src="/img/noImg.jpg" class="replaceMe" alt="">
-								<span class="card-title">{{ currentSkatepark.skateparkName }}
-										<div class="added-by">
-											Added by: {{ currentSkatepark.skateparkAdder }} <br />
-											<span class="small">({{ currentSkatepark.createdAt | date: 'h:mm a, MMM d' }})</span>
-										</div>
-								</span>
-
-							</div>
-
-							<div class="card-content">
-
-								<div class="row">
-									<div class="desc col 12">{{ currentSkatepark.skateparkDesc }}</div>
-								</div>
-
-							</div>
-
-							<div class="card-action">
-
-								<div class="row">
-
-									<div class="votes" ng-controller="RatingCtrl">
-										<div class="mini-upvote">{{ currentSkatepark.skateparkRating }} Votes</div>
-										<div ng-click="incrementRating(currentSkatepark)" ng-hide="currentSkatepark.hasVote" class="mini-upvote">^</div>
-									</div>
-
-								</div>
-
-								<div class="row">
-
-									<div class="comments">
-										0 comments
-									</div>
-
-								</div>
-
-
-							</div>
-						</div>
-					</info-window>-->
 
 					<!-- InfoWindow for NEW markers -->
 					<info-window id="newSkateparkWindow" ng-controller="addNewSkateparkCtrl" close-click="hello()">
@@ -288,13 +181,6 @@
 
 					<div class="row">
 						<h2>SkateLocate<img src="./img/skate-icon.png" class="skate-icon" alt="skateboard icon" width="48px"></h2>
-					</div>
-
-					<div class="row">
-						<h4>test output</h4>
-						<div class="output">
-							<img src="/img/noImg.jpg" class="replaceMe" alt="" width="100px">
-						</div>
 					</div>
 					
 					<div class="search-for-items" ng-controller="SearchCtrl">

@@ -124,6 +124,20 @@ app.controller("MapCtrl", ($scope, $http, $rootScope, NgMap, Upload) => {
 				$scope.currentSkatepark = skatepark;
 		    	inst.map.showInfoWindow('detailsWindow', skatepark._id);
 
+		    	setTimeout(() => {
+
+					const goo  = $(".gm-style-iw");
+					const background1 = $(goo).prev().children(":nth-child(2)");
+					const background2 = $(goo).prev().children(":nth-child(4)");
+
+					$(background1).css({"background":"transparent"});
+					$(background1).css({"box-shadow":"none"});
+					$(background2).css({"background":"transparent"});
+					console.log(background2);
+
+				},100);
+
+
 		    	if (skatepark.skateparkImages.length > 0)
 		    	{
 		    		$rootScope.$broadcast("loadCloudinaryImages", $scope.currentSkatepark.skateparkImages);
@@ -261,9 +275,11 @@ app.controller("MapCtrl", ($scope, $http, $rootScope, NgMap, Upload) => {
 
 	$rootScope.$on("loadCloudinaryImages", function(event, data){
 
+		$scope.currentSkatepark.skateparkImages = data;
+
 		setTimeout(function(){
 
-				const swiper = new Swiper(".swiper-container", {
+			const swiper = new Swiper(".swiper-container", {
 
 				nextButton: ".swiper-button-next",
 				prevButton: ".swiper-button-prev",
@@ -279,104 +295,8 @@ app.controller("MapCtrl", ($scope, $http, $rootScope, NgMap, Upload) => {
 
 
 
-/*
-		const meta = ["https://res.cloudinary.com/lgycbktyo/image/upload/v1459606412/xl5jpdgqywkceo94ft1n.jpg", "https://res.cloudinary.com/lgycbktyo/image/upload/v1459606413/ditytfvjc9saerwletvp.jpg", "https://res.cloudinary.com/lgycbktyo/image/upload/v1459606413/rcpol9d34rwyksvzj7xz.jpg"]
-
-
-
-
-
-		setTimeout(function(){
-
-						$.each(meta, (pointer, value) => {
-
-
-
-				$(".swiper-wrapper").append("<div class='swiper-slide'>\
-							<img data-src='" + value + "' class='swiper-lazy'>\
-							<div class='swiper-lazy-preloader'></div>\
-						</div");
-
-			});
-
-
-
-		const swiper = new Swiper(".swiper-container", {
-
-				nextButton: ".swiper-button-next",
-				prevButton: ".swiper-button-prev",
-				pagination: ".swiper-pagination",
-				paginationClickable: true,
-				preloadImages: true,
-				lazyLoading: true,
-				loop: true
-
-			});
-
-		},100)
-
-*/
-
 	});
-			/*
-		setTimeout(function(){
 
-
-
-		$.each(meta, (pointer, value) => {
-
-			// Dynamically append swipers forEach
-				$(".swiper-wrapper").append("<div class='swiper-slide'>\
-						<img data-src='" + value + "' class='swiper-lazy'>\
-						<div class='swiper-lazy-preloader'></div>\
-					</div");
-			});
-
-			// Upon completion, init Swiper
-
-			const swiper = new Swiper(".swiper-container", {
-
-				nextButton: ".swiper-button-next",
-				prevButton: ".swiper-button-prev",
-				pagination: ".swiper-pagination",
-				paginationClickable: true,
-				preloadImages: true,
-				lazyLoading: true,
-				loop: true
-
-			});
-
-
-		},100)
-
-		*/
-
-
-
-		/*
-
-		if (data.length <= 1)
-		{
-			console.log(data[0]);
-
-			setTimeout(function(){
-				$(".replaceMe").attr("src", data[0]);
-			},10)
-		}
-		else
-		{
-			console.log(data);
-		}
-
-
-
-		//$("#replaceMe").src()
-
-
-
-
-	});	
-		*/
 
 });
 

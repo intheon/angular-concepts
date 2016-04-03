@@ -240,7 +240,7 @@ html, body
 }
 
 
-/* CUSTOM CARD STYLE
+/* CUSTOM CARD STYLE */
 
 	.layered-info
 	{
@@ -282,6 +282,8 @@ html, body
 	{
 		padding-top: 5%;
 		padding-bottom: 5%;
+		padding-left:2%;
+		padding-right:2%;
 		font-size:1.2em;
 	}
 
@@ -300,16 +302,35 @@ html, body
 	.swiper-slide
 	{
 
-		width:50%;
-
-    
-
 	}
 
 	.swiper-slide img
 	{
+		width:100%;
+	}
 
+	.card-wrapper
+	{
+		font-family: coming !important;
 
+	}
+
+	.left-info
+	{
+		float:left;
+	}
+
+	.right-info
+	{
+		float:right;
+		padding-top: 2%;
+		padding-right: 2%;
+	}
+
+		.right-info div
+	{
+
+		display:inline;
 	}
 
 	main
@@ -322,13 +343,27 @@ html, body
 	
 	}
 
+	footer
+	{
+		background: white;
+		padding-left:2%;
+		padding-right:2%;
+	}
+
 	.swiper-pagination-bullets
 	{
 		bottom: 165px !important;
 		position: absolute;
 	}
 
- */
+	.swiper-nav
+	{
+		background: rgba(0,0,0,0.2);
+		border-radius: 2px 2px 2px 2px;
+		padding-bottom:2%;
+	}
+
+
 /*
 
 OVERHAULED
@@ -436,6 +471,10 @@ OVERHAULED
 	border-bottom: 200px solid #dcedc8;
 	border-left: 200px solid transparent;
 }
+
+
+
+
 
 .responsive-switch
 {
