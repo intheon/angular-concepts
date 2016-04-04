@@ -133,7 +133,6 @@ app.controller("MapCtrl", ($scope, $http, $rootScope, NgMap, Upload) => {
 					$(background1).css({"background":"transparent"});
 					$(background1).css({"box-shadow":"none"});
 					$(background2).css({"background":"transparent"});
-					console.log(background2);
 
 				},100);
 
@@ -152,6 +151,7 @@ app.controller("MapCtrl", ($scope, $http, $rootScope, NgMap, Upload) => {
 			$scope.navigateThroughSlideshow = (direction) => {
 				console.log(direction);
 			}
+
 
 			/* DISCLAIMER 
 
@@ -244,11 +244,6 @@ app.controller("MapCtrl", ($scope, $http, $rootScope, NgMap, Upload) => {
 
 			});
 
-
-
-
-
-
 		});
 
 	});
@@ -291,11 +286,12 @@ app.controller("MapCtrl", ($scope, $http, $rootScope, NgMap, Upload) => {
 
 			});
 
-		}, 1000);
 
-
+		}, 600);
 
 	});
+
+
 
 
 });

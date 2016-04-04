@@ -74,8 +74,14 @@
 										<time>{{ currentSkatepark.createdAt | date: 'h:mm a, MMM d' }}</time>
 									</div>
 									<div class="right-info">
-										<div class="upload-image tool-image" ><i class="material-icons prefix small">add</i></div>
-										<div class="upload-image tool-image" ><i class="material-icons prefix small">launch</i></div>
+										<div class="tool-image" ng-click="showTools('')"><i class="material-icons prefix small">add</i></div>
+										<div class="tool-image" ><a class="launch-slideshow" href="#slideshow-popup"><i class="material-icons prefix small">launch</i></a></div>
+									</div>
+									<div id="slideshow-popup">
+
+									</div>
+									<div class="hidden-tools">
+										<h3>here is some hidden stuff</h3>
 									</div>
 								</section>
 							</header>
@@ -90,6 +96,10 @@
 								<section class="votes" ng-controller="RatingCtrl">{{ currentSkatepark.skateparkRating }} vote <div ng-click="incrementRating(currentSkatepark)" ng-hide="currentSkatepark.hasVote" class="mini-upvote">^</div></section>
 								<section class="comments">0 comments</section>
 							</footer>
+
+
+
+
 
 
 						</div>
@@ -257,6 +267,7 @@
 		</div>
 
 	</div>
+
 
 
 	<!-- JAVASCRIPT -->
