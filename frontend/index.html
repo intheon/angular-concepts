@@ -58,7 +58,7 @@
 										<div class="swiper-wrapper" >
 
 											<div class="swiper-slide" ng-repeat="imageSrc in currentSkatepark.skateparkImages" >
-												<img ng-src="{{ imageSrc }}" class='swiper-lazy'>
+												<img ng-src="{{ imageSrc }}" class="swiper-lazy max-height">
 												<div class="swiper-lazy-preloader"></div>
 											</div>
 
@@ -76,9 +76,6 @@
 									<div class="right-info">
 										<div class="tool-image" ng-click="showTools('')"><i class="material-icons prefix small">add</i></div>
 										<div class="tool-image" ><a class="launch-slideshow" href="#slideshow-popup"><i class="material-icons prefix small">launch</i></a></div>
-									</div>
-									<div id="slideshow-popup">
-
 									</div>
 									<div class="hidden-tools">
 										<h3>here is some hidden stuff</h3>

@@ -268,11 +268,9 @@ html, body
 		position: relative;
 		bottom: 0;
 		padding-left: 2%;
-
-
 		width:100%;
 		z-index:66;
-		margin-top:-158px;
+		margin-top:-290px;
 		height:62px;
 
 	}

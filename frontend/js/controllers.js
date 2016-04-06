@@ -136,7 +136,6 @@ app.controller("MapCtrl", ($scope, $http, $rootScope, NgMap, Upload) => {
 
 				},100);
 
-
 		    	if (skatepark.skateparkImages.length > 0)
 		    	{
 		    		$rootScope.$broadcast("loadCloudinaryImages", $scope.currentSkatepark.skateparkImages);
@@ -215,8 +214,6 @@ app.controller("MapCtrl", ($scope, $http, $rootScope, NgMap, Upload) => {
 
 				// show an InfoWindow
 				inst.map.showInfoWindow('newSkateparkWindow', "inProgressMarker");
-
-
 
 				$("#uploadScrollbar").hide();
 
