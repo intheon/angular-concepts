@@ -77,10 +77,46 @@
 										<div class="tool-image" ng-click="showTools('')"><i class="material-icons prefix small">add</i></div>
 										<div class="tool-image" ><a class="launch-slideshow" href="#slideshow-popup"><i class="material-icons prefix small">launch</i></a></div>
 									</div>
-									<div class="hidden-tools">
-										<h3>here is some hidden stuff</h3>
-									</div>
 								</section>
+
+								<div class="hidden-tools">
+
+									<form action="#" class="add-skate-images">
+
+										<!-- Ask for a remote url -->
+										<div class="input-field row">
+											<i class="material-icons prefix">launch</i>
+											<input type="text" ng-model="addNew.screenshotURL" id="screenshotURL">
+											<label for="screenshotURL">Paste a link to an image...</label>
+										</div>
+
+										<!-- Ask for screenshots -->
+										<div class="file-field input-field row">
+											<div class="btn waves-effect waves-light">
+												<div>File</div>
+												<input type="file" ngf-select ng-model="addNew.screenshots" ngf-multiple="true" accept="image/*" ngf-max-size="4MB">
+											</div>
+											<div class="file-path-wrapper">
+												<input class="file-path validate" type="text"  placeholder="Or upload some!">
+											</div>
+										</div>
+
+
+										<!-- Submit button -->
+										<div class="row">
+											<input type="button" value="Submit!" class="btn col s12" ng-click="submitNewSkateparkForm()">
+										</div>
+
+										<!-- Is hidden initially, but the Upload Service will command the width -->
+										  <div class="progress" id="uploadScrollbar">
+										      <div class="determinate" style="width: 0%"></div>
+										  </div>
+	        
+									</form>
+
+
+								</div>
+
 							</header>
 
 							<main>
@@ -106,7 +142,7 @@
 
 
 					<!-- InfoWindow for NEW markers -->
-					<info-window id="newSkateparkWindow" ng-controller="addNewSkateparkCtrl" close-click="hello()">
+					<info-window id="newSkateparkWindow" ng-controller="addNewSkateparkCtrl">
 
 						<form action="#" class="add-skate-location">
 

@@ -151,6 +151,12 @@ app.controller("MapCtrl", ($scope, $http, $rootScope, NgMap, Upload) => {
 				console.log(direction);
 			}
 
+			$scope.showTools = () => {
+
+				$(".hidden-tools").slideToggle();
+
+			}
+
 
 			/* DISCLAIMER 
 
