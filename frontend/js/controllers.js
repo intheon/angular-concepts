@@ -294,7 +294,14 @@ app.controller("MapCtrl", ($scope, $http, $rootScope, NgMap, Upload) => {
 
 	});
 
+	/*
 
+	$rootScope.$on.("updateSkateparkMeta", function(event, data){
+
+
+	});
+
+*/
 
 
 });
@@ -481,7 +488,7 @@ app.controller("addNewSkateparkCtrl", ($scope, $http, $rootScope, $location, NgM
 	};
 
 	// Helper function to handle the ajaxy stuff
-	const ajaxHelper = (file) => {
+	const ajaxHelper = (file, callbackFn) => {
 
 		let cloudinaryImageMeta = [];
 
@@ -512,7 +519,11 @@ app.controller("addNewSkateparkCtrl", ($scope, $http, $rootScope, $location, NgM
 					// Because it's async, check if the number of items returned on the array match what was sent
 					if (cloudinaryImageMeta.length === file.length)
 					{
-						submitMetaToMongoDb($scope.addNew.skateparkName, $scope.addNew.skateparkDesc, $scope.clickedLocation, $scope.addNew.skateparkAdder, cloudinaryImageMeta);
+
+						// Fire the callback that was passed in (because this can handle POST and PUT requests)	
+						callbackFn(params);
+
+						//submitMetaToMongoDb($scope.addNew.skateparkName, $scope.addNew.skateparkDesc, $scope.clickedLocation, $scope.addNew.skateparkAdder, cloudinaryImageMeta);
 						$scope.makeFieldsBlank();
 					}
 

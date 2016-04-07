@@ -101,14 +101,14 @@ html, body
 .left-column
 {
 	float:left;
-	width:70%;
+	width:61.8%;
 	transition: 1s all;
 }
 
 .right-column
 {
 	float:left;
-	width:30%;
+	width:38.2%;
 	padding: 0;
 	margin:0;
 	padding-right:2%;
@@ -225,6 +225,20 @@ html, body
 .add-new-item
 {
 	bottom: 0;
+}
+
+.add-skate-images .input-field
+{
+	margin-top: 0%;
+	width: 43%;
+	float: left;
+	margin: 3%;
+	margin-top:2%;
+}
+
+.padding
+{
+	margin: 3%;
 }
 
 
@@ -426,6 +440,7 @@ OVERHAULED
 {
 	background: white;
 	padding: 4%;
+	margin-bottom:4%;
 	border-radius: 8px;
 	width: 300px;
 }

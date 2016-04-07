@@ -43,6 +43,13 @@ angular.module("newParkService", [])
 
 	});
 
+angular.module("updateParkService", [])
+	.factory("updateParkService", ($http, $scope, $rootScope) => {
+
+		let blag;
+
+	});
+
 
 	var isDefined = angular.isDefined,
 	isUndefined = angular.isUndefined,
