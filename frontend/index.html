@@ -81,12 +81,12 @@
 
 								<div class="hidden-tools">
 
-									<form action="#" class="add-skate-images">
+									<form action="#" class="add-skate-images" ng-controller="updateSkateparkImagesCtrl">
 
 										<!-- Ask for a remote url -->
 										<div class="input-field row">
 											<i class="material-icons prefix">link</i>
-											<input type="text" ng-model="addNew.screenshotURL" id="screenshotURL">
+											<input type="text" ng-model="addAmendment.screenshotURL" id="screenshotURL">
 											<label for="screenshotURL">Paste a link to an image...</label>
 										</div>
 
@@ -94,7 +94,7 @@
 										<div class="file-field input-field row">
 											<div class="btn waves-effect waves-light">
 												<div>File</div>
-												<input type="file" ngf-select ng-model="addNew.screenshots" ngf-multiple="true" accept="image/*" ngf-max-size="4MB">
+												<input type="file" ngf-select ng-model="addAmendment.screenshots" ngf-multiple="true" accept="image/*" ngf-max-size="4MB">
 											</div>
 											<div class="file-path-wrapper">
 												<input class="file-path validate" type="text"  placeholder="Or upload some!">
@@ -104,11 +104,11 @@
 
 										<!-- Submit button -->
 										<div class="row padding">
-											<input type="button" value="Submit!" class="btn col s12" ng-click="submitNewSkateparkForm()">
+											<input type="button" value="Submit!" class="btn col s12" ng-click="updateSkateparkImages()">
 										</div>
 
 										<!-- Is hidden initially, but the Upload Service will command the width -->
-										  <div class="progress" id="uploadScrollbar">
+										  <div class="progress padding" class="uploadScrollbar">
 										      <div class="determinate" style="width: 0%"></div>
 										  </div>
 	        
@@ -192,7 +192,7 @@
 							</div>
 
 							<!-- Is hidden initially, but the Upload Service will command the width -->
-							  <div class="progress" id="uploadScrollbar">
+							  <div class="progress" class="uploadScrollbar">
 							      <div class="determinate" style="width: 0%"></div>
 							  </div>
         

@@ -86,7 +86,6 @@ html, body
 {
 	margin: 0;
 	padding: 0;
-	font-family: coming;
 	overflow: hidden;
 			position: relative;
 		height: 100%;
@@ -136,6 +135,7 @@ html, body
 
 .right-column h2
 {
+	font-family: coming;
 	margin-left: 3.5rem;
 }
 
@@ -239,6 +239,7 @@ html, body
 .padding
 {
 	margin: 3%;
+	width:auto;
 }
 
 
@@ -266,6 +267,7 @@ html, body
 	{
 		margin:0;
 		padding: 0;
+		font-size: 3.5em;
 	}
 
 	figure
@@ -285,14 +287,13 @@ html, body
 		width:100%;
 		z-index:66;
 		margin-top:-200px;
-		height:62px;
+		height:66px;
 
 	}
 
-
 	.description
 	{
-		padding-top: 4%;
+		padding-top: 2%;
 		padding-bottom: 2%;
 		padding-left:2%;
 		padding-right:2%;
@@ -301,7 +302,7 @@ html, body
 
 	.card-wrapper footer
 	{
-		border-top: 1px solid grey;
+		border-top: 1px solid #E4E4E4;
 		padding-top: 2%;
 		padding-bottom: 2%;
 		z-index:100;
@@ -325,14 +326,14 @@ html, body
 
 	.card-wrapper
 	{
-		font-family: coming !important;
+		background: white;
 
 	}
 
 	.left-info
 	{
 		float:left;
-		padding-top: 1%
+		margin-top: -1%;
 	}
 
 	.right-info
@@ -415,7 +416,6 @@ OVERHAULED
 
 #newSkateparkWindow input[type="text"]
 {
-	font-family: coming !important;
 }
 
 .votes
@@ -484,6 +484,8 @@ OVERHAULED
 	width:100%;
 	position: relative;
 	z-index:70;
+	margin-top:-20px;
+	border-bottom: 1px solid #E4E4E4;	
 }
 
 .upvote:hover

@@ -1,6 +1,6 @@
 "use strict";
 
-const app = angular.module("ngSkateApp", ["getJson", "ngMap", "newParkService", "localStorageService", "cloudinary", "ngFileUpload"]);
+const app = angular.module("ngSkateApp", ["getJson", "ngMap", "newParkService", "miscHelpFunctionsService", "localStorageService", "cloudinary", "ngFileUpload", "cloudHelpService"]);
 
 // Controller for getting data from server and presenting to view
 app.controller("ListCtrl", ($scope, $http, $rootScope, getJson) => {
@@ -117,6 +117,7 @@ app.controller("MapCtrl", ($scope, $http, $rootScope, NgMap, Upload) => {
 			inst.map = map;
 			$scope.scopeMap = map;
 			$scope.addNew = {}
+			$scope.addAmendment = {}
 
 			// Show a skateparks InfoWindow when clicked
 			// Not using an arrow function as it messes up the reference to 'this'
@@ -129,10 +130,16 @@ app.controller("MapCtrl", ($scope, $http, $rootScope, NgMap, Upload) => {
 					const goo  = $(".gm-style-iw");
 					const background1 = $(goo).prev().children(":nth-child(2)");
 					const background2 = $(goo).prev().children(":nth-child(4)");
+					const pin1 = $(goo).prev().children(":nth-child(3)").children(":first-child");
+					const pin2 = $(goo).prev().children(":nth-child(3)").children(":last-child");
+
 
 					$(background1).css({"background":"transparent"});
 					$(background1).css({"box-shadow":"none"});
 					$(background2).css({"background":"transparent"});
+					$(pin1).css({"top":"-12px"});
+					$(pin2).css({"top":"-12px"});
+
 
 				},100);
 
@@ -156,6 +163,7 @@ app.controller("MapCtrl", ($scope, $http, $rootScope, NgMap, Upload) => {
 				$(".hidden-tools").slideToggle();
 
 			}
+
 
 
 			/* DISCLAIMER 
@@ -293,16 +301,6 @@ app.controller("MapCtrl", ($scope, $http, $rootScope, NgMap, Upload) => {
 		}, 600);
 
 	});
-
-	/*
-
-	$rootScope.$on.("updateSkateparkMeta", function(event, data){
-
-
-	});
-
-*/
-
 
 });
 
@@ -505,10 +503,10 @@ app.controller("addNewSkateparkCtrl", ($scope, $http, $rootScope, $location, NgM
 				}).progress((event) => {
 					// TODO - fix this.... it's well screwed!!!
 					let progress = Math.round((event.loaded * 100.0) / event.total);
-					$("#uploadScrollbar div").width(progress + "%");
+					$(".uploadScrollbar div").width(progress + "%");
 				}).success((data, status, headers, config) => {
 
-					$("#uploadScrollbar div").width("100%");
+					$(".uploadScrollbar div").width("100%");
 
 					// place it on the array
 					if (status === 200) 
@@ -540,6 +538,74 @@ app.controller("addNewSkateparkCtrl", ($scope, $http, $rootScope, $location, NgM
 		const isIt = string.match(testRegEx);
 		return isIt;
 	}
+
+});
+
+app.controller("updateSkateparkImagesCtrl", ($scope, $http, $rootScope, miscHelpFunctionsService, cloudHelpService) => {
+
+	$scope.updateSkateparkImages = () => {
+
+		if (!$scope.addAmendment.screenshots && !$scope.addAmendment.screenshotURL)
+		{
+			Materialize.toast('Please enter at least one file!', 2000);
+			return;
+		}
+		else
+		{
+			// Handle JUST local screenshots
+			if ($scope.addAmendment.screenshots && !$scope.addAmendment.screenshotURL)
+			{
+				console.log("just local stuff");
+				console.log($scope.addAmendment.screenshots);
+				// TODO - virus checking etc!!
+					//submitLocalFiles($scope.addNew.screenshots);
+			}
+			// Handle JUST remote screenshots
+			else if (!$scope.addAmendment.screenshots && $scope.addAmendment.screenshotURL)
+			{ 
+				if (miscHelpFunctionsService.testIsValidURL($scope.addAmendment.screenshotURL))
+				{
+					let tempArr = [];
+						tempArr.push($scope.addAmendment.screenshotURL)
+					let cloudImgUrls = cloudHelpService.submitImgAndReturn(tempArr);
+					console.log(cloudImgUrls);
+
+					setTimeout(() => {
+						console.log(cloudImgUrls);
+					}, 4000)
+						cloudImgUrls.then((confirmedUrls) => {
+
+							console.log("wow");
+							console.log(confirmedUrls);
+
+						});
+
+					$scope.makeFieldsBlank();
+				}
+				else
+				{
+					Materialize.toast('Please enter a correct URL :)', 2000) // 4000 is the duration of the toast
+					$scope.addAmendment.screenshotURL = "";
+				}
+			}
+			// Handle BOTH local screenshots AND remotes
+			else if ($scope.addAmendment.screenshots && $scope.addAmendment.screenshotURL)
+			{
+				console.log("both");
+				console.log($scope.addAmendment.screenshots);
+				console.log($scope.addAmendment.screenshotURL);
+				// TODO - Look into performance of this
+				/*
+				submitLocalFiles($scope.addNew.screenshots);
+				submitRemoteFiles($scope.addNew.screenshotURL);
+				*/
+			}
+
+		}
+
+
+	}
+
 
 });
 
