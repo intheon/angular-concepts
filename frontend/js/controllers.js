@@ -382,6 +382,7 @@ app.controller("responsiveCtrl", ($scope, $rootScope, NgMap) => {
 		}
 		else
 		{
+
 			$(".left-column").addClass("big-left");
 			$(".right-column").addClass("little-right");
 		}

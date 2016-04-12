@@ -153,11 +153,16 @@
 									<div class="waves-effect light-blue lighten-4 btn-flat small" ng-click="incrementRating(currentSkatepark)" ng-hide="currentSkatepark.hasVote"><i class="material-icons left">backup</i>{{ currentSkatepark.skateparkRating }} votes</div>
 									<div class="waves-effect btn-flat disabled small" ng-show="currentSkatepark.hasVote">{{ currentSkatepark.skateparkRating }} votes</div>
 
-
 								</section>
 								<section class="comments">
 
 									<div class="waves-effect btn-flat small" ng-click="" ng-hide=""><i class="material-icons left">comment</i>0 comments</div>
+
+								</section>
+
+								<section class="videos">
+
+									<div class="waves-effect btn-flat small" ng-click="" ng-hide=""><i class="material-icons left">movie_creation</i>0 videos</div>
 
 								</section>
 							</footer>
@@ -303,6 +308,8 @@
 						</div>
 					</div>
 				</li>
+				
+				<div class="bottom-right-fixed">
 
 				<!-- bottom stuff -->
 				<div class="info-triangle"></div>
@@ -326,10 +333,14 @@
 
 				</div>
 
+				</div>
+
+
 			</ul>
 			<!-- end right hand side -->
 
 		</div>
+
 
 	</div>
 
