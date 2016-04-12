@@ -1,79 +1,10 @@
 "use strict";
 
-
 // To get the Json
 angular.module("getJson", [])
 	.factory("getJson", ($http) => {
 
 		return $http.get("/skateparks");
-
-	});
-
-// A load of useful stuff to IO to the DB
-angular.module("databaseService", [])
-	.factory("databaseService", () => {
-
-		return {
-
-		}
-
-	});
-
-
-angular.module("cloudHelpService", [])
-	.factory("cloudHelpService", ($http, $rootScope, $q, Upload) => {
-
-		return {
-
-			submitImgAndReturn: (files) => {
-
-				let cloudinaryImageMeta = [];
-				let deferred = $q.defer();
-
-				$.each(files, (pointer, thisFile) => {
-
-					console.log(thisFile);
-					Upload.upload({
-						url: "https://api.cloudinary.com/v1_1/lgycbktyo/upload/",
-						data: {
-							upload_preset: "p0cxg2v9",
-							tags: 'skateparkimages',
-							context: 'photo=skateLocate',
-							file: thisFile
-						}
-					}).progress((event) => {
-						// TODO - fix this.... it's well screwed!!!
-						let progress = Math.round((event.loaded * 100.0) / event.total);
-						$(".uploadScrollbar div").width(progress + "%");
-						console.log("here?");
-					}).success((data, status, headers, config) => {
-
-						$(".uploadScrollbar div").width("100%");
-
-						// place it on the array
-						if (status === 200) 
-						{
-							console.log("success!");
-							cloudinaryImageMeta.push(data.secure_url)
-						}
-
-						// Because it's async, check if the number of items returned on the array match what was sent
-						if (cloudinaryImageMeta.length === files.length)
-						{
-							deferred.resolve(cloudinaryImageMeta);
-							return cloudinaryImageMeta;
-
-							//submitMetaToMongoDb($scope.addNew.skateparkName, $scope.addNew.skateparkDesc, $scope.clickedLocation, $scope.addNew.skateparkAdder, cloudinaryImageMeta);
-						}
-
-					});
-
-				}); // End .each
-
-			}
-
-		}
-
 
 	});
 
@@ -134,25 +65,12 @@ angular.module("newParkService", [])
 
 	});
 
-angular.module("updateParkService", [])
-	.factory("updateParkService", ($http, $scope, $rootScope) => {
-
-		let blag;
-
-	});
-
 angular.module("addImageToCloud", [])
 	.factory("addImageToCloud", ($http, $q, $rootScope, Upload) => {
 
 		const task = {
 
 			uploadImages : (arrOfStrings) => {
-				const defer = $q.defer();
-
-				setTimeout(() => {
-					defer.resolve("blag")
-				},100)
-				/*
 
 				// Set up some promises and private vars
 				const defer 				= $q.defer();
@@ -192,7 +110,6 @@ angular.module("addImageToCloud", [])
 					});
 
 				});
-				*/
 
 				// send that mofo back to its .then method!
 				return defer.promise;

@@ -152,9 +152,32 @@ app.controller("MapCtrl", ($scope, $http, $rootScope, NgMap, Upload) => {
 				console.log(direction);
 			}
 
+			$scope.toolsShown = false;
+
 			$scope.showTools = () => {
 
-				$(".hidden-tools").slideToggle();
+				if (!$scope.toolsShown)
+				{
+					$(".description").fadeOut(() => {
+						$(".hidden-tools").fadeIn(() => {
+							$scope.toolsShown = true;
+						});
+					});
+				}
+				else
+				{
+					$(".hidden-tools").fadeOut(() => {
+						$(".description").fadeIn(() => {
+							$scope.toolsShown = false;
+						});
+					});
+				}
+
+			}
+
+			$scope.showSlideshowModal = () => {
+
+				console.log("aha");
 
 			}
 
@@ -419,16 +442,14 @@ app.controller("addNewSkateparkCtrl", ($scope, $http, $q, $timeout, $rootScope, 
 				if ($scope.addNew.screenshots && !$scope.addNew.screenshotURL)
 				{
 					// TODO - virus checking etc!!
-					submitToCloud($scope.addNew.screenshots);
-
+					submitToCloudAndDB($scope.addNew.screenshots);
 				}
 				// Handle JUST remote screenshots
 				else if (!$scope.addNew.screenshots && $scope.addNew.screenshotURL)
 				{
-					if (testIsValidURL($scope.addNew.screenshotURL))
+					if (miscHelpFunctionsService.testIsValidURL($scope.addNew.screenshotURL))
 					{
-						submitToCloud($scope.addNew.screenshotURL);
-
+						submitToCloudAndDB($scope.addNew.screenshotURL);
 					}
 					else
 					{
@@ -440,8 +461,13 @@ app.controller("addNewSkateparkCtrl", ($scope, $http, $q, $timeout, $rootScope, 
 				else if ($scope.addNew.screenshots && $scope.addNew.screenshotURL)
 				{
 					// TODO - Look into performance of this
+
+
+					/*
+						THIS IS BROKEN FOR NOW....
 					submitLocalFiles($scope.addNew.screenshots);
 					submitRemoteFiles($scope.addNew.screenshotURL);
+					*/
 				}
 
 			}
@@ -480,7 +506,7 @@ app.controller("addNewSkateparkCtrl", ($scope, $http, $q, $timeout, $rootScope, 
 
 
 	// Submits URLS or LOCAL files to Cloudinary
-	const submitToCloud = (urls) => {
+	const submitToCloudAndDB = (urls) => {
 
 		let toSubmit = [];
 
@@ -491,156 +517,17 @@ app.controller("addNewSkateparkCtrl", ($scope, $http, $q, $timeout, $rootScope, 
 
 		cloudPromise.then((response) => {
 
-			console.log("wat");
+			submitMetaToMongoDb($scope.addNew.skateparkName, $scope.addNew.skateparkDesc, $scope.clickedLocation, $scope.addNew.skateparkAdder, response);
 			$scope.makeFieldsBlank();
-
-			/*
-			console.log($scope.addNew);
-			setTimeout(() => {
-				$scope.$apply(() => {
-					$scope.addNew = {}
-				})
-			},1000);
-			*/
-
-
-
 
 		});
 
-
-	}
-
-	/*
-	// Helper function to handle the ajaxy stuff
-	const ajaxHelper = (file, callbackFn) => {
-
-		let cloudinaryImageMeta = [];
-
-		$.each(file, (pointer, thisFile) => {
-
-			Upload.upload({
-				url: "https://api.cloudinary.com/v1_1/lgycbktyo/upload/",
-					data: {
-						upload_preset: "p0cxg2v9",
-						tags: 'skateparkimages',
-						context: 'photo=skateLocate',
-						file: thisFile
-					}
-				}).progress((event) => {
-					// TODO - fix this.... it's well screwed!!!
-					let progress = Math.round((event.loaded * 100.0) / event.total);
-					$(".uploadScrollbar div").width(progress + "%");
-				}).success((data, status, headers, config) => {
-
-					$(".uploadScrollbar div").width("100%");
-
-					// place it on the array
-					if (status === 200) 
-					{
-						cloudinaryImageMeta.push(data.secure_url)
-					}
-
-					// Because it's async, check if the number of items returned on the array match what was sent
-					if (cloudinaryImageMeta.length === file.length)
-					{
-
-						// Fire the callback that was passed in (because this can handle POST and PUT requests)	
-						callbackFn(params);
-
-						//submitMetaToMongoDb($scope.addNew.skateparkName, $scope.addNew.skateparkDesc, $scope.clickedLocation, $scope.addNew.skateparkAdder, cloudinaryImageMeta);
-						$scope.makeFieldsBlank();
-					}
-
-				});
-
-
-		}); // End .each
-
-
-	};		*/
-
-	const testIsValidURL = (string) => {
-		// This regex probably sucks and will probably break
-		const testRegEx = /(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/;
-		const isIt = string.match(testRegEx);
-		return isIt;
 	}
 
 });
 
-app.controller("updateSkateparkImagesCtrl", ($scope, $http, $rootScope, miscHelpFunctionsService, cloudHelpService) => {
-
-	$scope.updateSkateparkImages = () => {
-
-		if (!$scope.addAmendment.screenshots && !$scope.addAmendment.screenshotURL)
-		{
-			Materialize.toast('Please enter at least one file!', 2000);
-			return;
-		}
-		else
-		{
-			// Handle JUST local screenshots
-			if ($scope.addAmendment.screenshots && !$scope.addAmendment.screenshotURL)
-			{
-				console.log("just local stuff");
-				console.log($scope.addAmendment.screenshots);
-				// TODO - virus checking etc!!
-					//submitLocalFiles($scope.addNew.screenshots);
-			}
-			// Handle JUST remote screenshots
-			else if (!$scope.addAmendment.screenshots && $scope.addAmendment.screenshotURL)
-			{ 
-				if (miscHelpFunctionsService.testIsValidURL($scope.addAmendment.screenshotURL))
-				{
-					let tempArr = [];
-						tempArr.push($scope.addAmendment.screenshotURL)
-					let cloudImgUrls = cloudHelpService.submitImgAndReturn(tempArr);
-					console.log(cloudImgUrls);
-
-					setTimeout(() => {
-						console.log(cloudImgUrls);
-					}, 4000)
-						cloudImgUrls.then((confirmedUrls) => {
-
-							console.log("wow");
-							console.log(confirmedUrls);
-
-						});
-
-					$scope.makeFieldsBlank();
-				}
-				else
-				{
-					Materialize.toast('Please enter a correct URL :)', 2000) // 4000 is the duration of the toast
-					$scope.addAmendment.screenshotURL = "";
-				}
-			}
-			// Handle BOTH local screenshots AND remotes
-			else if ($scope.addAmendment.screenshots && $scope.addAmendment.screenshotURL)
-			{
-				console.log("both");
-				console.log($scope.addAmendment.screenshots);
-				console.log($scope.addAmendment.screenshotURL);
-				// TODO - Look into performance of this
-				/*
-				submitLocalFiles($scope.addNew.screenshots);
-				submitRemoteFiles($scope.addNew.screenshotURL);
-				*/
-			}
-
-		}
 
 
-	}
-
-
-});
-
-
-app.controller("SlideshowCtrl", ($scope, $http, $rootScope, angularCarousel) => {
-
-	$scope.meta = ["https://res.cloudinary.com/lgycbktyo/image/upload/v1459606412/xl5jpdgqywkceo94ft1n.jpg", "https://res.cloudinary.com/lgycbktyo/image/upload/v1459606413/ditytfvjc9saerwletvp.jpg", "https://res.cloudinary.com/lgycbktyo/image/upload/v1459606413/rcpol9d34rwyksvzj7xz.jpg"];
-
+app.controller("updateSkateparkImagesCtrl", ($scope, $http, $rootScope, miscHelpFunctionsService) => {
 
 });
