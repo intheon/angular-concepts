@@ -339,15 +339,16 @@ html, body
 
 	}
 
-	.left-info
+	time
 	{
+		font-size: 0.85em;
+		opacity:0.5;
+		float:left;
+		width:100%;
+		padding-top:2%;
 	}
 
-	.right-info
-	{
-		padding-top: 2%;
-		padding-right: 2%;
-	}
+
 
 	.keep-aspect
 	{
@@ -478,8 +479,14 @@ OVERHAULED
 
 .tool-image
 {
+	float:left;
+	width:15%;
 	transition: 0.6s all;
-	opacity: 1;
+	font-size: 0.85em;
+	opacity:0.7;
+	float:left;
+	width:100%;
+	padding-top:2%;
 }
 
 .tool-image a 
@@ -511,7 +518,7 @@ OVERHAULED
 .hidden-tools
 {
 	float:left;
-	width:89%;
+	width:49%;
 	display:none;
 	z-index:70;
 }
