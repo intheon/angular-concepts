@@ -53,21 +53,39 @@
 						<div class="card-wrapper" ng-non-bindable="">
 
 							<header class="layered-info">
-								<figure class="slideshow">
-									<div class="swiper-container">
-										<div class="swiper-wrapper" >
 
-											<div class="swiper-slide" ng-repeat="imageSrc in currentSkatepark.skateparkImages" >
-												<img ng-src="{{ imageSrc }}" class="swiper-lazy max-height">
-												<div class="swiper-lazy-preloader"></div>
+								<!-- only show if theres images in the slideshow -->
+								<div ng-if="currentSkatepark.skateparkImages.length > 0">
+
+									<figure class="slideshow slideshowOfImages">
+
+										<div class="swiper-container">
+
+											<div class="swiper-wrapper" >
+							
+												<div class="swiper-slide" ng-repeat="imageSrc in currentSkatepark.skateparkImages" >
+
+													<img ng-src="{{ imageSrc }}"  class="swiper-lazy max-height">
+
+													<div class="swiper-lazy-preloader"></div>
+												</div>
+
 											</div>
 
+											<div class="swiper-pagination swiper-pagination-white"></div>
+											<div class="swiper-button-next swiper-button-white swiper-nav"></div>
+											<div class="swiper-button-prev swiper-button-white swiper-nav"></div>
 										</div>
-										<div class="swiper-pagination swiper-pagination-white"></div>
-										<div class="swiper-button-next swiper-button-white swiper-nav"></div>
-										<div class="swiper-button-prev swiper-button-white swiper-nav"></div>
-									</div>
-								</figure>
+
+									</figure>
+
+								</div>
+
+								<!-- only show if theres NO images -->
+								<div ng-if="currentSkatepark.skateparkImages.length === 0">
+									<img src="/img/defaultSkatepark.jpg" width="100%" alt="">
+								</div>
+
 
 							</header>
 

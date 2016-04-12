@@ -279,6 +279,7 @@ html, body
 		background: rgba(0,0,0,0.03);
 		padding: 2%;
 		float:left;
+		width: 21%;
 	}
 
 	.main-info-fixed h4
@@ -296,6 +297,7 @@ html, body
 		padding-right:2%;
 		font-size:1.4em;
 		float:left;
+		width:79%;
 	}
 
 	.card-wrapper footer
@@ -332,7 +334,9 @@ html, body
 
 	.card-wrapper
 	{
-		background: white;
+		background: white !important;
+		height:100%;
+		width:100%;
 
 	}
 
@@ -381,6 +385,11 @@ html, body
 		background: rgba(0,0,0,0.2);
 		border-radius: 2px 2px 2px 2px;
 		bottom:0;
+	}
+
+	.defaultSkateparkImage
+	{
+
 	}
 
 
@@ -484,7 +493,7 @@ OVERHAULED
 .hidden-tools
 {
 	float:left;
-	width:70%;
+	width:89%;
 	display:none;
 	z-index:70;
 }

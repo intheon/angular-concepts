@@ -137,14 +137,11 @@ app.controller("MapCtrl", ($scope, $http, $rootScope, NgMap, Upload) => {
 
 				},100);
 
-		    	if (skatepark.skateparkImages.length > 0)
-		    	{
-		    		$rootScope.$broadcast("loadCloudinaryImages", $scope.currentSkatepark.skateparkImages);
-		    	}
-		    	else
-		    	{
-		    		$("#placeHolderImg").show();
-		    	}
+
+				// IMPORTANT!!!! Only initialise the Slider method if theres at least one image to show... else show a fallback (see the ng-if in the view)
+		    	if (skatepark.skateparkImages.length > 0) $rootScope.$broadcast("activateSlideshow", $scope.currentSkatepark.skateparkImages);
+
+
 
 			};
 
@@ -298,7 +295,7 @@ app.controller("MapCtrl", ($scope, $http, $rootScope, NgMap, Upload) => {
 
 	});
 
-	$rootScope.$on("loadCloudinaryImages", function(event, data){
+	$rootScope.$on("activateSlideshow", function(event, data){
 
 		$scope.currentSkatepark.skateparkImages = data;
 
@@ -317,7 +314,7 @@ app.controller("MapCtrl", ($scope, $http, $rootScope, NgMap, Upload) => {
 			});
 
 
-		}, 600);
+		}, 300);
 
 	});
 
