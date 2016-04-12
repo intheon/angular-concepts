@@ -87,8 +87,8 @@ html, body
 	margin: 0;
 	padding: 0;
 	overflow: hidden;
-			position: relative;
-		height: 100%;
+	position: relative;
+	height: 100%;
 }
 
 .app-wrapper
@@ -278,13 +278,14 @@ html, body
 	{
 		background: rgba(0,0,0,0.03);
 		padding: 2%;
-		float:left;
-		width: 21%;
+		display:table-cell;
+		width:33%;
 	}
 
 	.main-info-fixed h4
 	{
-
+		font-size: 2vw;
+		margin:2%;
 	}
 
 
@@ -296,8 +297,8 @@ html, body
 		padding-left:2%;
 		padding-right:2%;
 		font-size:1.4em;
-		float:left;
-		width:79%;
+		display:table-cell;
+		width:67%;
 	}
 
 	.card-wrapper footer
@@ -342,8 +343,6 @@ html, body
 
 	.left-info
 	{
-		transition: 1s all;
-		margin-top:-1%;
 	}
 
 	.right-info

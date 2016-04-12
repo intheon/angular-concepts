@@ -135,7 +135,7 @@ app.controller("MapCtrl", ($scope, $http, $rootScope, NgMap, Upload) => {
 					$(pin2).css({"top":"-12px"});
 
 
-				},100);
+				},25);
 
 
 				// IMPORTANT!!!! Only initialise the Slider method if theres at least one image to show... else show a fallback (see the ng-if in the view)
