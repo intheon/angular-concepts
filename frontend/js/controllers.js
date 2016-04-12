@@ -1,6 +1,6 @@
 "use strict";
 
-const app = angular.module("ngSkateApp", ["getJson", "ngMap", "newParkService", "miscHelpFunctionsService", "localStorageService", "cloudinary", "ngFileUpload", "cloudHelpService"]);
+const app = angular.module("ngSkateApp", ["getJson", "ngMap", "newParkService", "miscHelpFunctionsService", "localStorageService", "cloudinary", "ngFileUpload", "addImageToCloud"]);
 
 // Controller for getting data from server and presenting to view
 app.controller("ListCtrl", ($scope, $http, $rootScope, getJson) => {
@@ -390,23 +390,23 @@ app.controller("responsiveCtrl", ($scope, $rootScope, NgMap) => {
 
 
 
-
-
 });
 
 // File Controller - Handles uploads of skatepark screenshots to the server
-app.controller("addNewSkateparkCtrl", ($scope, $http, $rootScope, $location, NgMap, newParkService, Upload) => {
+app.controller("addNewSkateparkCtrl", ($scope, $http, $q, $rootScope, NgMap, newParkService, Upload, miscHelpFunctionsService, addImageToCloud) => {
 
 	// Is called at some point in the future when the form on the InfoWindow is submitted
 	$rootScope.$on("addNewSkatepark", () => {
 
+		// if empty mandatory fields
 		if (!$scope.addNew.skateparkName || !$scope.addNew.skateparkAdder )
 		{
-			Materialize.toast('Please enter the first two fields! :)', 2000) // 4000 is the duration of the toast
+			miscHelpFunctionsService.displayErrorMessage("Please enter the first two fields! :)");
 			return;
 		}
 		else
 		{
+			// If no screenshots are needed
 			if (!$scope.addNew.screenshots && !$scope.addNew.screenshotURL)
 			{
 				submitMetaToMongoDb($scope.addNew.skateparkName, $scope.addNew.skateparkDesc, $scope.clickedLocation, $scope.addNew.skateparkAdder, null);
@@ -419,18 +419,18 @@ app.controller("addNewSkateparkCtrl", ($scope, $http, $rootScope, $location, NgM
 				if ($scope.addNew.screenshots && !$scope.addNew.screenshotURL)
 				{
 					// TODO - virus checking etc!!
-					submitLocalFiles($scope.addNew.screenshots);
+					submitToCloud($scope.addNew.screenshots);
 				}
 				// Handle JUST remote screenshots
 				else if (!$scope.addNew.screenshots && $scope.addNew.screenshotURL)
 				{
 					if (testIsValidURL($scope.addNew.screenshotURL))
 					{
-						submitRemoteFiles($scope.addNew.screenshotURL);
+						submitToCloud($scope.addNew.screenshotURL);
 					}
 					else
 					{
-						Materialize.toast('Please enter a correct URL :)', 2000) // 4000 is the duration of the toast
+						miscHelpFunctionsService.displayErrorMessage("Please enter a correct URL :)");
 						$scope.addNew.screenshotURL = "";
 					}
 				}
@@ -475,14 +475,26 @@ app.controller("addNewSkateparkCtrl", ($scope, $http, $rootScope, $location, NgM
 
 	};
 
-	// Submits LOCAL files to cloudinary
-	const submitLocalFiles = (localFiles) => {
-		ajaxHelper(localFiles);
-	};
 
 	// Submits REMOTE URLS to cloudinary
-	const submitRemoteFiles = (remoteURLS) => {
-		ajaxHelper([remoteURLS]);
+	const submitToCloud = (urls) => {
+
+		let toSubmit = [];
+
+		if (typeof urls === "string") toSubmit.push(urls);
+		else if (typeof urls === "object") toSubmit = urls
+
+		const cloudPromise = addImageToCloud.uploadImages(toSubmit);
+
+		cloudPromise.then((response) => {
+
+			console.log("success");
+			console.log(response);
+
+			$scope.makeFieldsBlank();
+
+		});
+
 	};
 
 	// Helper function to handle the ajaxy stuff
