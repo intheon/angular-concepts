@@ -63,18 +63,20 @@
 
 											<div class="swiper-wrapper" >
 							
-												<div class="swiper-slide" ng-repeat="imageSrc in currentSkatepark.skateparkImages" >
+												<div class="swiper-slide keep-aspect" ng-repeat="imageSrc in currentSkatepark.skateparkImages" >
 
-													<img ng-src="{{ imageSrc }}"  class="swiper-lazy max-height">
+													<img ng-src="{{ imageSrc }}"  class="swiper-lazy fixed-height">
 
 													<div class="swiper-lazy-preloader"></div>
+
 												</div>
 
 											</div>
+											
 
-											<div class="swiper-pagination swiper-pagination-white"></div>
-											<div class="swiper-button-next swiper-button-white swiper-nav"></div>
-											<div class="swiper-button-prev swiper-button-white swiper-nav"></div>
+											<div class="swiper-pagination swiper-pagination-white" ng-if="currentSkatepark.skateparkImages.length > 1"></div>
+											<div class="swiper-button-next swiper-button-white swiper-nav" ng-if="currentSkatepark.skateparkImages.length > 1"></div>
+											<div class="swiper-button-prev swiper-button-white swiper-nav" ng-if="currentSkatepark.skateparkImages.length > 1"></div>
 										</div>
 
 									</figure>
@@ -339,7 +341,7 @@
 	<script src="../libraries/angular.js"></script>
 	<script src="../libraries/underscore.js"></script>
 	<script src="../libraries/angular-route.js"></script>
-	<script src="../libraries/swiper.js"></script>
+	<script src="../libraries/swiper.dev.js"></script>
 	<script src="../libraries/angular-local-storage.js"></script>
 	<script src="../libraries/ng-map-dev.js"></script>
 	<script src="../libraries/socket.io.js"></script>
@@ -365,7 +367,6 @@
 	<script src="js/directives.js"></script>
 	<script src="js/factories.js"></script>
 	<script src="js/filters.js"></script>
-	<script src="js/responsive.js"></script>
 
 
 </body>
