@@ -37,12 +37,6 @@ app.controller("ListCtrl", ($scope, $http, $rootScope, getJson) => {
 		return copy.reverse();
 	};
 
-	// Helper function to make the new form fields blank (useful for when a submit event never happens)
-	$scope.makeFieldsBlank = () => {
-
-		$scope.addNew = {}
-
-	}
 
 });
 
@@ -234,6 +228,8 @@ app.controller("MapCtrl", ($scope, $http, $rootScope, NgMap, Upload) => {
 				// Allow form to be submitted
 				$scope.submitNewSkateparkForm = () => {
 					$rootScope.$broadcast("addNewSkatepark");
+
+
 				}
 
 
@@ -301,6 +297,11 @@ app.controller("MapCtrl", ($scope, $http, $rootScope, NgMap, Upload) => {
 		}, 600);
 
 	});
+
+	// Helper function to make the new form fields blank (useful for when a submit event never happens)
+	$scope.makeFieldsBlank = () => {
+		$scope.addNew = null;
+	}
 
 });
 
@@ -393,7 +394,7 @@ app.controller("responsiveCtrl", ($scope, $rootScope, NgMap) => {
 });
 
 // File Controller - Handles uploads of skatepark screenshots to the server
-app.controller("addNewSkateparkCtrl", ($scope, $http, $q, $rootScope, NgMap, newParkService, Upload, miscHelpFunctionsService, addImageToCloud) => {
+app.controller("addNewSkateparkCtrl", ($scope, $http, $q, $timeout, $rootScope, NgMap, newParkService, Upload, miscHelpFunctionsService, addImageToCloud) => {
 
 	// Is called at some point in the future when the form on the InfoWindow is submitted
 	$rootScope.$on("addNewSkatepark", () => {
@@ -411,7 +412,6 @@ app.controller("addNewSkateparkCtrl", ($scope, $http, $q, $rootScope, NgMap, new
 			{
 				submitMetaToMongoDb($scope.addNew.skateparkName, $scope.addNew.skateparkDesc, $scope.clickedLocation, $scope.addNew.skateparkAdder, null);
 				$("#uploadScrollbar div").width("100%");
-				$scope.makeFieldsBlank();
 			}
 			else if ($scope.addNew.screenshots || $scope.addNew.screenshotURL)
 			{	
@@ -420,6 +420,7 @@ app.controller("addNewSkateparkCtrl", ($scope, $http, $q, $rootScope, NgMap, new
 				{
 					// TODO - virus checking etc!!
 					submitToCloud($scope.addNew.screenshots);
+
 				}
 				// Handle JUST remote screenshots
 				else if (!$scope.addNew.screenshots && $scope.addNew.screenshotURL)
@@ -427,6 +428,7 @@ app.controller("addNewSkateparkCtrl", ($scope, $http, $q, $rootScope, NgMap, new
 					if (testIsValidURL($scope.addNew.screenshotURL))
 					{
 						submitToCloud($scope.addNew.screenshotURL);
+
 					}
 					else
 					{
@@ -444,6 +446,7 @@ app.controller("addNewSkateparkCtrl", ($scope, $http, $q, $rootScope, NgMap, new
 
 			}
 		}
+
 
 	});
 
@@ -476,7 +479,7 @@ app.controller("addNewSkateparkCtrl", ($scope, $http, $q, $rootScope, NgMap, new
 	};
 
 
-	// Submits REMOTE URLS to cloudinary
+	// Submits URLS or LOCAL files to Cloudinary
 	const submitToCloud = (urls) => {
 
 		let toSubmit = [];
@@ -488,15 +491,27 @@ app.controller("addNewSkateparkCtrl", ($scope, $http, $q, $rootScope, NgMap, new
 
 		cloudPromise.then((response) => {
 
-			console.log("success");
-			console.log(response);
-
+			console.log("wat");
 			$scope.makeFieldsBlank();
+
+			/*
+			console.log($scope.addNew);
+			setTimeout(() => {
+				$scope.$apply(() => {
+					$scope.addNew = {}
+				})
+			},1000);
+			*/
+
+
+
 
 		});
 
-	};
 
+	}
+
+	/*
 	// Helper function to handle the ajaxy stuff
 	const ajaxHelper = (file, callbackFn) => {
 
@@ -542,7 +557,8 @@ app.controller("addNewSkateparkCtrl", ($scope, $http, $q, $rootScope, NgMap, new
 
 		}); // End .each
 
-	};
+
+	};		*/
 
 	const testIsValidURL = (string) => {
 		// This regex probably sucks and will probably break

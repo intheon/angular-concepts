@@ -147,6 +147,12 @@ angular.module("addImageToCloud", [])
 		const task = {
 
 			uploadImages : (arrOfStrings) => {
+				const defer = $q.defer();
+
+				setTimeout(() => {
+					defer.resolve("blag")
+				},100)
+				/*
 
 				// Set up some promises and private vars
 				const defer 				= $q.defer();
@@ -186,6 +192,7 @@ angular.module("addImageToCloud", [])
 					});
 
 				});
+				*/
 
 				// send that mofo back to its .then method!
 				return defer.promise;
