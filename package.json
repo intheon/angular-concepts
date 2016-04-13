@@ -1,6 +1,9 @@
 {
   "name": "skatelocate",
   "main": "server.js",
+  "engines": {
+    "node": "5.10.1"
+  },
   "dependencies": {
     "body-parser": "~1.5.2",
     "express": "~4.7.2",
