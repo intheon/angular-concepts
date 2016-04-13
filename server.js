@@ -56,8 +56,8 @@ io.on("connection", (socket) => {
 
 // Start
 // -------------------------------------------------------
-http.listen(1337, () => {
+http.listen(port, () => {
 
-	console.log("Server is alive on port 1337");
+	console.log("Server is alive on port " + port);
 
 })

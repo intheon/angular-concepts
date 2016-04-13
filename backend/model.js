@@ -8,7 +8,8 @@ const SkateParkSchema = new Schema({
 	skateparkDesc: {type: String, required: false},
 	skateparkRating: {type: Number, required: false},
 	skateparkLocation: {type: [Number], required: false}, // [Long, Lat]
-	addedBy: String,
+	skateparkImages: {type: Array, required: false},
+	skateparkAdder: String,
 	createdAt: {type: Date, default: Date.now}
 });
 
@@ -25,3 +26,4 @@ SkateParkSchema.pre('save', (next) => {
 
 // Exports the Schema for use elsewhere. The MongoDB collection will be called 'skateparks'
 module.exports = mongoose.model('skateparks', SkateParkSchema);
+
