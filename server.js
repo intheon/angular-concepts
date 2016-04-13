@@ -1,5 +1,6 @@
 "use strict";
 
+// Requires
 const express         = require('express');
 const mongoose        = require('mongoose');
 const app             = express();
@@ -10,9 +11,14 @@ const morgan          = require('morgan');
 const bodyParser      = require('body-parser');
 const methodOverride  = require('method-override');
 
-
 // MongoDB config
-mongoose.connect("mongodb://127.0.0.1/angular-concepts");
+const dbString 	      = process.env.MONGOLAB_URI || process.env.MONGOHQ_URL || "mongodb://127.0.0.1/angular-concepts";
+
+// Mongo Connect
+mongoose.connect(dbString, (err, res) => {
+	if (err) console.log("error connecting to " + dbString + " with error -> " + err);
+	else console.log ('Succeeded connected to: ' + dbString);
+});
 
 // Expose the 'frontend' and 'libraries' folder for all
 app.use(express.static(__dirname + '/frontend'));
