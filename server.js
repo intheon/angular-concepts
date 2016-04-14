@@ -12,12 +12,13 @@ const bodyParser      = require('body-parser');
 const methodOverride  = require('method-override');
 
 // MongoDB config
-const dbString 	      = process.env.MONGOLAB_URI || process.env.MONGOHQ_URL || "mongodb://127.0.0.1/angular-concepts";
+const dbString 	      = "mongodb://127.0.0.1/angular-concepts";
+//const dbString =  "mongodb://int_heroku_ben:Sixteen16@ds023550.mlab.com:23550/heroku_r1j6hfp6";
 
 // Mongo Connect
 mongoose.connect(dbString, (err, res) => {
 	if (err) console.log("error connecting to " + dbString + " with error -> " + err);
-	else console.log ('Succeeded connected to: ' + dbString);
+	else console.log ('Succeeded connecting to: ' + dbString);
 });
 
 // Expose the 'frontend' and 'libraries' folder for all

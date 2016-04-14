@@ -249,18 +249,18 @@
 			<!-- end left hand side -->
 
 			<!-- right hand side -->
-			<ul class="collapsible right-column " data-collapsible="expandable">
+			<ul class="collapsible right-column" data-collapsible="accordion">
 
 				<!-- First row -->
-				<div>
+				<div class="full-width">
 
-					<div class="row">
-						<h2>SkateLocate<img src="./img/skate-icon.png" class="skate-icon" alt="skateboard icon" width="48px"></h2>
+					<div class="row grey-header full-width">
+						<h2><img src="./img/skate-icon.png" class="skate-icon faded" alt="skateboard icon" width="30px">SkateLocate</h2>
 					</div>
 					
-					<div class="search-for-items" ng-controller="SearchCtrl">
-						<div class="input-field">
-							<i class="material-icons prefix">search</i>
+					<div class="search-for-items nudged-menu full-width" ng-controller="SearchCtrl">
+						<div class="input-field pad">
+							<i class="material-icons prefix align">search</i>
 							<input type="text" ng-model="searchString" id="search-parks"></input>
 							<label for="search-parks">Search</label>
 						</div>
@@ -271,14 +271,14 @@
 
 
 				<!-- Third Row: Highest ranked items -->
-				<li>
+				<li class="nudged-menu full-width">
 
 
-					<h5 class="collapsible-header active"><i class="material-icons align">present_to_all</i>  Highest Voted <i class="material-icons grn-colour">swap_vert</i></h5>
+					<h5 class="collapsible-header active"><i class="material-icons align faded">present_to_all</i>  Highest Voted <i class="material-icons grn-colour">swap_vert</i></h5>
 
 					<div class="collapsible-body">
 
-						<div ng-repeat="item in allData | orderBy: '-skateparkRating' | limitTo: 6" class="list-of-highest-rated-items collection mouse-clickable " ng-controller="RatingCtrl">
+						<div ng-repeat="item in allData | orderBy: '-skateparkRating' | limitTo: 4" class="list-of-highest-rated-items collection mouse-clickable " ng-controller="RatingCtrl">
 
 							<div class="collection-item avatar" ng-click="showSkateparkDetails(item._id, item)">
 								<span class="absolute-label">{{ item.skateparkRating }}</span><i class=" circle"></i>
@@ -292,8 +292,8 @@
 				</li>
 
 				<!-- most recently added items -->
-				<li>
-					<h5 class="collapsible-header"><i class="material-icons align">forward_10</i> Recently Added <i class="material-icons grn-colour">swap_vert</i></h5>
+				<li class="nudged-menu full-width">
+					<h5 class="collapsible-header"><i class="material-icons align faded">forward_10</i> Recently Added <i class="material-icons grn-colour">swap_vert</i></h5>
 					<div class="list-of-most-recent-items collapsible-body">
 						<div ng-repeat="item in rev(allData) | limitTo: 10">
 
@@ -304,14 +304,35 @@
 					</div>
 				</li>
 
+				<!-- filters -->
+				<li class="nudged-menu full-width">
+					<h5 class="collapsible-header"><i class="material-icons align faded">filter_list</i> Filter <i class="material-icons grn-colour">swap_vert</i></h5>
+					<div class="list-of-most-recent-items collapsible-body">
+						<div ng-repeat="item in rev(allData) | limitTo: 10">
+
+							<div class="item-name" ng-click="showSkateparkDetails(item._id, item)">{{ item.skateparkName }} <span class="small"> {{ item.createdAt | date: 'h:mm a, MMM d' }} by {{ item.skateparkAdder }} </span>
+							</div>
+
+						</div>
+					</div>
+				</li>
+
+
 				<!-- bottom stuff -->
 				<div class="info-triangle"></div>
 
 				<div class="bottom-right">
 
-					<div class="users-connected">
-						<div class="icon icon-users"></div>
-						<div class="number-connected-users"></div>
+
+
+
+					<div class="modal-settings-help">
+						<div class="users-connected">
+							<div class="number-connected-users"></div>
+						</div>
+						<i class="material-icons green-icon">help</i>
+						<i class="material-icons green-icon">settings</i>
+						<i class="material-icons green-icon">people</i>
 					</div>
 
 					<!-- a toggle switch -->
