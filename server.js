@@ -1,5 +1,6 @@
 "use strict";
 
+// Requires
 const express         = require('express');
 const mongoose        = require('mongoose');
 const app             = express();
@@ -10,9 +11,15 @@ const morgan          = require('morgan');
 const bodyParser      = require('body-parser');
 const methodOverride  = require('method-override');
 
-
 // MongoDB config
-mongoose.connect("mongodb://127.0.0.1/angular-concepts");
+//const dbString 	      = "mongodb://127.0.0.1/angular-concepts";
+const dbString 		=  "mongodb://int_heroku_ben:Sixteen16@ds023550.mlab.com:23550/heroku_r1j6hfp6";
+
+// Mongo Connect
+mongoose.connect(dbString, (err, res) => {
+	if (err) console.log("error connecting to " + dbString + " with error -> " + err);
+	else console.log ('Succeeded connecting to: ' + dbString);
+});
 
 // Expose the 'frontend' and 'libraries' folder for all
 app.use(express.static(__dirname + '/frontend'));
@@ -56,8 +63,8 @@ io.on("connection", (socket) => {
 
 // Start
 // -------------------------------------------------------
-http.listen(1337, () => {
+http.listen(port, () => {
 
-	console.log("Server is alive on port 1337");
+	console.log("Server is alive on port " + port);
 
 })

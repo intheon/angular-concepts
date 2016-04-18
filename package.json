@@ -1,6 +1,9 @@
 {
-  "name": "blank",
+  "name": "skatelocate",
   "main": "server.js",
+  "engines": {
+    "node": "5.10.1"
+  },
   "dependencies": {
     "body-parser": "~1.5.2",
     "express": "~4.7.2",
@@ -10,5 +13,27 @@
     "mongoose": "~4.1.0",
     "morgan": "~1.2.2",
     "socket.io": "^1.4.5"
-  }
+  },
+  "scripts": {
+    "start": "node server.js"
+  },
+  "version": "0.0.1",
+  "description": "view, add, comment on your fav skateparks",
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/intheon/skateLocate.git"
+  },
+  "keywords": [
+    "skateboard",
+    "park",
+    "google",
+    "maps"
+  ],
+  "author": "ben | intheon 2016",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/intheon/skateLocate/issues"
+  },
+  "homepage": "https://github.com/intheon/skateLocate#readme"
 }

@@ -38,6 +38,8 @@ app.controller("ListCtrl", ($scope, $http, $rootScope, getJson) => {
 	};
 
 
+
+
 });
 
 // Controller to handle ratings / upvotes
