@@ -56,7 +56,11 @@ app.controller("RatingCtrl", ($scope, $rootScope, $http, localStorageService) =>
 			// note: can work around this by clearing browser cache / different browser but sufficient for this example - look into this as part of ongoing maintanence
 
 			// init new localstorage
-			if (!localStorageService.get("spUsrHasAdded")) localStorageService.set("spUsrHasAdded", [response]);
+			if (!localStorageService.get("spUsrHasAdded"))
+			{
+				localStorageService.set("spUsrHasAdded", [response]);
+				$rootScope.$broadcast("runVoteCtrl");
+			}
 			else
 			{
 				// append to existing
@@ -351,7 +355,7 @@ app.controller("responsiveCtrl", ($scope, $rootScope, NgMap) => {
 });
 
 // File Controller - Handles uploads of skatepark screenshots to the server
-app.controller("addNewSkateparkCtrl", ($scope, $http, $q, $timeout, $rootScope, NgMap, newParkService, Upload, miscHelpFunctionsService, addImageToCloud) => {
+app.controller("addNewSkateparkCtrl", ($scope, $http, $q, $timeout, $rootScope, NgMap, parkService, Upload, miscHelpFunctionsService, addImageToCloud) => {
 
 	// Is called at some point in the future when the form on the InfoWindow is submitted
 	$rootScope.$on("addNewSkatepark", () => {
@@ -429,7 +433,7 @@ app.controller("addNewSkateparkCtrl", ($scope, $http, $q, $timeout, $rootScope, 
 			skateparkImages : skateparkImages
 		}
 
-		newParkService.submitNewPark(payload);
+		parkService.submitNewPark(payload);
 
 	};
 
@@ -456,7 +460,6 @@ app.controller("addNewSkateparkCtrl", ($scope, $http, $q, $timeout, $rootScope, 
 		const localsAsArr = miscHelpFunctionsService.returnArray(locals);
 
 		const remotesPromise = addImageToCloud.uploadImages(remotesAsArr);
-
 
 		remotesPromise.then((response) => {
 

@@ -44,11 +44,11 @@ angular.module("miscHelpFunctionsService", [])
 
 	});
 
-angular.module("newParkService", [])
-	.factory("newParkService", ($http, $rootScope) => {
+angular.module("parkService", [])
+	.factory("parkService", ($http, $rootScope) => {
 
 		// Object to be returned to Controller
-		let newPark = {
+		let parkDBLayer = {
 
 			submitNewPark: (payload) => {
 
@@ -70,11 +70,25 @@ angular.module("newParkService", [])
 						console.log('Error: ' + data);
 					});
 
+			},
+
+			updateExistingPark: (id, payload) => {
+
+				// Send put request to server
+				$http.put("/skateparks/" + id, payload).success((response) => { 
+
+					console.log("success");
+					console.log(response);
+
+				});
+
+
 			}
+
 
 		};
 
-		return newPark;
+		return parkDBLayer;
 
 	});
 
