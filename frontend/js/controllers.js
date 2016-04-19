@@ -144,6 +144,7 @@ app.controller("MapCtrl", ($scope, $http, $rootScope, NgMap, Upload) => {
 			};
 
 			$scope.toolsShown = false;
+			$scope.fullscreenSlideshowShown = false;
 
 			$scope.showTools = () => {
 
@@ -168,7 +169,18 @@ app.controller("MapCtrl", ($scope, $http, $rootScope, NgMap, Upload) => {
 
 			$scope.showSlideshowModal = () => {
 
-				console.log("aha");
+				if (!$scope.toolsShown)
+				{
+					$(".hidden-slideshow").fadeIn(() => {
+						$scope.toolsShown = true;
+					});
+				}
+				else
+				{
+					$(".hidden-slideshow").fadeOut(() => {
+						$scope.toolsShown = false;
+					});
+				}
 
 			}
 
