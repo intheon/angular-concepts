@@ -1,6 +1,6 @@
 "use strict";
 
-const app = angular.module("ngSkateApp", ["getJson", "ngMap", "newParkService", "miscHelpFunctionsService", "localStorageService", "cloudinary", "ngFileUpload", "addImageToCloud"]);
+const app = angular.module("ngSkateApp", ["getJson", "ngMap", "parkService", "miscHelpFunctionsService", "localStorageService", "cloudinary", "ngFileUpload", "addImageToCloud"]);
 
 // Controller for getting data from server and presenting to view
 app.controller("ListCtrl", ($scope, $http, $rootScope, getJson) => {
@@ -46,7 +46,7 @@ app.controller("RatingCtrl", ($scope, $rootScope, $http, localStorageService) =>
 	// It's bound to the scope, so automagically updates
 	$scope.incrementRating = (item) => {
 
-		// Update the local scope
+		// Update the local scope // This means that no further GET request is needed for now
 		item.skateparkRating += 1;
 
 		// Send put request to server
@@ -482,35 +482,51 @@ app.controller("addNewSkateparkCtrl", ($scope, $http, $q, $timeout, $rootScope, 
 });
 
 
+app.controller("updateSkateparkImagesCtrl", ($scope, $http, $rootScope, parkService, miscHelpFunctionsService, addImageToCloud) => {
 
-app.controller("updateSkateparkImagesCtrl", ($scope, $http, $rootScope, miscHelpFunctionsService, addImageToCloud) => {
-
-	$scope.updateSkateparkImages = () => {
+	$scope.updateSkateparkImages = (currentSkatepark) => {
 
 		// if empty mandatory fields
-		if (!$scope.addAmendment.screenshotURL || !$scope.addAmendment.screenshots )
+		if (!$scope.addAmendment.screenshotURL)
 		{
-			miscHelpFunctionsService.displayErrorMessage("Please enter at least one of the fields :)");
+			miscHelpFunctionsService.displayErrorMessage("Please enter a URL :)");
 			return;
 		}
-		else
+		else if ($scope.addAmendment.screenshotURL)
 		{	
-			console.log("go submit");
+			// Need to make sure user just doesnt mash the keyboard
+			if (miscHelpFunctionsService.testIsValidURL($scope.addAmendment.screenshotURL))
+			{
+				addImage($scope.addAmendment.screenshotURL, currentSkatepark);
+			}
+			else
+			{
+				miscHelpFunctionsService.displayErrorMessage("Please enter a correct URL :)");
+				$scope.addAmendment.screenshotURL = "";
+			}
 		}
-
 	}
 
-	const amendImages = (data) => {
+	const addImage = (data, currentSkatepark) => {
 
 		const toSubmit = miscHelpFunctionsService.returnArray(data);
 		const cloudPromise = addImageToCloud.uploadImages(toSubmit);
 
 		cloudPromise.then((response) => {
 
-			submitMetaToMongoDb($scope.addNew.skateparkName, $scope.addNew.skateparkDesc, $scope.clickedLocation, $scope.addNew.skateparkAdder, response);
-			$scope.makeFieldsBlank();
+			currentSkatepark.skateparkImages.push(response[0]);
+			$rootScope.$broadcast("activateSlideshow", currentSkatepark.skateparkImages);
 
+			parkService.updateExistingPark(currentSkatepark._id, currentSkatepark);
+
+			$scope.addAmendment.screenshotURL = "";
+			$scope.showTools();
+
+			
 		});
+
 	}
+
+
 
 });

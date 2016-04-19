@@ -139,8 +139,9 @@ html, body
 	padding-right: 10%;
 }
 
-.faded
+.nudge
 {
+	margin-left: 3%;
 }
 
 .preload
@@ -260,6 +261,11 @@ html, body
 {
 	margin: 3%;
 	width:auto;
+}
+
+.inline-small
+{
+	float:right;
 }
 
 
@@ -540,7 +546,8 @@ OVERHAULED
 .hidden-tools
 {
 	float:left;
-	width:49%;
+	width:50%;
+	margin-top:1%;
 	display:none;
 	z-index:70;
 }

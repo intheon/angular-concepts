@@ -131,33 +131,15 @@
 								<section class="hidden-tools">
 
 										<form action="#" class="add-skate-images" ng-controller="updateSkateparkImagesCtrl">
-										<!-- Ask for a remote url -->
-										<div class="input-field">
-											<input type="text" ng-model="addAmendment.screenshotURL">
-											<label for="screenshotURL">Paste a link to an image...</label>
-										</div>
 
-										<!-- Ask for screenshots -->
-										<div class="file-field input-field small tucked">
-
-											<div class="waves-effect light-blue lighten-4 btn-flat ">
-												<div>File</div>
-												<input type="file" ngf-select ng-model="addAmendment.screenshots" ngf-multiple="true" accept="image/*" ngf-max-size="4MB">
+											<!-- Ask for a remote url -->
+											<div class="input-field">
+												<input type="text" ng-model="addAmendment.screenshotURL">
+												<label for="screenshotURL">Add Link here!</label>
 											</div>
 
-											<div class="file-path-wrapper">
-												<input class="file-path validate" type="text"  placeholder="Or upload some!">
-											</div>
+											<input type="button" value="Submit!" class="waves-effect light-blue lighten-4 btn-flat nudge" ng-click="updateSkateparkImages(currentSkatepark)">
 
-											<input type="button" value="Submit!" class="waves-effect light-blue lighten-4 btn-flat" ng-click="updateSkateparkImages()">
-
-
-										</div>
-										<!-- Is hidden initially, but the Upload Service will command the width -->
-										<div class="uploadScrollbar amendScrollbar">
-											<div class="determinate" style="width: 0%"></div>
-										</div>
-			
 									</form>
 
 								</section>

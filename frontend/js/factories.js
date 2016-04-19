@@ -77,8 +77,7 @@ angular.module("parkService", [])
 				// Send put request to server
 				$http.put("/skateparks/" + id, payload).success((response) => { 
 
-					console.log("success");
-					console.log(response);
+					// no need to return anything...
 
 				});
 
