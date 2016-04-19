@@ -24,6 +24,19 @@ angular.module("miscHelpFunctionsService", [])
 
 			displayErrorMessage: (messageString) => {
 				Materialize.toast(messageString, 2000) // 2000 is the duration of the toast
+			},
+
+			returnArray: (data) => {
+				let toReturn = [];
+
+				if (typeof data === "string"){
+					toReturn.push(data);
+				}
+				else if (typeof data === "object"){
+					toReturn = data
+				}
+
+				return toReturn;
 			}
 
 

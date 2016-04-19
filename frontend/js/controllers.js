@@ -37,9 +37,6 @@ app.controller("ListCtrl", ($scope, $http, $rootScope, getJson) => {
 		return copy.reverse();
 	};
 
-
-
-
 });
 
 // Controller to handle ratings / upvotes
@@ -96,7 +93,6 @@ app.controller("SearchCtrl", ($scope, $http, $rootScope, NgMap) => {
 // Controller for Google maps presentation, marker and infoWindow logic
 app.controller("MapCtrl", ($scope, $http, $rootScope, NgMap, Upload) => {
 
-
 	// Namespace
 	const inst = this;
 
@@ -121,6 +117,7 @@ app.controller("MapCtrl", ($scope, $http, $rootScope, NgMap, Upload) => {
 				$scope.currentSkatepark = skatepark;
 		    	inst.map.showInfoWindow('detailsWindow', skatepark._id);
 
+		    	// Remove the frame around the InfoWindow (no way to easily do this without it first being added to the dom...)
 		    	setTimeout(() => {
 
 					const goo  = $(".gm-style-iw");
@@ -129,27 +126,18 @@ app.controller("MapCtrl", ($scope, $http, $rootScope, NgMap, Upload) => {
 					const pin1 = $(goo).prev().children(":nth-child(3)").children(":first-child");
 					const pin2 = $(goo).prev().children(":nth-child(3)").children(":last-child");
 
-
 					$(background1).css({"background":"transparent"});
 					$(background1).css({"box-shadow":"none"});
 					$(background2).css({"background":"transparent"});
 					$(pin1).css({"top":"-12px"});
 					$(pin2).css({"top":"-12px"});
 
-
 				},25);
-
 
 				// IMPORTANT!!!! Only initialise the Slider method if theres at least one image to show... else show a fallback (see the ng-if in the view)
 		    	if (skatepark.skateparkImages.length > 0) $rootScope.$broadcast("activateSlideshow", $scope.currentSkatepark.skateparkImages);
 
-
-
 			};
-
-			$scope.navigateThroughSlideshow = (direction) => {
-				console.log(direction);
-			}
 
 			$scope.toolsShown = false;
 
@@ -180,52 +168,7 @@ app.controller("MapCtrl", ($scope, $http, $rootScope, NgMap, Upload) => {
 
 			}
 
-
-
-			/* DISCLAIMER 
-
-				The below code is a horrible, horrible hack to remove the default InfoWindow style from Google.
-				It's prone to errors, so it will probably be removed completely and just go with the default styling
-
-
-
-			// Show at least one so it gets added to the DOM
-		    inst.map.showInfoWindow('detailsWindow', "showMePlease");
-
-		    // Delete the 'fake' scope so they all disappear
-			$scope.fake = [];
-
-			// Remove the horrible default infowindow style
-			// This is a hack and I hate using setTimeout, but Google don't let you modify the infoWindow easily!
-			// TODO - Move this to its own helper service
-			setTimeout(() => {
-
-				inst.map.hideInfoWindow('detailsWindow', "showMePlease");
-
-				const iwOuter = $('.gm-style-iw');
-				const iwBackground = iwOuter.prev();
-
-				// Remove the InfoWindow Frame
-				iwBackground.children(':nth-child(1)').css({'display' : 'none'});
-				iwBackground.children(':nth-child(2)').css({'display' : 'none'});
-				iwBackground.children(':nth-child(3)').css({'display' : 'none'});
-				iwBackground.children(':nth-child(4)').css({'display' : 'none'});
-
-				setTimeout(() => {
-
-					// Remove preloader
-						$(".preload").fadeOut(() => {
-							$(this).hide();
-						})
-
-				}, 300)
-
-			}, 100)
-
-			*/
-
 			// NOW THE FUN STUFF
-
 			// Make the map clickable
 			google.maps.event.addListener(inst.map, "click", (event) => {
 
@@ -250,14 +193,11 @@ app.controller("MapCtrl", ($scope, $http, $rootScope, NgMap, Upload) => {
 				// Allow form to be submitted
 				$scope.submitNewSkateparkForm = () => {
 					$rootScope.$broadcast("addNewSkatepark");
-
-
 				}
-
 
 				// TODO - Have markers disappear when infoWindows are clicked
 
-				// This is the best implementation I can find because the API doesnt have it's own method to do so!
+				// This is the best implementation I can come up with because the API doesnt have it's own method to do so! (remove in-progress InfoWindows)
 					// LOL
 					setTimeout(function(){
 						$("div img[src='https://maps.gstatic.com/mapfiles/api-3/images/mapcnt6.png']").click(function(){
@@ -269,7 +209,6 @@ app.controller("MapCtrl", ($scope, $http, $rootScope, NgMap, Upload) => {
 							})
 						})
 					},100)
-
 
 			});
 
@@ -349,7 +288,6 @@ app.controller("VoteCtrl", ($scope, $rootScope, localStorageService) => {
 
 			});
 
-
 		});
 	})
 
@@ -408,10 +346,7 @@ app.controller("responsiveCtrl", ($scope, $rootScope, NgMap) => {
 		// Fire once when page is initialised
 		resizeLogic();
 
-	},2000)
-
-
-
+	},1800)
 
 });
 
@@ -441,14 +376,15 @@ app.controller("addNewSkateparkCtrl", ($scope, $http, $q, $timeout, $rootScope, 
 				if ($scope.addNew.screenshots && !$scope.addNew.screenshotURL)
 				{
 					// TODO - virus checking etc!!
-					submitToCloudAndDB($scope.addNew.screenshots);
+					submitOneToCloudAndDB($scope.addNew.screenshots);
 				}
 				// Handle JUST remote screenshots
 				else if (!$scope.addNew.screenshots && $scope.addNew.screenshotURL)
 				{
+					// Need to make sure user just doesnt mash the keyboard
 					if (miscHelpFunctionsService.testIsValidURL($scope.addNew.screenshotURL))
 					{
-						submitToCloudAndDB($scope.addNew.screenshotURL);
+						submitOneToCloudAndDB($scope.addNew.screenshotURL);
 					}
 					else
 					{
@@ -460,13 +396,7 @@ app.controller("addNewSkateparkCtrl", ($scope, $http, $q, $timeout, $rootScope, 
 				else if ($scope.addNew.screenshots && $scope.addNew.screenshotURL)
 				{
 					// TODO - Look into performance of this
-
-
-					/*
-						THIS IS BROKEN FOR NOW....
-					submitLocalFiles($scope.addNew.screenshots);
-					submitRemoteFiles($scope.addNew.screenshotURL);
-					*/
+					submitBothToCloud($scope.addNew.screenshots, $scope.addNew.screenshotURL);
 				}
 
 			}
@@ -504,14 +434,10 @@ app.controller("addNewSkateparkCtrl", ($scope, $http, $q, $timeout, $rootScope, 
 	};
 
 
-	// Submits URLS or LOCAL files to Cloudinary
-	const submitToCloudAndDB = (urls) => {
+	// Submits urls OR local files to Cloudinary
+	const submitToCloudAndDB = (data) => {
 
-		let toSubmit = [];
-
-		if (typeof urls === "string") toSubmit.push(urls);
-		else if (typeof urls === "object") toSubmit = urls
-
+		const toSubmit = miscHelpFunctionsService.returnArray(data);
 		const cloudPromise = addImageToCloud.uploadImages(toSubmit);
 
 		cloudPromise.then((response) => {
@@ -523,10 +449,65 @@ app.controller("addNewSkateparkCtrl", ($scope, $http, $q, $timeout, $rootScope, 
 
 	}
 
+	// Submits BOTH locals and urls to Cloudinary
+	const submitBothToCloud = (locals, remotes) => {
+
+		const remotesAsArr = miscHelpFunctionsService.returnArray(remotes);
+		const localsAsArr = miscHelpFunctionsService.returnArray(locals);
+
+		const remotesPromise = addImageToCloud.uploadImages(remotesAsArr);
+
+
+		remotesPromise.then((response) => {
+
+			const localsPromise = addImageToCloud.uploadImages(localsAsArr);
+
+			localsPromise.then((secondResponse) => {
+
+				const merged = response.concat(secondResponse);
+				submitMetaToMongoDb($scope.addNew.skateparkName, $scope.addNew.skateparkDesc, $scope.clickedLocation, $scope.addNew.skateparkAdder, merged);
+				$scope.makeFieldsBlank();
+
+
+			});
+
+
+		});
+
+	}
+
 });
 
 
 
-app.controller("updateSkateparkImagesCtrl", ($scope, $http, $rootScope, miscHelpFunctionsService) => {
+app.controller("updateSkateparkImagesCtrl", ($scope, $http, $rootScope, miscHelpFunctionsService, addImageToCloud) => {
+
+	$scope.updateSkateparkImages = () => {
+
+		// if empty mandatory fields
+		if (!$scope.addAmendment.screenshotURL || !$scope.addAmendment.screenshots )
+		{
+			miscHelpFunctionsService.displayErrorMessage("Please enter at least one of the fields :)");
+			return;
+		}
+		else
+		{	
+			console.log("go submit");
+		}
+
+	}
+
+	const amendImages = (data) => {
+
+		const toSubmit = miscHelpFunctionsService.returnArray(data);
+		const cloudPromise = addImageToCloud.uploadImages(toSubmit);
+
+		cloudPromise.then((response) => {
+
+			submitMetaToMongoDb($scope.addNew.skateparkName, $scope.addNew.skateparkDesc, $scope.clickedLocation, $scope.addNew.skateparkAdder, response);
+			$scope.makeFieldsBlank();
+
+		});
+	}
 
 });
