@@ -37,6 +37,48 @@ app.controller("ListCtrl", ($scope, $http, $rootScope, getJson) => {
 		return copy.reverse();
 	};
 
+	$scope.fullscreenSlideshowShown = false;
+	$scope.slideshowImages = null;
+
+	$scope.showSlideshowFullscreen = (currentSkatepark) => {
+
+		if (!$scope.fullscreenSlideshowShown)
+		{
+			$scope.slideshowImages = currentSkatepark.skateparkImages;
+
+			$(".full-screen-slideshow").fadeIn(() => {
+
+				$scope.fullscreenSlideshowShown = true;
+
+				setTimeout(function(){
+
+					const swiper = new Swiper(".fullscreen-swiper-container", {
+
+						nextButton: ".swiper-button-next",
+						prevButton: ".swiper-button-prev",
+						pagination: ".swiper-pagination",
+						paginationClickable: true,
+						preloadImages: true,
+						lazyLoading: true,
+						loop: true
+
+					});
+
+
+				}, 400);
+
+			});
+		}
+		else
+		{
+			$scope.slideshowImages = [];
+			$(".full-screen-slideshow").fadeOut(() => {
+				$scope.fullscreenSlideshowShown = false;
+			});
+		}
+	}
+
+
 });
 
 // Controller to handle ratings / upvotes
@@ -144,7 +186,7 @@ app.controller("MapCtrl", ($scope, $http, $rootScope, NgMap, Upload) => {
 			};
 
 			$scope.toolsShown = false;
-			$scope.fullscreenSlideshowShown = false;
+			$scope.commentsShown = false;
 
 			$scope.showTools = () => {
 
@@ -167,22 +209,23 @@ app.controller("MapCtrl", ($scope, $http, $rootScope, NgMap, Upload) => {
 
 			}
 
-			$scope.showSlideshowModal = () => {
+			$scope.showComments = (currentSkatepark) => {
 
 				if (!$scope.toolsShown)
 				{
-					$(".hidden-slideshow").fadeIn(() => {
+					$(".comments-full-window").fadeIn(() => {
 						$scope.toolsShown = true;
 					});
 				}
 				else
 				{
-					$(".hidden-slideshow").fadeOut(() => {
+					$(".comments-full-window").fadeOut(() => {
 						$scope.toolsShown = false;
 					});
 				}
 
 			}
+
 
 			// NOW THE FUN STUFF
 			// Make the map clickable
