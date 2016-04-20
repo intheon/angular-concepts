@@ -133,6 +133,16 @@ html, body
 	float: left;
 }
 
+.full-screen-slideshow
+{
+	display:none;
+	width: 100%;
+	height: 100%;
+	background: black;
+	z-index: 1000;
+	position: absolute;
+}
+
 .nudged-menu
 {
 	padding-left: 10%;
@@ -142,6 +152,15 @@ html, body
 .nudge
 {
 	margin-left: 3%;
+}
+
+.close-icon
+{
+	position: absolute;
+	z-index:4500;
+	top:0;
+	right:0;
+	float:right;
 }
 
 .preload
@@ -487,8 +506,18 @@ OVERHAULED
 	float:left;
 }
 
-.comments
+.comments-full-window
 {
+	display: none;
+	width: 96.7%;
+	height: 100%;
+	position: absolute;
+	background: white;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	z-index: 400;
 }
 
 .row
