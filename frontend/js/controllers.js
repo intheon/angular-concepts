@@ -38,6 +38,7 @@ app.controller("ListCtrl", ($scope, $http, $rootScope, getJson) => {
 	};
 
 	$scope.fullscreenSlideshowShown = false;
+	$scope.helpShown = false;
 	$scope.slideshowImages = null;
 
 	$scope.showSlideshowFullscreen = (currentSkatepark) => {
@@ -77,6 +78,27 @@ app.controller("ListCtrl", ($scope, $http, $rootScope, getJson) => {
 			});
 		}
 	}
+
+	$scope.launchHelp = () => {
+
+		console.log("clicked");
+
+		if (!$scope.helpShown)
+		{
+			$(".full-screen-help").fadeIn(() => {
+
+				$scope.helpShown = true;
+
+			});
+		}
+		else
+		{
+			$(".full-screen-help").fadeOut(() => {
+				$scope.helpShown = false;
+			});
+		}
+	}
+
 
 
 });

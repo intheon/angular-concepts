@@ -133,7 +133,7 @@ html, body
 	float: left;
 }
 
-.full-screen-slideshow
+.full-screen-slideshow ,.full-screen-help
 {
 	display:none;
 	width: 100%;
@@ -821,6 +821,28 @@ OVERHAULED
 .pad
 {
 	margin-top:6%;
+}
+
+.full-screen-help
+{
+	color: white;
+}
+.bottom-right-img
+{
+	position: absolute;
+	bottom:0;
+	right:0;
+}
+
+.mouseover
+{
+	opacity: 1;
+	transition: all 1s;
+}
+.mouseover:hover
+{
+	opacity: 0.5;
+	cursor:pointer;
 }
 
 

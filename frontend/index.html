@@ -60,7 +60,6 @@
 
 				</div>
 											
-
 					<div class="swiper-pagination swiper-pagination-white" ng-if="currentSkatepark.skateparkImages.length > 1"></div>
 					<div class="swiper-button-next swiper-button-white swiper-nav" ng-if="currentSkatepark.skateparkImages.length > 1"></div>
 					<div class="swiper-button-prev swiper-button-white swiper-nav" ng-if="currentSkatepark.skateparkImages.length > 1"></div>
@@ -69,6 +68,23 @@
 		</figure>
 		
 	</div>
+
+	<div class="full-screen-help">
+
+		<h3>Howdy</h3>
+		<h4>There's a lot of skateparks out there, and they all need tracking!</h4>
+		<h5>Do your part in getting them added!</h5>
+		<h6>Offline mode coming soon!</h6>
+
+		<div>Built by Ben Smith @ <a href="http://intheon.uk" target="_blank">intheon.uk</a></div>
+		<div><a href="https://uk.linkedin.com/in/ben-smith-493678a2"target="_blank"><img src="./img/linkedin.png" alt=""></a></div>
+		<div><a href="https://twitter.com/intheon"target="_blank"><img src="./img/twitter.png" alt=""></a></div>
+		<div class="bottom-right-img"><a href="http://intheon.uk"target="_blank"><img src="./img/jump.jpg" alt=""></a></div>
+
+		<div class="close-icon"><img src="./img/close.png" ng-click="launchHelp()"></div>
+
+	</div>
+
 
 	<div class="app-wrapper" ng-controller="MapCtrl">
 
@@ -381,15 +397,12 @@
 
 				<div class="bottom-right">
 
-
-
-
 					<div class="modal-settings-help">
 						<div class="users-connected">
 							<div class="number-connected-users"></div>
 						</div>
-						<i class="material-icons green-icon">help</i>
-						<i class="material-icons green-icon">settings</i>
+						<i class="material-icons green-icon mouseover" ng-click="launchHelp()">help</i>
+						<!--<i class="material-icons green-icon">settings</i>-->
 						<i class="material-icons green-icon">people</i>
 					</div>
 
