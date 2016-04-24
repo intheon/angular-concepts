@@ -111,7 +111,14 @@
 			<div class="left-column">
 
 				<!-- A directive to handle the map -->
-				<ng-map class="map" zoom="5" center="48.60385760823255, 18.9404296875" styles="{{ styles }}" on-click="" trigger-resize>
+				<ng-map class="map" zoom="5" center="48.60385760823255, 18.9404296875" styles="{{ styles }}" on-click="" trigger-resize map-type-control="false" zoom-control="false"  street-view-control-options="{position:'RIGHT_TOP'}" zoom-control-options="{position:'RIGHT_TOP'}">
+
+					<custom-control id="" position="TOP_LEFT" index="1">
+						<div class="waves-effect white lighten-4 btn-flat toggleControl" ng-click="toggleEditing()">
+						Add | Edit
+						</div>
+				    </custom-control>
+
 
 					<!-- InfoWindow for EXISTING markers -->
 					<info-window id="detailsWindow" class="detailsWindow" max-width="1400">
@@ -259,6 +266,13 @@
 								<label for="skateparkName">Skatepark Name</label>
 							</div>
 
+							<!-- Ask for a description -->
+							<div class="input-field row">
+								<i class="material-icons prefix">mode_edit</i>
+								<textarea class="materialize-textarea" ng-model="addNew.skateparkDesc" id="skateparkDesc"></textarea>
+								<label for="skateparkDesc">A description - Optional.</label>
+							</div>
+
 							<!-- Ask for your name -->
 							<div class="input-field row">
 								<i class="material-icons prefix">person_pin</i>
@@ -266,18 +280,13 @@
 								<label for="skateparkAdder">Your Name</label>
 							</div>
 
-							<!-- Ask for the name -->
-							<div class="input-field row">
-								<i class="material-icons prefix">mode_edit</i>
-								<textarea class="materialize-textarea" ng-model="addNew.skateparkDesc" id="skateparkDesc"></textarea>
-								<label for="skateparkDesc">A description - Optional.</label>
-							</div>
+
 
 							<!-- Ask for a remote url -->
 							<div class="input-field row">
 								<i class="material-icons prefix">link</i>
 								<input type="text" ng-model="addNew.screenshotURL" id="screenshotURL">
-								<label for="screenshotURL">Paste a link to an image...</label>
+								<label for="screenshotURL">Image URL</label>
 							</div>
 
 							<!-- Ask for screenshots -->
@@ -287,20 +296,36 @@
 									<input type="file" ngf-select ng-model="addNew.screenshots" ngf-multiple="true" accept="image/*" ngf-max-size="4MB">
 								</div>
 								<div class="file-path-wrapper">
-									<input class="file-path validate" type="text"  placeholder="Or upload some!">
+									<input class="file-path validate" type="text"  placeholder="Upload Screenshots">
 								</div>
+							</div>
+
+							<!-- Ask for tags -->
+							<div class="input-field row">
+								<span>Add some tags</span> <br />
+								<div class="chip" ng-click="addTag('Outdoor')">Outdoor</div>
+								<div class="chip" ng-click="addTag('Indoor')">Indoor</div>
+								<div class="chip" ng-click="addTag('Concrete')">Concrete</div>
+								<div class="chip" ng-click="addTag('Wooden')">Wooden</div>
+								<div class="chip" ng-click="addTag('Lighting')">Lighting</div>
+								<div class="chip" ng-click="addTag('No lighting')">No lighting</div>
+								<div class="chip" ng-click="addTag('Ledges')">Ledges</div>
+								<div class="chip" ng-click="addTag('Stairs')">Stairs</div>
+								<div class="chip" ng-click="addTag('Mini')">Mini</div>
+								<div class="chip" ng-click="addTag('Bowl')">Bowl</div>
+								<div class="chip" ng-click="addTag('Has Shop')">Has Shop</div>
 							</div>
 
 
 							<!-- Submit button -->
-							<div class="row">
+							<div class="row extraWidth">
 								<input type="button" value="Submit!" class="btn col s12" ng-click="submitNewSkateparkForm()">
 							</div>
 
 							<!-- Is hidden initially, but the Upload Service will command the width -->
-							  <div class="progress">
-								  <div class="determinate loadingBar" style="width: 0%"></div>
-							  </div>
+							<div class="progress extraWidth">
+								<div class="determinate loadingBar" style="width: 0%"></div>
+							</div>
 		
 						</form>
 

@@ -145,7 +145,7 @@ html, body
 
 .nudged-menu
 {
-	padding-left: 10%;
+	padding-left: 4%;
 	padding-right: 10%;
 }
 
@@ -178,7 +178,7 @@ html, body
 .right-column h2
 {
 	font-family: coming;
-	margin-left: 3.5rem;
+	margin-left: 1rem;
 }
 
 
@@ -188,6 +188,21 @@ html, body
 	margin-bottom:7%;
 	font-size: 1.4em;
 	transition: 0.5s all;
+}
+
+a[href^="http://maps.google.com/maps"]{display:none !important}
+a[href^="https://maps.google.com/maps"]{display:none !important}
+
+.gmnoprint a, .gmnoprint span, .gm-style-cc {
+    display:none;
+}
+.gmnoprint div {
+}
+
+
+.toggleControl
+{
+	margin:10px;
 }
 
 .right-column h5:hover
@@ -528,10 +543,15 @@ OVERHAULED
 .add-skate-location
 {
 	background: white;
-	padding: 4%;
-	margin-bottom:4%;
+	padding: 11%;
+	padding-right:14%;
 	border-radius: 8px;
-	width: 300px;
+}
+
+.add-skate-location .input-field
+{
+	padding-top:2%;
+	padding-bottom:2%;
 }
 
 .tool-image
@@ -553,6 +573,11 @@ OVERHAULED
 	outline: none;
 }
 
+#customTag
+{
+	display:none;
+}
+
 .tool-image:hover
 {
 	opacity: 0.3;
@@ -563,6 +588,28 @@ OVERHAULED
 {
 	height:15px;
 	left:0;
+}
+
+.input-field .chip
+{
+	margin-bottom: 1%;
+}
+
+.input-field .chip:hover
+{
+	cursor: pointer;
+	opacity:0.9;
+}
+
+.active-chip
+{
+	opacity:0.4;
+}
+
+
+.file-path-wrapper .validate
+{
+	width:100% !important;
 }
 
 .upvote
