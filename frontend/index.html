@@ -214,8 +214,15 @@
 
 
 								</section>
+
+								-->
+
+								<section>
+									<div class="chip" ng-repeat="tag in currentSkatepark.skateparkTags" >{{ tag }}</div>
+								</section>
 							</footer>
 
+							<!--
 							<div class="comments-full-window">
 
 								<div class="waves-effect btn-flat small" ng-click="showComments(currentSkatepark)"><i class="material-icons left">comment</i>Hide Comments</div>
@@ -257,7 +264,7 @@
 					<!-- InfoWindow for NEW markers -->
 					<info-window id="newSkateparkWindow" ng-controller="addNewSkateparkCtrl">
 
-						<form action="#" class="add-skate-location ">
+						<form action="#" class="add-skate-location">
 
 							<!-- Ask for the skatepark name -->
 							<div class="input-field row" >
@@ -303,17 +310,21 @@
 							<!-- Ask for tags -->
 							<div class="input-field row">
 								<span>Add some tags</span> <br />
-								<div class="chip" ng-click="addTag('Outdoor')">Outdoor</div>
-								<div class="chip" ng-click="addTag('Indoor')">Indoor</div>
-								<div class="chip" ng-click="addTag('Concrete')">Concrete</div>
-								<div class="chip" ng-click="addTag('Wooden')">Wooden</div>
-								<div class="chip" ng-click="addTag('Lighting')">Lighting</div>
-								<div class="chip" ng-click="addTag('No lighting')">No lighting</div>
-								<div class="chip" ng-click="addTag('Ledges')">Ledges</div>
-								<div class="chip" ng-click="addTag('Stairs')">Stairs</div>
-								<div class="chip" ng-click="addTag('Mini')">Mini</div>
-								<div class="chip" ng-click="addTag('Bowl')">Bowl</div>
-								<div class="chip" ng-click="addTag('Has Shop')">Has Shop</div>
+
+								<!-- TODO: Figure out cunting scoping issue -->
+
+								<div class="chip" ng-click="addTag('Outdoor', $event)">Outdoor</div>
+								<div class="chip" ng-click="addTag('Indoor', $event)">Indoor</div>
+								<div class="chip" ng-click="addTag('Concrete', $event)">Concrete</div>
+								<div class="chip" ng-click="addTag('Wooden', $event)">Wooden</div>
+								<div class="chip" ng-click="addTag('No Lighting', $event)">No Lighting</div>
+								<div class="chip" ng-click="addTag('Stairs', $event)">Stairs</div>
+								<div class="chip" ng-click="addTag('Mini', $event)">Mini</div>
+								<div class="chip" ng-click="addTag('Skatepark', $event)">Skatepark</div>
+								<div class="chip" ng-click="addTag('Street spot', $event)">Street spot</div>
+								<div class="chip" ng-click="addTag('Bowl', $event)">Bowl</div>
+								<div class="chip" ng-click="addTag('Has shop', $event)">Has shop</div>
+	
 							</div>
 
 
@@ -332,7 +343,7 @@
 					</info-window>
 
 					<!-- This will be dynamically draw ALL EXISTING markers in the allData array -->
-					<marker ng-repeat="marker in allData | filter: parks" position="{{marker.skateparkLocation}}" title="{{marker.skateparkName}}" id="{{marker._id}}" on-click="showSkateparkDetails(marker)">
+					<marker ng-repeat="marker in allData | filter: parks | filter: filterTags" position="{{marker.skateparkLocation}}" title="{{marker.skateparkName}}" id="{{marker._id}}" on-click="showSkateparkDetails(marker)">
 					</marker>
 
 					<!-- This is the POTENTIAL marker that will appear when the user clicked on the map. it can theoretically go anywhere -->
@@ -403,19 +414,13 @@
 					</div>
 				</li>
 
-				<!-- filters - WILL GET ADDED IN NEW VERSIONS
+				<!-- filters -->
 				<li class="nudged-menu full-width">
 					<h5 class="collapsible-header"><i class="material-icons align faded">filter_list</i> Filter <i class="material-icons grn-colour">swap_vert</i></h5>
-					<div class="list-of-most-recent-items collapsible-body">
-						<div ng-repeat="item in rev(allData) | limitTo: 10">
-
-							<div class="item-name" ng-click="showSkateparkDetails(item._id, item)">{{ item.skateparkName }} <span class="small"> {{ item.createdAt | date: 'h:mm a, MMM d' }} by {{ item.skateparkAdder }} </span>
-							</div>
-
-						</div>
+					<div class="tags-list collapsible-body" ng-controller="FilterCtrl">
+						<div ng-repeat="tag in tags" class="chip" ng-click="filterByTag(tag, $event)">{{tag}}</div>
 					</div>
 				</li>
-				-->
 
 				<!-- bottom stuff -->
 				<div class="info-triangle"></div>

@@ -1,12 +1,14 @@
 "use strict";
 
-const app = angular.module("ngSkateApp", ["getJson", "ngMap", "parkService", "miscHelpFunctionsService", "localStorageService", "cloudinary", "ngFileUpload", "addImageToCloud"]);
+const app = angular.module("ngSkateApp", ["getJson", "ngMap", "parkService", "miscHelpFunctionsService", "localStorageService", "cloudinary", "ngFileUpload", "addImageToCloud", "tagsService"]);
 
 // Controller for getting data from server and presenting to view
-app.controller("ListCtrl", ($scope, $http, $rootScope, getJson) => {
+app.controller("ListCtrl", ($scope, $http, $rootScope, getJson, tagsService) => {
 
 	// Initialise array to store databases response
 	$scope.allData = [];
+
+	$scope.tags = tagsService;
 
 	// This is fired on page init to get ALL the skateparks
 	getJson.success((response) => {
@@ -40,6 +42,7 @@ app.controller("ListCtrl", ($scope, $http, $rootScope, getJson) => {
 	$scope.fullscreenSlideshowShown = false;
 	$scope.helpShown = false;
 	$scope.slideshowImages = null;
+
 
 	$scope.showSlideshowFullscreen = (currentSkatepark) => {
 
@@ -158,8 +161,43 @@ app.controller("SearchCtrl", ($scope, $http, $rootScope, NgMap) => {
 
 });
 
+// Controller to handle searching
+app.controller("FilterCtrl", ($scope, $http, $rootScope, NgMap) => {
+
+	let currentSelectedTags = [];
+
+	$scope.filterByTag = (value, event) => {
+
+		if ($(event.target).hasClass("active-chip"))
+		{
+			$(event.target).removeClass("active-chip");
+
+			$(currentSelectedTags).each((pointer, arrVal) => {
+				if (value == arrVal)
+				{
+					currentSelectedTags.splice(pointer, 1);
+				}
+			})
+		}
+		else
+		{
+			currentSelectedTags.push(value)
+			$(event.target).addClass("active-chip");
+			console.log(currentSelectedTags);
+			$rootScope.$broadcast("filterTags", currentSelectedTags);
+
+		}
+
+
+
+	}
+
+
+
+});
+
 // Controller for Google maps presentation, marker and infoWindow logic
-app.controller("MapCtrl", ($scope, $http, $rootScope, NgMap, Upload, miscHelpFunctionsService) => {
+app.controller("MapCtrl", ($scope, $http, $rootScope, NgMap, Upload, miscHelpFunctionsService, tagsService) => {
 
 	// Namespace
 	const inst = this;
@@ -274,11 +312,17 @@ app.controller("MapCtrl", ($scope, $http, $rootScope, NgMap, Upload, miscHelpFun
 
 			}
 
-			$scope.addTag = (tagName) => {
 
-				console.log(tagName);
+			$scope.addTag = (tagName, event) => {
 
-				$(this).addClass("active-chip");
+				if ($(event.target).hasClass("active-chip"))
+				{
+					$(event.target).removeClass("active-chip");
+				}
+				else
+				{
+					$(event.target).addClass("active-chip");
+				}
 				
 			}
 
@@ -306,8 +350,6 @@ app.controller("MapCtrl", ($scope, $http, $rootScope, NgMap, Upload, miscHelpFun
 
 				},25);
 
-
-
 				// get the latLng from precisely where the user clicked
 				const clickedLocation = [{
 					location: [
@@ -328,7 +370,10 @@ app.controller("MapCtrl", ($scope, $http, $rootScope, NgMap, Upload, miscHelpFun
 
 				// Allow form to be submitted
 				$scope.submitNewSkateparkForm = () => {
+
 					$rootScope.$broadcast("addNewSkatepark");
+
+
 				}
 
 				// TODO - Have markers disappear when infoWindows are clicked
@@ -346,6 +391,7 @@ app.controller("MapCtrl", ($scope, $http, $rootScope, NgMap, Upload, miscHelpFun
 						})
 					},100)
 
+
 			});
 
 		});
@@ -355,6 +401,12 @@ app.controller("MapCtrl", ($scope, $http, $rootScope, NgMap, Upload, miscHelpFun
 	$rootScope.$on("filterMarkers", function(event, data){
 
 		$scope.parks = data;
+
+	});
+
+	$rootScope.$on("filterTags", function(event, data){
+
+		$scope.filterTags = data;
 
 	});
 
@@ -487,15 +539,16 @@ app.controller("responsiveCtrl", ($scope, $rootScope, NgMap) => {
 });
 
 // File Controller - Handles uploads of skatepark screenshots to the server
-app.controller("addNewSkateparkCtrl", ($scope, $http, $q, $timeout, $rootScope, NgMap, parkService, Upload, miscHelpFunctionsService, addImageToCloud) => {
+app.controller("addNewSkateparkCtrl", ($scope, $http, $q, $timeout, $rootScope, NgMap, parkService, Upload, miscHelpFunctionsService, addImageToCloud, tagsService) => {
 
 	// Is called at some point in the future when the form on the InfoWindow is submitted
 	$rootScope.$on("addNewSkatepark", () => {
 
+
 		// if empty mandatory fields
 		if (!$scope.addNew.skateparkName || !$scope.addNew.skateparkAdder )
 		{
-			miscHelpFunctionsService.displayErrorMessage("Please enter the first two fields! :)");
+			miscHelpFunctionsService.displayErrorMessage("Please enter skatepark name and your name :)");
 			return;
 		}
 		else
@@ -542,8 +595,6 @@ app.controller("addNewSkateparkCtrl", ($scope, $http, $q, $timeout, $rootScope, 
 	});
 
 
-	// Internal functions
-
 	// Submits metadata to internal database - The final stage
 	const submitMetaToMongoDb = (skateparkName, skateparkDesc, skateparkLocation, skateparkAdder, cloudinaryImageMeta) => {
 
@@ -562,13 +613,29 @@ app.controller("addNewSkateparkCtrl", ($scope, $http, $q, $timeout, $rootScope, 
 			skateparkLocation : skateparkLocation[0].location,
 			skateparkAdder : skateparkAdder,
 			skateparkRating : 1,
-			skateparkImages : skateparkImages
+			skateparkImages : skateparkImages,
+			skateparkTags: getTags()
 		}
 
 		parkService.submitNewPark(payload);
 
 	};
 
+	// Gets all tags with the active chip tag and returns it
+	const getTags = () => {
+
+		const tags = $(".active-chip");
+		let arrOfTags = [];
+
+		$(tags).each((pointer, value) => {
+
+			arrOfTags.push($(value).context.innerText)
+		});
+
+		return arrOfTags;
+
+	}
+ 
 
 	// Submits urls OR local files to Cloudinary
 	const submitToCloudAndDB = (data) => {

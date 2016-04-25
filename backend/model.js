@@ -9,6 +9,7 @@ const SkateParkSchema = new Schema({
 	skateparkRating: {type: Number, required: false},
 	skateparkLocation: {type: [Number], required: false}, // [Long, Lat]
 	skateparkImages: {type: Array, required: false},
+	skateparkTags: {type: Array, required: false},
 	skateparkAdder: String,
 	createdAt: {type: Date, default: Date.now}
 });

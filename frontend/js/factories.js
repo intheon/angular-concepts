@@ -44,6 +44,11 @@ angular.module("miscHelpFunctionsService", [])
 
 	});
 
+angular.module("tagsService", [])
+	.service("tagsService", () => {
+		return ["Outdoor", "Indoor", "Concrete", "Wooden", "Lighting", "No Lighting", "Ledges", "Stairs", "Mini", "Skatepark", "Street spot", "Bowl", "Has shop"];
+	});
+
 angular.module("parkService", [])
 	.factory("parkService", ($http, $rootScope) => {
 
