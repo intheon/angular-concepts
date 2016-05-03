@@ -49,6 +49,46 @@ angular.module("tagsService", [])
 		return ["Outdoor", "Indoor", "Concrete", "Wooden", "Lighting", "No Lighting", "Ledges", "Stairs", "Mini", "Skatepark", "Street spot", "Bowl", "Has shop"];
 	});
 
+angular.module("switchMe", [])
+	.service("switchMe", (target) => {
+
+		let ac = $(target).hasClass("active");
+
+		if (!ac)
+		{
+			$(target).addClass("active");
+		}
+		else if (ac)
+		{
+			$(target).removeClass("active");
+		}
+
+	});
+
+angular.module("isSelectedInArr", [])
+	.service("isSelectedInArr", (tag, event) => {
+
+		let isOn = $(event).hasClass("active");
+
+		if (isOn)
+		{
+			currentlySelected.push(tag);
+			currentlySelected = $.unique(currentlySelected);
+		}
+		else if (!isOn)
+		{
+			$(currentlySelected).each((pointer, arrVal) => {
+				if (tag == arrVal)
+				{
+					currentlySelected.splice(pointer, 1);
+				}
+			})
+		}
+
+		return currentlySelected;
+
+	});
+
 angular.module("parkService", [])
 	.factory("parkService", ($http, $rootScope) => {
 

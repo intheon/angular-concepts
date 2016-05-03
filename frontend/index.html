@@ -343,7 +343,7 @@
 					</info-window>
 
 					<!-- This will be dynamically draw ALL EXISTING markers in the allData array -->
-					<marker ng-repeat="marker in allData | filter: parks | filter: filterTags" position="{{marker.skateparkLocation}}" title="{{marker.skateparkName}}" id="{{marker._id}}" on-click="showSkateparkDetails(marker)">
+					<marker ng-repeat="marker in allData | filter: parks" position="{{marker.skateparkLocation}}" title="{{marker.skateparkName}}" id="{{marker._id}}" on-click="showSkateparkDetails(marker)">
 					</marker>
 
 					<!-- This is the POTENTIAL marker that will appear when the user clicked on the map. it can theoretically go anywhere -->

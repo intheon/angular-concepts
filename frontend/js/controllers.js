@@ -7,16 +7,28 @@ app.controller("ListCtrl", ($scope, $http, $rootScope, getJson, tagsService) => 
 
 	// Initialise array to store databases response
 	$scope.allData = [];
-
+	$scope.allDataBak = []
 	$scope.tags = tagsService;
+	$scope.tagsSelected;
+	$scope.fullscreenSlideshowShown = false;
+	$scope.helpShown = false;
+	$scope.slideshowImages = null;
+
+	$rootScope.$on("updateMainScope", function(event, data){
+
+		console.log(data)
+		$scope.allData = data
+
+	});
+
 
 	// This is fired on page init to get ALL the skateparks
 	getJson.success((response) => {
 
 		// Store the response in the array
 		$scope.allData = response;
+		$scope.allDataBak = response;
 
-		console.log($scope.allData);
 
 	}).then((response) => {
 
@@ -39,9 +51,6 @@ app.controller("ListCtrl", ($scope, $http, $rootScope, getJson, tagsService) => 
 		return copy.reverse();
 	};
 
-	$scope.fullscreenSlideshowShown = false;
-	$scope.helpShown = false;
-	$scope.slideshowImages = null;
 
 
 	$scope.showSlideshowFullscreen = (currentSkatepark) => {
@@ -162,32 +171,52 @@ app.controller("SearchCtrl", ($scope, $http, $rootScope, NgMap) => {
 });
 
 // Controller to handle searching
-app.controller("FilterCtrl", ($scope, $http, $rootScope, NgMap) => {
+app.controller("FilterCtrl", ($scope, $http, $timeout, $filter, $rootScope, NgMap) => {
 
 	let currentSelectedTags = [];
+	let filteredSkateparks = null;
 
 	$scope.filterByTag = (value, event) => {
 
-		if ($(event.target).hasClass("active-chip"))
+		if (! $(event.target).hasClass("active-chip"))
 		{
+			// add active styling
+			$(event.target).addClass("active-chip");
+
+			// push onto the array, only if unique
+			currentSelectedTags.push(value);
+			currentSelectedTags = $.unique(currentSelectedTags);
+
+		}
+		else
+		{
+			// remove styling
 			$(event.target).removeClass("active-chip");
 
+			// remove from array
 			$(currentSelectedTags).each((pointer, arrVal) => {
 				if (value == arrVal)
 				{
 					currentSelectedTags.splice(pointer, 1);
 				}
 			})
+
+		}
+
+		filteredSkateparks = $filter("deepFilter")($scope.allData, currentSelectedTags);
+
+		if (filteredSkateparks.length == 0)
+		{
+
+			$rootScope.$broadcast("updateMainScope", (event, $scope.allDataBak));
+
 		}
 		else
 		{
-			currentSelectedTags.push(value)
-			$(event.target).addClass("active-chip");
-			console.log(currentSelectedTags);
-			$rootScope.$broadcast("filterTags", currentSelectedTags);
+
+			$rootScope.$broadcast("updateMainScope", (event, filteredSkateparks));
 
 		}
-
 
 
 	}
@@ -197,7 +226,7 @@ app.controller("FilterCtrl", ($scope, $http, $rootScope, NgMap) => {
 });
 
 // Controller for Google maps presentation, marker and infoWindow logic
-app.controller("MapCtrl", ($scope, $http, $rootScope, NgMap, Upload, miscHelpFunctionsService, tagsService) => {
+app.controller("MapCtrl", ($scope, $http, $filter, $rootScope, NgMap, Upload, miscHelpFunctionsService, tagsService) => {
 
 	// Namespace
 	const inst = this;
@@ -401,12 +430,6 @@ app.controller("MapCtrl", ($scope, $http, $rootScope, NgMap, Upload, miscHelpFun
 	$rootScope.$on("filterMarkers", function(event, data){
 
 		$scope.parks = data;
-
-	});
-
-	$rootScope.$on("filterTags", function(event, data){
-
-		$scope.filterTags = data;
 
 	});
 

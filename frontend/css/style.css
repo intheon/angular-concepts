@@ -612,6 +612,11 @@ OVERHAULED
 	width:100% !important;
 }
 
+.tags-list .chip
+{
+	margin: 1%;
+}
+
 .upvote
 {
 	font-size:2em;
